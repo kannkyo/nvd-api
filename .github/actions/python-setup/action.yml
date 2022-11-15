@@ -2,12 +2,12 @@ name: Setup python
 
 inputs:
   python-version:
-    default: "3.8"
+    default: "3.10"
     required: false
     description: "python version"
 
   poetry-version:
-    default: "1.1.11"
+    default: "1.2.2"
     required: false
     description: "poetry version"
 
