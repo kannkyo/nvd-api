@@ -1,9 +1,9 @@
 [tool.poetry]
 authors = ["kannkyo <15080890+kannkyo@users.noreply.github.com>"]
-description = "boilerplate project for python"
+description = "NVD API 2.0 Python API"
 include = ["sbom.xml"]
-name = "boilerplate-python"
-version = "0.2.0"
+name = "nvd-api"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
 Flask = "^2.2.2"

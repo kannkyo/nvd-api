@@ -5,7 +5,9 @@
     "cstrap.flask-snippets",
     "ms-azuretools.vscode-docker",
     "exiasr.hadolint",
-    "be5invis.toml"
+    "be5invis.toml",
+    "42crunch.vscode-openapi",
+    "mermade.openapi-lint"
   ],
   "unwantedRecommendations": []
 }
