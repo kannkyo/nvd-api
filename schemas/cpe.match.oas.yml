@@ -1,0 +1,78 @@
+title: CPE Match API Response
+description: JSON Schema for NVD CVE Applicability Statement CPE Match API version 2.0
+type: object
+properties:
+  resultsPerPage:
+    type: integer
+  startIndex:
+    type: integer
+  totalResults:
+    type: integer
+  format:
+    type: string
+  version:
+    type: string
+  timestamp:
+    type: string
+    format: date-time
+  matchStrings:
+    description: Array of CPE match strings
+    type: array
+    items:
+      description: CPE match string or range
+      type: object
+      properties:
+        criteria:
+          type: string
+        matchCriteriaId:
+          type: string
+          format: uuid
+        versionStartExcluding:
+          type: string
+        versionStartIncluding:
+          type: string
+        versionEndExcluding:
+          type: string
+        versionEndIncluding:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        cpeLastModified:
+          type: string
+          format: date-time
+        status:
+          type: string
+        matches:
+          type: array
+          items:
+            type: object
+            properties:
+              cpeName:
+                type: string
+              cpeNameId:
+                type: string
+                format: uuid
+            required:
+              - cpeName
+              - cpeNameId
+            additionalProperties: false
+      required:
+        - criteria
+        - matchCriteriaId
+        - lastModified
+        - created
+        - status
+      additionalProperties: false
+required:
+  - resultsPerPage
+  - startIndex
+  - totalResults
+  - format
+  - version
+  - timestamp
+  - matchStrings
+additionalProperties: false

@@ -1,0 +1,68 @@
+title: CVE History API response
+description: JSON Schema for NVD CVE History API version 2.0
+type: object
+properties:
+  resultsPerPage:
+    type: integer
+  startIndex:
+    type: integer
+  totalResults:
+    type: integer
+  format:
+    type: string
+  version:
+    type: string
+  timestamp:
+    type: string
+    format: date-time
+  cveChanges:
+    description: Array of CVE Changes
+    type: array
+    items:
+      properties:
+        change:
+          properties:
+            cveId:
+              type: string
+              pattern: ^CVE-[0-9]{4}-[0-9]{4,}$
+            eventName:
+              type: string
+            cveChangeId:
+              type: string
+              format: uuid
+            sourceIdentifier:
+              type: string
+            created:
+              type: string
+              format: date-time
+            details:
+              type: array
+              items:
+                properties:
+                  action:
+                    type: string
+                  type:
+                    type: string
+                  oldValue:
+                    type: string
+                  newValue:
+                    type: string
+                required:
+                  - type
+                additionalProperties: false
+          required:
+            - cveId
+            - eventName
+            - cveChangeId
+            - sourceIdentifier
+          additionalProperties: false
+      required:
+        - change
+      additionalProperties: false
+required:
+  - resultsPerPage
+  - startIndex
+  - totalResults
+  - format
+  - version
+  - timestamp

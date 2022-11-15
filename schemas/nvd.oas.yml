@@ -1,0 +1,390 @@
+openapi: 3.0.3
+info:
+  title: "NVD API 2.0 Python API"
+  version: "0.1.0"
+  contact:
+    name: kannkyo
+    email: 15080890+kannkyo@users.noreply.github.com
+    url: https://github.com/kannkyo/nvd-api
+servers:
+  - url: https://services.nvd.nist.gov/rest/json
+tags:
+  - name: Products
+    description: Products API
+    externalDocs:
+      url: https://nvd.nist.gov/developers/products
+  - name: Vulnerabilities
+    description: Vulnerabilities API
+    externalDocs:
+      url: https://nvd.nist.gov/developers/vulnerabilities
+paths:
+  /cves/2.0/:
+    get:
+      operationId: getCves
+      summary: "CVE API"
+      tags: ["Vulnerabilities"]
+      parameters:
+        - name: cpeName
+          in: query
+          description: CPE Name
+          required: false
+          schema:
+            type: string
+            # TODO: pattern
+        - name: cveId
+          in: query
+          description: CVE ID
+          required: false
+          schema:
+            type: string
+            pattern: "^CVE-[0-9]{4}-[0-9]{4,}$"
+        - name: cvssV2Metrics
+          in: query
+          description: CVSSv2 vector string
+          required: false
+          schema:
+            type: string
+            # TODO: pattern
+        - name: cvssV2Severity
+          in: query
+          description: CVSSv2 qualitative severity rating
+          required: false
+          schema:
+            type: string
+            enum:
+              - LOW
+              - MEDIUM
+              - HIGH
+        - name: cvssV3Metrics
+          in: query
+          description: CVSSv3 vector string
+          required: false
+          schema:
+            type: string
+            # TODO: pattern
+        - name: cvssV3Severity
+          in: query
+          description: CVSSv3 qualitative severity rating
+          required: false
+          schema:
+            type: string
+            enum:
+              - LOW
+              - MEDIUM
+              - HIGH
+              - CRITICAL
+        - name: cweId
+          in: query
+          description: CWE ID
+          required: false
+          schema:
+            type: string
+            pattern: '^CWE-\d+$'
+        - name: hasCertAlerts
+          in: query
+          description: contain a Technical Alert from US-CERT
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: hasCertNotes
+          in: query
+          description: contain a Vulnerability Note from CERT/CC
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: hasKev
+          in: query
+          description: appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: hasOval
+          in: query
+          description: contain information from MITRE's Open Vulnerability and Assessment Language (OVAL)
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: isVulnerable
+          in: query
+          description: returns only CVE associated with a specific CPE
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: keywordExactMatch
+          in: query
+          description: returns any CVE where a word or phrase
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: keywordSearch
+          in: query
+          description: search by word or phrase
+          schema:
+            required: false
+            type: string
+        - name: lastModStartDate
+          in: query
+          description: search by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: lastModEndDate
+          in: query
+          description: search by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: pubStartDate
+          in: query
+          description: search by published date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: pubEndDate
+          in: query
+          description: search by published date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: resultsPerPage
+          in: query
+          description: max number of records (default is 2000)
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 2000
+        - name: startIndex
+          in: query
+          description: the index of the first match string
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+        - name: sourceIdentifier
+          in: query
+          description: returns CVE where the exact value of sourceIdentifier appears
+          required: false
+          schema:
+            type: string
+        - name: virtualMatchString
+          in: query
+          description: CVE more broadly than cpeName
+          required: false
+          schema:
+            type: string
+            # TODO: pattern
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "cve.oas.yml"
+
+  /cvehistory/2.0/:
+    get:
+      operationId: getCveHistory
+      summary: "CVE Change History API"
+      tags: ["Vulnerabilities"]
+      parameters:
+        - name: changeStartDate
+          in: query
+          description: search by changed date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: changeEndDate
+          in: query
+          description: search by changed date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: cveId
+          in: query
+          description: CVE ID
+          required: false
+          schema:
+            type: string
+            pattern: "^CVE-[0-9]{4}-[0-9]{4,}$"
+        - name: eventName
+          in: query
+          description: returns all CVE associated with a specific type of change event
+          required: false
+          schema:
+            type: string
+        - name: resultsPerPage
+          in: query
+          description: max number of records (default is 5000)
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 5000
+        - name: startIndex
+          in: query
+          description: the index of the first match string
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "cve.history.oas.yml"
+
+  /cpes/2.0/:
+    get:
+      operationId: getCves
+      summary: "CPE API"
+      tags: ["Products"]
+      parameters:
+        - name: cpeNameId
+          in: query
+          description: specific CPE record UUID
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: cpeMatchString
+          in: query
+          description: CPE Name
+          required: false
+          schema:
+            type: string
+            # TODO: pattern
+        - name: keywordExactMatch
+          in: query
+          description: if CPE exactly match or not
+          required: false
+          schema:
+            type: boolean
+            default: ""
+            nullable: true
+        - name: keywordSearch
+          in: query
+          description: search CPE by word or phrase
+          schema:
+            required: false
+            type: string
+        - name: lastModStartDate
+          in: query
+          description: search CPE by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: lastModEndDate
+          in: query
+          description: search CPE by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: matchCriteriaId
+          in: query
+          description: search CPE by uuid
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: resultsPerPage
+          in: query
+          description: max number of CPE records (default is 10000)
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 10000
+        - name: startIndex
+          in: query
+          description: the index of the first match string
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "cpe.oas.yml"
+
+  /cpematch/2.0/:
+    get:
+      operationId: getCpeMatch
+      summary: "Match Criteria API"
+      tags: ["Products"]
+      parameters:
+        - name: cveId
+          in: query
+          description: CVE ID
+          required: false
+          schema:
+            type: string
+            pattern: "^CVE-[0-9]{4}-[0-9]{4,}$"
+        - name: lastModStartDate
+          in: query
+          description: search by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: lastModEndDate
+          in: query
+          description: search by modified date
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: matchCriteriaId
+          in: query
+          description: specific by UUID
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: resultsPerPage
+          in: query
+          description: max number of records (default is 5000)
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 5000
+        - name: startIndex
+          in: query
+          description: the index of the first match string
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "cpe.match.oas.yml"
