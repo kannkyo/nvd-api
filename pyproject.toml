@@ -3,7 +3,7 @@ authors = ["kannkyo <15080890+kannkyo@users.noreply.github.com>"]
 description = "NVD API 2.0 Python API"
 include = ["sbom.xml"]
 name = "nvd-api"
-version = "0.1.1"
+version = "0.1.2"
 
 [tool.poetry.dependencies]
 certifi = "^2022.9.24"
