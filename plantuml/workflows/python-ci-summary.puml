@@ -1,0 +1,23 @@
+@startuml
+
+title python-ci-summary
+
+start
+
+if (workflow_dispatch ?) then (yes)
+elseif (push to main branch ?) then (yes)
+elseif (pull_request ?) then (yes)
+elseif (schedule ?) then (yes)
+else (no)
+  stop
+endif
+
+fork
+  :build;
+fork again
+  :sast-codeql;
+end fork
+
+stop
+
+@enduml

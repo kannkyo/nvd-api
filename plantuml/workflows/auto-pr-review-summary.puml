@@ -1,0 +1,21 @@
+@startuml
+
+title auto-pr-review-summary
+
+start
+
+if (pull_request ?) then (yes)
+  fork
+    if (actor is dependabot?\n&& update-type = patch ?) then (yes)
+      :review-dependabot;
+    else (no)
+    endif
+  fork again
+    :review-license;
+  end fork
+else (no)
+endif
+
+stop
+
+@enduml

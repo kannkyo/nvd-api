@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="194px" preserveAspectRatio="none" style="width:792px;height:194px;background:#FFFFFF;" version="1.1" viewBox="0 0 792 194" width="792px" zoomAndPan="magnify"><defs/><g><!--MD5=[5ec7eedd57310648f8059ffb2621ca4b]
+cluster docker--><g id="cluster_docker"><path d="M8.5,6 L54.5,6 A3.75,3.75 0 0 1 57,8.5 L64,26 L244.5,26 A2.5,2.5 0 0 1 247,28.5 L247,184.5 A2.5,2.5 0 0 1 244.5,187 L8.5,187 A2.5,2.5 0 0 1 6,184.5 L6,8.5 A2.5,2.5 0 0 1 8.5,6 " style="stroke:#000000;stroke-width:1.5;fill:none;"/><line style="stroke:#000000;stroke-width:1.5;fill:none;" x1="6" x2="64" y1="26" y2="26"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="45" x="10" y="20.3184">docker</text></g><!--MD5=[6a235a2e7ee0cce5edcbbb1ebd3ee0ba]
+cluster python--><g id="cluster_python"><path d="M273.5,6 L320.5,6 A3.75,3.75 0 0 1 323,8.5 L330,26 L511.5,26 A2.5,2.5 0 0 1 514,28.5 L514,184.5 A2.5,2.5 0 0 1 511.5,187 L273.5,187 A2.5,2.5 0 0 1 271,184.5 L271,8.5 A2.5,2.5 0 0 1 273.5,6 " style="stroke:#000000;stroke-width:1.5;fill:none;"/><line style="stroke:#000000;stroke-width:1.5;fill:none;" x1="271" x2="330" y1="26" y2="26"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="46" x="275" y="20.3184">python</text></g><!--MD5=[b28fcb397abe995d6d4652e4c54b3002]
+cluster common--><g id="cluster_common"><path d="M540.5,6 L597.5,6 A3.75,3.75 0 0 1 600,8.5 L607,26 L782.5,26 A2.5,2.5 0 0 1 785,28.5 L785,88.5 A2.5,2.5 0 0 1 782.5,91 L540.5,91 A2.5,2.5 0 0 1 538,88.5 L538,8.5 A2.5,2.5 0 0 1 540.5,6 " style="stroke:#000000;stroke-width:1.5;fill:none;"/><line style="stroke:#000000;stroke-width:1.5;fill:none;" x1="538" x2="607" y1="26" y2="26"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="56" x="542" y="20.3184">common</text></g><!--MD5=[641a2fffc2c8cca556d234a467f0a581]
+class docker_ci--><g id="elem_docker_ci"><rect codeLine="7" fill="#F1F1F1" height="36" id="docker_ci" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="68" x="163" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="165.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="62" x="166" y="68.3184">docker-ci</text></g><!--MD5=[a332230f329050935894d1e03641b25b]
+class docker_publish--><g id="elem_docker_publish"><rect codeLine="8" fill="#F1F1F1" height="36" id="docker_publish" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="105" x="22.5" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="43.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="25.5" y="68.3184">docker-publish</text></g><!--MD5=[f2e6008375f454060be61dbd1d5ceeed]
+class docker_setup--><g id="elem_docker_setup"><rect codeLine="9" fill="#F1F1F1" height="36" id="docker_setup" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="92" x="84" y="135"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="49" x="105.5" y="150.5586">«action»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="86" x="87" y="164.3184">docker-setup</text></g><!--MD5=[35b4ea62326c44c8010bc2fbcad8bfbd]
+class python_ci--><g id="elem_python_ci"><rect codeLine="16" fill="#F1F1F1" height="36" id="python_ci" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="69" x="428.5" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="431.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63" x="431.5" y="68.3184">python-ci</text></g><!--MD5=[93cdff67604791a86e02113120ccaf37]
+class python_publish--><g id="elem_python_publish"><rect codeLine="17" fill="#F1F1F1" height="36" id="python_publish" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="106" x="287" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="308.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="100" x="290" y="68.3184">python-publish</text></g><!--MD5=[1af8c3476daa466a07d5f7f1a9f3a441]
+class python_setup--><g id="elem_python_setup"><rect codeLine="18" fill="#F1F1F1" height="36" id="python_setup" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="93" x="349.5" y="135"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="49" x="371.5" y="150.5586">«action»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="87" x="352.5" y="164.3184">python-setup</text></g><!--MD5=[32aff731de810e29e44056257b1439cc]
+class auto-pr-review--><g id="elem_auto-pr-review"><rect codeLine="25" fill="#F1F1F1" height="36" id="auto-pr-review" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="102" x="667" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="686.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="670" y="68.3184">auto-pr-review</text></g><!--MD5=[a0d1f3d07b7f4862154f78030ec6c79c]
+class scorecards--><g id="elem_scorecards"><rect codeLine="26" fill="#F1F1F1" height="36" id="scorecards" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="77" x="554.5" y="39"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="63" x="561.5" y="54.5586">«workflow»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="71" x="557.5" y="68.3184">scorecards</text></g><!--MD5=[c2b8c0dce5092dfc920deb4b61197acf]
+link docker_ci to docker_setup--><g id="link_docker_ci_docker_setup"><path codeLine="11" d="M184.71,75.24 C173.57,90.88 157.1,113.98 145.15,130.75 " fill="none" id="docker_ci-to-docker_setup" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="142.21,134.87,150.6894,129.8601,145.1108,130.7975,144.1734,125.2188,142.21,134.87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[7dc0fffddf71238b1b6adf959746c3d9]
+link docker_publish to docker_setup--><g id="link_docker_publish_docker_setup"><path codeLine="12" d="M85.09,75.24 C94.16,90.74 107.52,113.59 117.32,130.32 " fill="none" id="docker_publish-to-docker_setup" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="119.98,134.87,118.8801,125.0827,117.4518,130.5563,111.9782,129.1279,119.98,134.87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[5a650d84164a23a7e2acb4c4ef827fb1]
+link python_ci to python_setup--><g id="link_python_ci_python_setup"><path codeLine="20" d="M450.71,75.24 C439.57,90.88 423.1,113.98 411.15,130.75 " fill="none" id="python_ci-to-python_setup" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="408.21,134.87,416.6894,129.8601,411.1108,130.7975,410.1734,125.2188,408.21,134.87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[692de94dba6b90bf46b9c22f9bc28f79]
+link python_publish to python_setup--><g id="link_python_publish_python_setup"><path codeLine="21" d="M350.27,75.24 C359.51,90.74 373.11,113.59 383.08,130.32 " fill="none" id="python_publish-to-python_setup" style="stroke:#181818;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#181818" points="385.79,134.87,384.6278,125.09,383.2343,130.5725,377.7518,129.179,385.79,134.87" style="stroke:#181818;stroke-width:1.0;"/></g><!--MD5=[d9458f87543718e3443d0e26a1aaee9d]
+@startuml
+
+hide circle
+hide empty members
+hide empty methods
+
+package docker {
+  class "docker-ci" as docker_ci <<workflow>>
+  class "docker-publish" as docker_publish <<workflow>>
+  class "docker-setup" as docker_setup <<action>>
+
+  docker_ci ..> docker_setup
+  docker_publish ..> docker_setup
+}
+
+package python {
+  class "python-ci" as python_ci <<workflow>>
+  class "python-publish" as python_publish <<workflow>>
+  class "python-setup" as python_setup <<action>>
+
+  python_ci ..> python_setup
+  python_publish ..> python_setup
+}
+
+package common {
+  class "auto-pr-review" <<workflow>>
+  class "scorecards" <<workflow>>
+}
+
+@enduml
+
+PlantUML version 1.2022.5(Sat Apr 30 19:55:52 JST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>

@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "njpwerner.autodocstring",
+    "cstrap.flask-snippets",
+    "ms-azuretools.vscode-docker",
+    "exiasr.hadolint",
+    "be5invis.toml"
+  ],
+  "unwantedRecommendations": []
+}

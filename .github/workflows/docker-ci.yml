@@ -1,0 +1,153 @@
+name: Docker CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 15 * * 0"
+
+permissions: read-all
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  dockerize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Setup docker environment
+        uses: ./.github/actions/docker-setup
+
+      - name: Build container
+        id: build
+        uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
+        with:
+          tags: ${{ env.IMAGE_NAME }}:alpha
+          context: .
+          outputs: type=docker,dest=/tmp/myimage.tar
+
+      - name: Upload container image to artifact
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+        with:
+          name: myimage
+          path: /tmp/myimage.tar
+          retention-days: 1
+
+  scan-trivy:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    needs: dockerize
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Setup docker environment
+        uses: ./.github/actions/docker-setup
+
+      - name: Download container image from artifact
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        with:
+          name: myimage
+          path: /tmp
+
+      - name: Load container image
+        run: docker load --input /tmp/myimage.tar
+
+      - name: Scan container image by trivy
+        uses: aquasecurity/trivy-action@9ab158e8597f3b310480b9a69402b419bc03dbd5
+        with:
+          image-ref: "${{ env.IMAGE_NAME }}:alpha"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+
+      - name: Publish trivy report to GitHub Security
+        uses: github/codeql-action/upload-sarif@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+        with:
+          sarif_file: "trivy-results.sarif"
+
+  scan-grype:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    needs: dockerize
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Setup docker environment
+        uses: ./.github/actions/docker-setup
+
+      - name: Download container image from artifact
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        with:
+          name: myimage
+          path: /tmp
+
+      - name: Load container image
+        run: docker load --input /tmp/myimage.tar
+
+      - name: Scan container image by grype
+        id: grype-image
+        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        with:
+          image: "${{ env.IMAGE_NAME }}:alpha"
+          severity-cutoff: low
+          fail-build: false
+          acs-report-enable: true
+
+      - name: Publish grype report to GitHub Security
+        uses: github/codeql-action/upload-sarif@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+        with:
+          sarif_file: ${{ steps.grype-image.outputs.sarif }}
+
+  sast-grype:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Scan Dockerfile by grype
+        id: grype-files
+        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        with:
+          path: "."
+          severity-cutoff: low
+          fail-build: false
+          acs-report-enable: true
+
+      - name: Publish grype report to GitHub Security
+        uses: github/codeql-action/upload-sarif@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+        with:
+          sarif_file: ${{ steps.grype-files.outputs.sarif }}
+
+  sast-hadolint:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Scan Dockerfile by hadolint
+        uses: hadolint/hadolint-action@f988afea3da57ee48710a9795b6bb677cc901183
+        with:
+          recursive: true
+          format: sarif
+          output-file: hadolint-results.sarif
+          no-fail: true
+
+      - name: Publish hadolint report to GitHub Security
+        uses: github/codeql-action/upload-sarif@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+        with:
+          sarif_file: hadolint-results.sarif
+          wait-for-processing: true

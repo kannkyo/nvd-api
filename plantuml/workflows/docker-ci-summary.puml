@@ -1,0 +1,30 @@
+@startuml 
+
+title docker-ci-summary
+
+start 
+
+if (workflow_dispatch ?) then (yes)
+elseif (push to main branch ?) then (yes)
+elseif (pull_request ?) then (yes)
+elseif (schedule ?) then (yes)
+else (no)
+  stop
+endif
+
+fork
+  :dockerize;
+  fork
+    :scan-trivy;
+  fork again
+    :scan-grype;
+  end fork
+fork again
+  :sast-grype;
+fork again
+  :sast-hadolint;
+end fork
+
+stop
+
+@enduml

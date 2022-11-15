@@ -1,0 +1,149 @@
+image: python:3.9
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+
+stages:
+  - test
+  - deploy
+  - post
+
+cache:
+  key:
+    files:
+      - poetry.lock
+    prefix: ${CI_COMMIT_REF_NAME}
+  paths:
+    - .venv
+    - .cache/pip
+
+default:
+  before_script:
+    - pip install --upgrade pip
+    - pip install poetry
+    - poetry config virtualenvs.in-project true
+
+sast:
+  stage: test
+  before_script:
+    - echo do nothing
+
+pytest:
+  stage: test
+  variables:
+    RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
+  script:
+    - poetry install
+    - poetry run pytest --html=public/test/report.html --cov-report html:public/htmlcov/
+  after_script:
+    - tar -cvf report-htmlcov.tar.gz public/htmlcov/
+    - tar -cvf report-test.tar.gz public/test/
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+    paths:
+      # RUNNER_GENERATE_ARTIFACTS_METADATAをtrueにしてpathsにフォルダを指定するとエラー
+      - report-htmlcov.tar.gz
+      - report-test.tar.gz
+
+flake8:
+  stage: test
+  variables:
+    RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
+  script:
+    - mkdir -p public/flake8
+    - poetry install
+    - poetry run flake8 src/ tests/ --format junit-xml --output-file report.xml
+    - poetry run flake8 src/ tests/ --format html --htmldir=public/flake8
+  after_script:
+    - tar -cvf report-flake8.tar.gz public/flake8/
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    paths:
+      - report-flake8.tar.gz
+
+publish:
+  stage: deploy
+  needs: ["flake8", "pytest"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  variables:
+    REGISTRY_URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+    RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
+  script:
+    - poetry install
+    - poetry build
+    - echo "publish to ${REGISTRY_URL}"
+    - poetry config repositories.gitlab ${REGISTRY_URL}
+    - poetry publish -p ${CI_JOB_TOKEN} -u ${CI_REGISTRY_USER} -r gitlab
+  artifacts:
+    paths:
+      - dist/*.whl
+      - dist/*.tar.gz
+
+dockerize:
+  stage: deploy
+  needs: ["flake8", "pytest"]
+  image: docker:latest
+  variables:
+    RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag=""
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+      else
+        tag=":$CI_COMMIT_REF_SLUG"
+        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      fi
+    - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+    - docker push "$CI_REGISTRY_IMAGE${tag}"
+
+container_scanning:
+  stage: post
+  needs: ["dockerize"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  variables:
+    CS_DEFAULT_BRANCH_IMAGE: $CI_REGISTRY_IMAGE/$CI_DEFAULT_BRANCH:$CI_COMMIT_SHA
+
+sphinx:
+  stage: deploy
+  image: sphinxdoc/sphinx-latexpdf:latest
+  variables:
+    RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - poetry install
+    - poetry run sphinx
+  artifacts:
+    paths:
+      - public/
+
+pages:
+  stage: deploy
+  needs: ["sphinx"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - echo 'Upload all report'
+  artifacts:
+    paths:
+      - public/

@@ -1,0 +1,38 @@
+version: 2
+registries:
+  docker-gcr-io:
+    type: docker-registry
+    url: gcr.io
+    username: ""
+    password: ""
+
+  docker-dockerhub:
+    type: docker-registry
+    url: registry.hub.docker.com
+    username: ""
+    password: ""
+
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+#     assignees:
+#       - "kannkyo"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+#     assignees:
+#       - "kannkyo"
+    registries:
+      - docker-gcr-io
+      - docker-dockerhub
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+#     assignees:
+#       - "kannkyo"

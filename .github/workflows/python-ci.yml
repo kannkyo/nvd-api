@@ -1,0 +1,95 @@
+name: Python CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 15 * * 0"
+
+permissions: read-all
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    permissions: # for EnricoMi/publish-unit-test-result-action
+      checks: write
+      pull-requests: write # for comment_mode
+      contents: read # only for private repository
+      issues: read # only for private repository
+    strategy:
+      matrix:
+        python-version: [3.8]
+        poetry-version: [1.1.11]
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Setup python environment
+        uses: ./.github/actions/python-setup
+        with:
+          python-version: ${{ matrix.python-version }}
+          poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Lint python code by flake8
+        continue-on-error: true
+        run: |
+          poetry run flake8 src/ tests/ --format junit-xml --output-file report.xml
+          poetry run flake8 src/ tests/ --format html --htmldir=flake8
+
+      - name: Publish flake8 report to PR
+        uses: EnricoMi/publish-unit-test-result-action@46ab8d49369d898e381a607119161771bc65c2a6
+        if: ${{ env.os == 'ubuntu-latest' }} # linux is only supported
+        with:
+          check_name: flake8 results
+          files: report.xml
+
+      - name: Upload flake8 report to artifact
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+        with:
+          name: flake8-report
+          path: flake8/
+
+      - name: Test python code by pytest
+        continue-on-error: true
+        run: poetry run pytest
+
+      - name: Publish pytest report to PR
+        uses: EnricoMi/publish-unit-test-result-action@46ab8d49369d898e381a607119161771bc65c2a6
+        if: ${{ env.os == 'ubuntu-latest' }} # linux is only supported
+        with:
+          check_name: pytest results
+          files: report.xml
+
+      - name: Upload pytest report to artifact
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
+        with:
+          name: pytest-report
+          path: htmlcov/
+
+  sast-codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ["python"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Build automatically
+        uses: github/codeql-action/autobuild@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@c3b6fce4ee2ca25bc1066aa3bf73962fda0e8898

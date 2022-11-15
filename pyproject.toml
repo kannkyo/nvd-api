@@ -1,0 +1,50 @@
+[tool.poetry]
+authors = ["kannkyo <15080890+kannkyo@users.noreply.github.com>"]
+description = "boilerplate project for python"
+include = ["sbom.xml"]
+name = "boilerplate-python"
+version = "0.2.0"
+
+[tool.poetry.dependencies]
+Flask = "^2.2.2"
+python = "^3.8"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.6.0"
+cyclonedx-bom = "^3.7.1"
+flake8 = "^4.0.1"
+flake8-formatter-junit-xml = "^0.0.6"
+flake8-html = "^0.4.2"
+in-toto = "^1.2.0"
+pycodestyle = "^2.7.0"
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+pytest-html = "^3.2.0"
+recommonmark = "^0.7.1"
+sphinx = "^5.3.0"
+sphinx-markdown-tables = "^0.0.17"
+sphinx-rtd-theme = "^1.1.1"
+toml = "^0.10.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
+
+[tool.poetry.scripts]
+push = "tools.push:main"
+release = "tools.release:main"
+sbom = "tools.sbom:main"
+sphinx = "tools.sphinx:main"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--cov=src",
+  "--cov-report=term-missing",
+  "--cov-report=html",
+  "--cov-report=xml",
+  "--junitxml=report.xml",
+  "--verbose",
+]
+testpaths = [
+  "tests",
+]

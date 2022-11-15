@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "distutils",
+        "pypi",
+        "pypirc",
+        "pytest",
+        "setuptools"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
