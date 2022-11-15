@@ -68,25 +68,25 @@ jobs:
           asset_name: ${{ steps.build.outputs.package_whl }}
           asset_content_type: application/zip
 
-  pages:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+  # pages:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #     pages: write
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
 
-      - name: Setup python environment
-        uses: ./.github/actions/python-setup
+  #     - name: Setup python environment
+  #       uses: ./.github/actions/python-setup
 
-      - name: Generate sphinx
-        run: poetry run sphinx
+  #     - name: Generate sphinx
+  #       run: poetry run sphinx
 
-      - name: Publish API document to GitHub pages
-        uses: crazy-max/ghaction-github-pages@c0d7ff0487ee0415efb7f32dab10ea880330b1dd
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          target_branch: gh-pages
-          build_dir: public/
+  #     - name: Publish API document to GitHub pages
+  #       uses: crazy-max/ghaction-github-pages@c0d7ff0487ee0415efb7f32dab10ea880330b1dd
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       with:
+  #         target_branch: gh-pages
+  #         build_dir: public/
