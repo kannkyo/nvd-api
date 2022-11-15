@@ -1,0 +1,27 @@
+{
+  "name": "nvd-api",
+  "version": "1.0.0",
+  "description": "API generator",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "generate": "@openapitools/openapi-generator-cli generate -i schemas/nvd.oas.yml -g python -o .tmp/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kannkyo/nvd-api.git"
+  },
+  "author": "kannkyo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kannkyo/nvd-api/issues"
+  },
+  "homepage": "https://github.com/kannkyo/nvd-api#readme",
+  "dependencies": {
+    "@openapi-contrib/json-schema-to-openapi-schema": "^2.2.4",
+    "@openapitools/openapi-generator-cli": "^2.5.2"
+  }
+}

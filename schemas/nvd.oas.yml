@@ -131,8 +131,8 @@ paths:
         - name: keywordSearch
           in: query
           description: search by word or phrase
+          required: false
           schema:
-            required: false
             type: string
         - name: lastModStartDate
           in: query
@@ -256,7 +256,7 @@ paths:
 
   /cpes/2.0/:
     get:
-      operationId: getCves
+      operationId: getCpes
       summary: "CPE API"
       tags: ["Products"]
       parameters:
@@ -285,8 +285,8 @@ paths:
         - name: keywordSearch
           in: query
           description: search CPE by word or phrase
+          required: false
           schema:
-            required: false
             type: string
         - name: lastModStartDate
           in: query
