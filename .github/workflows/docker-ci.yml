@@ -96,7 +96,7 @@ jobs:
 
       - name: Scan container image by grype
         id: grype-image
-        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        uses: anchore/scan-action@9a22e4caae42db0d4c687ab5431e1c3699d0def1
         with:
           image: "${{ env.IMAGE_NAME }}:alpha"
           severity-cutoff: low
@@ -118,7 +118,7 @@ jobs:
 
       - name: Scan Dockerfile by grype
         id: grype-files
-        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        uses: anchore/scan-action@9a22e4caae42db0d4c687ab5431e1c3699d0def1
         with:
           path: "."
           severity-cutoff: low
