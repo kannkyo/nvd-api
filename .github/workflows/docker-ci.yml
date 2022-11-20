@@ -69,7 +69,7 @@ jobs:
           severity: "CRITICAL,HIGH"
 
       - name: Publish trivy report to GitHub Security
-        uses: github/codeql-action/upload-sarif@4238421316c33d73aeea2801274dd286f157c2bb
+        uses: github/codeql-action/upload-sarif@678fc3afe258fb2e0cdc165ccf77b85719de7b3c
         with:
           sarif_file: "trivy-results.sarif"
 
@@ -96,7 +96,7 @@ jobs:
 
       - name: Scan container image by grype
         id: grype-image
-        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        uses: anchore/scan-action@9a22e4caae42db0d4c687ab5431e1c3699d0def1
         with:
           image: "${{ env.IMAGE_NAME }}:alpha"
           severity-cutoff: low
@@ -104,7 +104,7 @@ jobs:
           acs-report-enable: true
 
       - name: Publish grype report to GitHub Security
-        uses: github/codeql-action/upload-sarif@4238421316c33d73aeea2801274dd286f157c2bb
+        uses: github/codeql-action/upload-sarif@678fc3afe258fb2e0cdc165ccf77b85719de7b3c
         with:
           sarif_file: ${{ steps.grype-image.outputs.sarif }}
 
@@ -118,7 +118,7 @@ jobs:
 
       - name: Scan Dockerfile by grype
         id: grype-files
-        uses: anchore/scan-action@3578976016e97642035dd9a0be842060e62422c6
+        uses: anchore/scan-action@9a22e4caae42db0d4c687ab5431e1c3699d0def1
         with:
           path: "."
           severity-cutoff: low
@@ -126,7 +126,7 @@ jobs:
           acs-report-enable: true
 
       - name: Publish grype report to GitHub Security
-        uses: github/codeql-action/upload-sarif@4238421316c33d73aeea2801274dd286f157c2bb
+        uses: github/codeql-action/upload-sarif@678fc3afe258fb2e0cdc165ccf77b85719de7b3c
         with:
           sarif_file: ${{ steps.grype-files.outputs.sarif }}
 
@@ -147,7 +147,7 @@ jobs:
           no-fail: true
 
       - name: Publish hadolint report to GitHub Security
-        uses: github/codeql-action/upload-sarif@4238421316c33d73aeea2801274dd286f157c2bb
+        uses: github/codeql-action/upload-sarif@678fc3afe258fb2e0cdc165ccf77b85719de7b3c
         with:
           sarif_file: hadolint-results.sarif
           wait-for-processing: true
