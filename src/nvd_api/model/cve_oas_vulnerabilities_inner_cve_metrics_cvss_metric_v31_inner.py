@@ -94,7 +94,7 @@ class CveOasVulnerabilitiesInnerCveMetricsCvssMetricV31Inner(ModelNormal):
         lazy_import()
         return {
             'source': (str,),  # noqa: E501
-            'type': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'type': (str,),  # noqa: E501
             'cvss_data': (JSONSchemaForCommonVulnerabilityScoringSystemVersion31,),  # noqa: E501
             'exploitability_score': (float,),  # noqa: E501
             'impact_score': (float,),  # noqa: E501
@@ -125,7 +125,7 @@ class CveOasVulnerabilitiesInnerCveMetricsCvssMetricV31Inner(ModelNormal):
 
         Args:
             source (str):
-            type ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}):
+            type (str):
             cvss_data (JSONSchemaForCommonVulnerabilityScoringSystemVersion31):
 
         Keyword Args:
@@ -220,7 +220,7 @@ class CveOasVulnerabilitiesInnerCveMetricsCvssMetricV31Inner(ModelNormal):
 
         Args:
             source (str):
-            type ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}):
+            type (str):
             cvss_data (JSONSchemaForCommonVulnerabilityScoringSystemVersion31):
 
         Keyword Args:

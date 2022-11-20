@@ -10,11 +10,11 @@ servers:
   - url: https://services.nvd.nist.gov/rest/json
 tags:
   - name: Products
-    description: Products API
+    description: Products APIs
     externalDocs:
       url: https://nvd.nist.gov/developers/products
   - name: Vulnerabilities
-    description: Vulnerabilities API
+    description: Vulnerability APIs
     externalDocs:
       url: https://nvd.nist.gov/developers/vulnerabilities
 paths:
@@ -130,7 +130,7 @@ paths:
             nullable: true
         - name: keywordSearch
           in: query
-          description: search by word or phrase
+          description: a word or phrase is found in the current description
           required: false
           schema:
             type: string
@@ -284,7 +284,7 @@ paths:
             nullable: true
         - name: keywordSearch
           in: query
-          description: search CPE by word or phrase
+          description: a word or phrase is found in the metadata title or reference links
           required: false
           schema:
             type: string
