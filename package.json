@@ -8,7 +8,10 @@
     "test": "tests"
   },
   "scripts": {
-    "generate": "@openapitools/openapi-generator-cli generate -i schemas/nvd.oas.yml -g python -o .tmp/"
+    "generate": "npm run generate:python-prior",
+    "generate:python-prior": "npx @openapitools/openapi-generator-cli generate -i schemas/nvd.oas.yml -g python-prior -o .tmp/python-prior/ --additional-properties=packageName=nvd_api",
+    "generate:python": "npx @openapitools/openapi-generator-cli generate -i schemas/nvd.oas.yml -g python -o .tmp/python/ --additional-properties=packageName=nvd_api",
+    "generate:python-legacy": "npx @openapitools/openapi-generator-cli generate -i schemas/nvd.oas.yml -g python-legacy -o .tmp/python-legacy/ --additional-properties=packageName=nvd_api"
   },
   "repository": {
     "type": "git",
