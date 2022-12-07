@@ -200,7 +200,7 @@ junit-xml = ">=1.8"
 
 [[package]]
 name = "flake8-html"
-version = "0.4.2"
+version = "0.4.3"
 description = "Generate HTML reports of flake8 violations"
 category = "dev"
 optional = false
@@ -807,7 +807,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "e71c42d3a83576ca5a102837fa61880ede686db1aa82ffdb33119c4576c82c57"
+content-hash = "0ffef0e8ef714024927b3d55589660acb2dd81a6348870c9427f52446ce18b2c"
 
 [metadata.files]
 alabaster = [
@@ -1013,8 +1013,8 @@ flake8-formatter-junit-xml = [
     {file = "flake8_formatter_junit_xml-0.0.6.tar.gz", hash = "sha256:1ddd9356bb30ba736c3f14c769c837cfacf4f79c3d383ab963ef9d38eea05a9c"},
 ]
 flake8-html = [
-    {file = "flake8-html-0.4.2.tar.gz", hash = "sha256:6d3f2cbae8a0092d922ca5acf88f971d85a2bd69723d0dceba65e57bcaa0adba"},
-    {file = "flake8_html-0.4.2-py2.py3-none-any.whl", hash = "sha256:5db0439169987509690ef8c90efb00346009bcc5cffb8b94fe0ad30cd655b88c"},
+    {file = "flake8-html-0.4.3.tar.gz", hash = "sha256:8b870299620cc4a06f73644a1b4d457799abeca1cc914c62ae71ec5bf65c79a5"},
+    {file = "flake8_html-0.4.3-py2.py3-none-any.whl", hash = "sha256:8f126748b1b0edd6cd39e87c6192df56e2f8655b0aa2bb00ffeac8cf27be4325"},
 ]
 frozendict = [
     {file = "frozendict-2.3.4-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:4a3b32d47282ae0098b9239a6d53ec539da720258bd762d62191b46f2f87c5fc"},
