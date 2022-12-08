@@ -85,49 +85,49 @@ paths:
           description: contain a Technical Alert from US-CERT
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: hasCertNotes
           in: query
           description: contain a Vulnerability Note from CERT/CC
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: hasKev
           in: query
           description: appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: hasOval
           in: query
           description: contain information from MITRE's Open Vulnerability and Assessment Language (OVAL)
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: isVulnerable
           in: query
           description: returns only CVE associated with a specific CPE
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: keywordExactMatch
           in: query
           description: returns any CVE where a word or phrase
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: keywordSearch
           in: query
           description: a word or phrase is found in the current description
@@ -279,9 +279,9 @@ paths:
           description: if CPE exactly match or not
           required: false
           schema:
-            type: boolean
+            type: string
             default: ""
-            nullable: true
+          allowEmptyValue: true
         - name: keywordSearch
           in: query
           description: a word or phrase is found in the metadata title or reference links

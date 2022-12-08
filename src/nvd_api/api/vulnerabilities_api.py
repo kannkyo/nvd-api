@@ -163,12 +163,6 @@ class VulnerabilitiesApi(object):
                 ],
                 'required': [],
                 'nullable': [
-                    'has_cert_alerts',
-                    'has_cert_notes',
-                    'has_kev',
-                    'has_oval',
-                    'is_vulnerable',
-                    'keyword_exact_match',
                 ],
                 'enum': [
                     'cvss_v2_severity',
@@ -236,17 +230,17 @@ class VulnerabilitiesApi(object):
                     'cwe_id':
                         (str,),
                     'has_cert_alerts':
-                        (bool, none_type,),
+                        (str,),
                     'has_cert_notes':
-                        (bool, none_type,),
+                        (str,),
                     'has_kev':
-                        (bool, none_type,),
+                        (str,),
                     'has_oval':
-                        (bool, none_type,),
+                        (str,),
                     'is_vulnerable':
-                        (bool, none_type,),
+                        (str,),
                     'keyword_exact_match':
-                        (bool, none_type,),
+                        (str,),
                     'keyword_search':
                         (str,),
                     'last_mod_start_date':
@@ -430,12 +424,12 @@ class VulnerabilitiesApi(object):
             cvss_v3_metrics (str): CVSSv3 vector string. [optional]
             cvss_v3_severity (str): CVSSv3 qualitative severity rating. [optional]
             cwe_id (str): CWE ID. [optional]
-            has_cert_alerts (bool, none_type): contain a Technical Alert from US-CERT. [optional] if omitted the server will use the default value of False
-            has_cert_notes (bool, none_type): contain a Vulnerability Note from CERT/CC. [optional] if omitted the server will use the default value of False
-            has_kev (bool, none_type): appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog. [optional] if omitted the server will use the default value of False
-            has_oval (bool, none_type): contain information from MITRE's Open Vulnerability and Assessment Language (OVAL). [optional] if omitted the server will use the default value of False
-            is_vulnerable (bool, none_type): returns only CVE associated with a specific CPE. [optional] if omitted the server will use the default value of False
-            keyword_exact_match (bool, none_type): returns any CVE where a word or phrase. [optional] if omitted the server will use the default value of False
+            has_cert_alerts (str): contain a Technical Alert from US-CERT. [optional] if omitted the server will use the default value of ""
+            has_cert_notes (str): contain a Vulnerability Note from CERT/CC. [optional] if omitted the server will use the default value of ""
+            has_kev (str): appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog. [optional] if omitted the server will use the default value of ""
+            has_oval (str): contain information from MITRE's Open Vulnerability and Assessment Language (OVAL). [optional] if omitted the server will use the default value of ""
+            is_vulnerable (str): returns only CVE associated with a specific CPE. [optional] if omitted the server will use the default value of ""
+            keyword_exact_match (str): returns any CVE where a word or phrase. [optional] if omitted the server will use the default value of ""
             keyword_search (str): a word or phrase is found in the current description. [optional]
             last_mod_start_date (datetime): search by modified date. [optional]
             last_mod_end_date (datetime): search by modified date. [optional]

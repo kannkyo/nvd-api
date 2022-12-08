@@ -150,7 +150,6 @@ class ProductsApi(object):
                 ],
                 'required': [],
                 'nullable': [
-                    'keyword_exact_match',
                 ],
                 'enum': [
                 ],
@@ -179,7 +178,7 @@ class ProductsApi(object):
                     'cpe_match_string':
                         (str,),
                     'keyword_exact_match':
-                        (bool, none_type,),
+                        (str,),
                     'keyword_search':
                         (str,),
                     'last_mod_start_date':
@@ -326,7 +325,7 @@ class ProductsApi(object):
         Keyword Args:
             cpe_name_id (str): specific CPE record UUID. [optional]
             cpe_match_string (str): CPE Name. [optional]
-            keyword_exact_match (bool, none_type): if CPE exactly match or not. [optional] if omitted the server will use the default value of False
+            keyword_exact_match (str): if CPE exactly match or not. [optional] if omitted the server will use the default value of ""
             keyword_search (str): a word or phrase is found in the metadata title or reference links. [optional]
             last_mod_start_date (datetime): search CPE by modified date. [optional]
             last_mod_end_date (datetime): search CPE by modified date. [optional]
