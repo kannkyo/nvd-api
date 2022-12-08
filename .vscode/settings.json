@@ -4,7 +4,7 @@
     "editor.formatOnSave": true,
     "editor.formatOnType": true
   },
-  "explorer.excludeGitIgnore": true,
+  "explorer.excludeGitIgnore": false,
   "git-graph.repository.commits.showSignatureStatus": true,
   "git-graph.repository.sign.commits": true,
   "git-graph.repository.sign.tags": true,

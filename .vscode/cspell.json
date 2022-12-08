@@ -5,6 +5,7 @@
     "dictionaries": [],
     "words": [
         "distutils",
+        "openapi",
         "pypi",
         "pypirc",
         "pytest",
