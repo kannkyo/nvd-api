@@ -51,7 +51,7 @@ class TestVulnerabilitiesApi(unittest.TestCase):
                 # has_cert_notes="",
                 # has_kev="",
                 # has_oval="",
-                # is_vulnerable="",
+                is_vulnerable="",
                 # keyword_exact_match="",
                 # keyword_search="",
                 # last_mod_start_date="",
@@ -60,10 +60,10 @@ class TestVulnerabilitiesApi(unittest.TestCase):
                 # pub_end_date="",
                 # results_per_page=1,
                 # start_index=1,
-                # source_identifier="",
+                source_identifier="nvd@nist.gov",
                 # virtual_match_string=""
             )
-            sleep(5)
+            sleep(1)
             pprint(response)
             assert(len(response.vulnerabilities) > 0)
         except nvd_api.ApiException as e:
@@ -99,7 +99,7 @@ class TestVulnerabilitiesApi(unittest.TestCase):
                 # source_identifier="",
                 # virtual_match_string=""
             )
-            sleep(5)
+            sleep(1)
             pprint(response)
             assert(len(response.vulnerabilities) > 0)
         except nvd_api.ApiException as e:
@@ -135,7 +135,79 @@ class TestVulnerabilitiesApi(unittest.TestCase):
                 # source_identifier="",
                 # virtual_match_string=""
             )
-            sleep(5)
+            sleep(1)
+            pprint(response)
+            assert(len(response.vulnerabilities) > 0)
+        except nvd_api.ApiException as e:
+            print("Exception: %s\n" % e)
+
+    def test_get_cves_by_has_flags(self):
+        """Test case for get_cves
+
+        CVE API  # noqa: E501
+        """
+        try:
+            response = self.api.get_cves(
+                # cpe_name="cpe:2.3:a:phpbb_group:phpbb:*:*:*:*:*:*:*:*",
+                # cve_id="CVE-2006-2360",
+                # cvss_v2_metrics="",
+                # cvss_v2_severity="",
+                # cvss_v3_metrics="",
+                # cvss_v3_severity="MEDIUM",
+                # cwe_id="CWE-384",
+                has_cert_alerts="",
+                has_cert_notes="",
+                has_kev="",
+                has_oval="",
+                # is_vulnerable="",
+                # keyword_exact_match="",
+                # keyword_search="",
+                # last_mod_start_date="2018-10-10T00:00:00.000",
+                # last_mod_end_date="2018-10-20T00:00:00.000",
+                # pub_start_date="2006-05-15T00:00:00.000",
+                # pub_end_date="2006-05-25T00:00:00.000",
+                results_per_page=1,
+                start_index=1,
+                # source_identifier="",
+                # virtual_match_string=""
+            )
+            sleep(1)
+            pprint(response)
+            assert(len(response.vulnerabilities) > 0)
+        except nvd_api.ApiException as e:
+            print("Exception: %s\n" % e)
+
+    def test_get_cves_by_keywords(self):
+        """Test case for get_cves
+
+        CVE API  # noqa: E501
+        """
+        try:
+            response = self.api.get_cves(
+                # cpe_name="cpe:2.3:a:phpbb_group:phpbb:*:*:*:*:*:*:*:*",
+                # cve_id="CVE-2006-2360",
+                # cvss_v2_metrics="",
+                # cvss_v2_severity="",
+                # cvss_v3_metrics="",
+                # cvss_v3_severity="MEDIUM",
+                # cwe_id="CWE-384",
+                # has_cert_alerts="",
+                # has_cert_notes="",
+                # has_kev="",
+                # has_oval="",
+                # is_vulnerable="",
+                keyword_exact_match="",
+                keyword_search="CentOS",
+                # last_mod_start_date="2018-10-10T00:00:00.000",
+                # last_mod_end_date="2018-10-20T00:00:00.000",
+                # pub_start_date="2006-05-15T00:00:00.000",
+                # pub_end_date="2006-05-25T00:00:00.000",
+                results_per_page=1,
+                start_index=1,
+                # source_identifier="",
+                # virtual_match_string=""
+            )
+            sleep(1)
             pprint(response)
             assert(len(response.vulnerabilities) > 0)
         except nvd_api.ApiException as e:
@@ -174,7 +246,46 @@ class TestVulnerabilitiesApi(unittest.TestCase):
                 # source_identifier="",
                 # virtual_match_string=""
             )
-            sleep(5)
+            sleep(1)
+            pprint(response)
+            assert(len(response.vulnerabilities) > 0)
+        except nvd_api.ApiException as e:
+            print("Exception: %s\n" % e)
+
+    def test_get_cves_by_virtual_match_string(self):
+        """Test case for get_cves
+
+        CVE API  # noqa: E501
+        """
+        try:
+            response = self.api.get_cves(
+                # cpe_name="cpe:2.3:a:phpbb_group:phpbb:*:*:*:*:*:*:*:*",
+                # cve_id="CVE-2006-2360",
+                # cvss_v2_metrics="",
+                # cvss_v2_severity="",
+                # cvss_v3_metrics="",
+                # cvss_v3_severity="MEDIUM",
+                # cwe_id="CWE-384",
+
+                # 後で追加
+                # has_cert_alerts="",
+                # has_cert_notes="",
+                # has_kev="",
+                # has_oval="",
+
+                # is_vulnerable="",
+                # keyword_exact_match="",
+                # keyword_search="",
+                # last_mod_start_date="2018-10-10T00:00:00.000",
+                # last_mod_end_date="2018-10-20T00:00:00.000",
+                # pub_start_date="2006-05-15T00:00:00.000",
+                # pub_end_date="2006-05-25T00:00:00.000",
+                results_per_page=1,
+                start_index=1,
+                # source_identifier="",
+                virtual_match_string="cpe:2.3:*:*:*:*:*:*:de"
+            )
+            sleep(1)
             pprint(response)
             assert(len(response.vulnerabilities) > 0)
         except nvd_api.ApiException as e:
