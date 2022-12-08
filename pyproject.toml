@@ -6,7 +6,7 @@ name = "nvd-api"
 version = "0.2.0"
 
 [tool.poetry.dependencies]
-certifi = "^2022.9.24"
+certifi = "^2022.12.7"
 frozendict = "^2.3.4"
 python = "^3.8"
 python-dateutil = "^2.8.2"
