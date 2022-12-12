@@ -127,7 +127,7 @@ test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0
 
 [[package]]
 name = "cyclonedx-bom"
-version = "3.7.2"
+version = "3.7.3"
 description = "CycloneDX Software Bill of Materials (SBOM) generation utility"
 category = "dev"
 optional = false
@@ -136,7 +136,7 @@ python-versions = ">=3.6,<4.0"
 [package.dependencies]
 cyclonedx-python-lib = ">=2.0.0,<4.0.0"
 packageurl-python = ">=0.9"
-pip-requirements-parser = ">=31.2.0,<32.0.0"
+pip-requirements-parser = ">=32.0.0,<33.0.0"
 setuptools = ">=47.0.0"
 toml = ">=0.10.0,<0.11.0"
 
@@ -373,18 +373,18 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "pip-requirements-parser"
-version = "31.2.0"
+version = "32.0.0"
 description = "pip requirements parser - a mostly correct pip requirements parsing library because it uses pip's own code."
 category = "dev"
 optional = false
 python-versions = ">=3.6.*"
 
 [package.dependencies]
-packaging = "*"
+packaging = "<22.0.0"
 
 [package.extras]
 docs = ["Sphinx (>=3.3.1)", "doc8 (>=0.8.1)", "sphinx-rtd-theme (>=0.5.0)"]
-testing = ["pytest (>=6)", "pytest-xdist (>=2)"]
+testing = ["aboutcode-toolkit (>=6.0.0)", "black", "pytest (>=6,!=7.0.0)", "pytest-xdist (>=2)"]
 
 [[package]]
 name = "pluggy"
@@ -807,7 +807,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "cc838c1aaac776e22bc68009fdc061d5e70ddbb148e6cea4bb084fa978db7f44"
+content-hash = "2b83f5b291da0917313307fe64b2de69874e85d36a9c2d7088f63048e05fb9e6"
 
 [metadata.files]
 alabaster = [
@@ -989,8 +989,8 @@ cryptography = [
     {file = "cryptography-38.0.3.tar.gz", hash = "sha256:bfbe6ee19615b07a98b1d2287d6a6073f734735b49ee45b11324d85efc4d5cbd"},
 ]
 cyclonedx-bom = [
-    {file = "cyclonedx_bom-3.7.2-py3-none-any.whl", hash = "sha256:170448f9a888549d4c309ce2fedf90ef94f53bf9298cc8e80aef28a90513ccbe"},
-    {file = "cyclonedx_bom-3.7.2.tar.gz", hash = "sha256:f005596f1c740b79d4ceb7205b0e6ae905088b2e7671b7c5363fc50fbd4f5dd7"},
+    {file = "cyclonedx_bom-3.7.3-py3-none-any.whl", hash = "sha256:3ceb16df2fb2d14097da3b889b550585470ae3dd9186b15477ee8fda049017d0"},
+    {file = "cyclonedx_bom-3.7.3.tar.gz", hash = "sha256:651bb0b21aa6cb4d9b14cae7dea4ba012ba02062a9aeb1a5911c9b93ca0d6aaa"},
 ]
 cyclonedx-python-lib = [
     {file = "cyclonedx-python-lib-3.1.0.tar.gz", hash = "sha256:39e9d36347d4dc736474ab4f3a7cd7bc91050c9315df698f83a6d8bbcb290744"},
@@ -1129,8 +1129,8 @@ pathspec = [
     {file = "pathspec-0.10.2.tar.gz", hash = "sha256:8f6bf73e5758fd365ef5d58ce09ac7c27d2833a8d7da51712eac6e27e35141b0"},
 ]
 pip-requirements-parser = [
-    {file = "pip-requirements-parser-31.2.0.tar.gz", hash = "sha256:8c2a6f8e091ac2693824a5ef4e3b250226e34f74a20a91a87b9ab0714b47788f"},
-    {file = "pip_requirements_parser-31.2.0-py3-none-any.whl", hash = "sha256:22fa213a987913385b2484d5698ecfa1d9cf4154978cdf929085548af55355b0"},
+    {file = "pip-requirements-parser-32.0.0.tar.gz", hash = "sha256:5159b8a9485a5a0d0254a29c9bd8b8ce66db2eb9a1a0244c64dfce43f7f2ac90"},
+    {file = "pip_requirements_parser-32.0.0-py3-none-any.whl", hash = "sha256:aa664781e69f82ecefda542d5210aa5b0f6533be95aea39a5453943db09359ed"},
 ]
 pluggy = [
     {file = "pluggy-1.0.0-py2.py3-none-any.whl", hash = "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"},
