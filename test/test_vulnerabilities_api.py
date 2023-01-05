@@ -26,12 +26,41 @@ class TestVulnerabilitiesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_get_cve_history(self):
+    def test_get_cve_history_by_change_date(self):
         """Test case for get_cve_history
 
         CVE Change History API  # noqa: E501
         """
-        pass
+        try:
+            response = self.api.get_cve_history(
+                change_start_date="2021-08-04T00:00:00.000",
+                change_end_date="2021-10-23T00:00:00.000",
+                event_name="CVE Rejected",
+                results_per_page=1,
+                start_index=1
+            )
+            sleep(1)
+            pprint(response)
+            assert(len(response.cve_changes) > 0)
+        except nvd_api.ApiException as e:
+            print("Exception: %s\n" % e)
+
+    def test_get_cve_history_by_cve(self):
+        """Test case for get_cve_history
+
+        CVE Change History API  # noqa: E501
+        """
+        try:
+            response = self.api.get_cve_history(
+                cve_id="CVE-2019-1010218",
+                results_per_page=1,
+                start_index=1
+            )
+            sleep(1)
+            pprint(response)
+            assert(len(response.cve_changes) > 0)
+        except nvd_api.ApiException as e:
+            print("Exception: %s\n" % e)
 
     def test_get_cves_by_cve(self):
         """Test case for get_cves
