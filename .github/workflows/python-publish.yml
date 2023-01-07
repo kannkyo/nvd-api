@@ -68,6 +68,12 @@ jobs:
           asset_name: ${{ steps.build.outputs.package_whl }}
           asset_content_type: application/zip
 
+      - name: Upload package to pypi
+        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
   # pages:
   #   runs-on: ubuntu-latest
   #   permissions:
