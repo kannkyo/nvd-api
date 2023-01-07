@@ -1,9 +1,17 @@
 [tool.poetry]
 authors = ["kannkyo <15080890+kannkyo@users.noreply.github.com>"]
+classifiers = [
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Security",
+]
 description = "NVD API 2.0 Python API"
+documentation = "https://kannkyo.github.io/nvd-api/html/"
+homepage = "https://github.com/kannkyo/nvd-api"
 include = ["sbom.xml"]
+keywords = ["NVD", "security", "vulnerability"]
 name = "nvd-api"
 readme = "README.rst"
+repository = "https://github.com/kannkyo/nvd-api"
 version = "0.3.1"
 
 [tool.poetry.dependencies]
