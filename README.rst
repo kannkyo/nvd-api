@@ -16,6 +16,6 @@ NVD API 2.0 client
 .. image:: https://github.com/kannkyo/nvd-api/actions/workflows/scorecards.yml/badge.svg
     :target: https://github.com/kannkyo/nvd-api/actions/workflows/scorecards.yml
 
-.. image:: https://bestpractices.coreinfrastructure.org/projects/6051/badge
-    :target: https://bestpractices.coreinfrastructure.org/projects/6051
+.. image:: https://bestpractices.coreinfrastructure.org/projects/6889/badge
+    :target: https://bestpractices.coreinfrastructure.org/projects/6889
 
