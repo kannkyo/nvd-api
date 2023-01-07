@@ -4,7 +4,7 @@ description = "NVD API 2.0 Python API"
 include = ["sbom.xml"]
 name = "nvd-api"
 readme = "README.rst"
-version = "0.3.0"
+version = "0.3.1"
 
 [tool.poetry.dependencies]
 certifi = "^2022.12.7"
