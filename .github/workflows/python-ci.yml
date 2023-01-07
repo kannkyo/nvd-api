@@ -69,6 +69,16 @@ jobs:
           name: pytest-report
           path: htmlcov/
 
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@d9f34f8cd5cb3b3eb79b3e4b5dae3a16df499a70
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+          files: ./coverage.xml
+          flags: unittests
+          verbose: true
+
   sast-codeql:
     runs-on: ubuntu-latest
     permissions:
