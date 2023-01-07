@@ -3,6 +3,7 @@ authors = ["kannkyo <15080890+kannkyo@users.noreply.github.com>"]
 description = "NVD API 2.0 Python API"
 include = ["sbom.xml"]
 name = "nvd-api"
+readme = "README.rst"
 version = "0.3.0"
 
 [tool.poetry.dependencies]
@@ -33,6 +34,7 @@ toml = "^0.10.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest-randomly = "^3.12.0"
+twine = "^4.0.2"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
