@@ -1,0 +1,79 @@
+@startuml
+
+hide empty members
+
+class cpe {
+  + cpeName : str
+}
+
+class cve {
+  + id: str
+  + pattern: str
+  + sourceIdentifier: str
+  + vulnStatus: str
+  + published: DateTime
+  + lastModified: DateTime
+  + evaluatorComment: str
+  + evaluatorSolution: str
+  + evaluatorImpact: str
+  + cisaExploitAdd: Date
+  + cisaActionDue: Date
+  + cisaRequiredAction: str
+  + cisaVulnerabilityName: str
+  + descriptions: Description
+  + references: Reference
+  + metrics: Metrics
+  + weaknesses: Weaknesse[]
+  + configurations: Configuration[]
+  + vendorComments: VendorComment[]
+}
+
+class vendorComment {
+  + organization: str
+  + comment: str
+  + lastModified: DateTime
+}
+
+
+class cwe {
+  + cweId : str
+}
+
+cpe -- cve
+cve -- cwe
+
+abstract class cvss
+
+class cvssV3 extends cvss {
+  + metrics
+  + severity : SEVERITY
+}
+
+class cvssV2 extends cvss {
+  + metrics
+  + severity : SEVERITY
+}
+
+enum SEVERITY {
+  + LOW
+  + MEDIUM
+  + HIGH
+  + CRITICAL
+}
+
+class interval {
+  + startDate : DateTime
+  + endDate : DateTime
+}
+
+class version {
+  + number : str
+  + type : VERSION_TYPE
+}
+
+enum VERSION_TYPE {
+  + including
+  + excluding
+}
+
+@enduml
