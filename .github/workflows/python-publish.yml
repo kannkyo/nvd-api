@@ -69,7 +69,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: Upload package to pypi
-        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+        uses: pypa/gh-action-pypi-publish@c7f29f7adef1a245bd91520e94867e5c6eedddcc
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
