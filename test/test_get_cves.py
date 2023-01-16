@@ -17,7 +17,7 @@ from client import NvdApiClient
 
 class TestGetCves(unittest.TestCase):
     def setUp(self):
-        self.client = NvdApiClient()  # noqa: E501
+        self.client = NvdApiClient(wait_time=15 * 1000)  # noqa: E501
 
     def tearDown(self):
         pass
