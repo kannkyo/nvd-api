@@ -13,6 +13,7 @@ import unittest
 from pprint import pprint
 
 from client import NvdApiClient
+from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCpeMatch(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestGetCpeMatch(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.match_strings) > 0)
+        assert (len(response.match_strings) > 0)
 
     def test_get_by_date(self):
         response = self.client.get_cpe_match(
@@ -38,8 +39,7 @@ class TestGetCpeMatch(unittest.TestCase):
             results_per_page=1,
             start_index=0
         )
-        pprint(response)
-        assert(len(response.match_strings) > 0)
+        assert (len(response.match_strings) > 0)
 
     def test_get_by_match_criteria_id(self):
         response = self.client.get_cpe_match(
@@ -48,19 +48,83 @@ class TestGetCpeMatch(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.match_strings) > 0)
+        assert (len(response.match_strings) > 0)
 
     def test_use_mod_end_date_without_mod_start_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cpe_match(
                 last_mod_end_date="2018-10-20T00:00:00.000"
             )
             pprint(response)
 
     def test_use_mod_start_date_without_mod_end_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cpe_match(
                 last_mod_start_date="2018-10-10T00:00:00.000"
+            )
+            pprint(response)
+
+    def test_invalid_cve_id(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                cve_id="INVALID-2022-32223",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_start_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                last_mod_start_date="invalid datetime",
+                last_mod_end_date="2021-10-22T13:36:00.000",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_end_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                last_mod_start_date="2021-08-04T13:00:00.000",
+                last_mod_end_date="invalid datetime",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_match_criteria_id(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cpe_match(
+                match_criteria_id="INVALID-8CEE-474C-8A04-5075AF53FAF4",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_results_per_page(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                cve_id="CVE-2022-32223",
+                results_per_page=5001,
+                start_index=0
+            )
+            pprint(response)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                cve_id="CVE-2022-32223",
+                results_per_page=-1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_start_index(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                cve_id="CVE-2022-32223",
+                results_per_page=1,
+                start_index=-1
             )
             pprint(response)
 

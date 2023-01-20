@@ -12,7 +12,8 @@
 import unittest
 from pprint import pprint
 
-from client import NvdApiClient
+from client import FLAG, NvdApiClient
+from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCves(unittest.TestCase):
@@ -27,11 +28,11 @@ class TestGetCves(unittest.TestCase):
             cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
             cve_id="CVE-2019-4227",
             cwe_id="CWE-384",
-            is_vulnerable="",
+            is_vulnerable=FLAG.TRUE,
             source_identifier="nvd@nist.gov"
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_cvss_v2(self):
         response = self.client.get_cves(
@@ -42,7 +43,7 @@ class TestGetCves(unittest.TestCase):
             start_index=1
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_cvss_v3(self):
         response = self.client.get_cves(
@@ -53,29 +54,29 @@ class TestGetCves(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_has_flags(self):
         response = self.client.get_cves(
-            has_cert_alerts="",
-            has_cert_notes="",
-            has_kev="",
-            has_oval="",
+            has_cert_alerts=FLAG.TRUE,
+            has_cert_notes=FLAG.TRUE,
+            has_kev=FLAG.TRUE,
+            has_oval=FLAG.TRUE,
             results_per_page=1,
             start_index=1
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_keywords(self):
         response = self.client.get_cves(
-            keyword_exact_match="",
+            keyword_exact_match=FLAG.TRUE,
             keyword_search="CentOS",
             results_per_page=1,
             start_index=1
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_date(self):
         response = self.client.get_cves(
@@ -87,7 +88,7 @@ class TestGetCves(unittest.TestCase):
             start_index=1
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_virtual_match_string(self):
         response = self.client.get_cves(
@@ -96,10 +97,10 @@ class TestGetCves(unittest.TestCase):
             virtual_match_string="cpe:2.3:*:*:*:*:*:*:de"
         )
         pprint(response)
-        assert(len(response.vulnerabilities) > 0)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_use_mod_end_date_without_mod_start_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 last_mod_end_date="2018-10-20T00:00:00.000",
                 results_per_page=1,
@@ -108,7 +109,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_mod_start_date_without_mod_end_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 last_mod_start_date="2018-10-10T00:00:00.000",
                 results_per_page=1,
@@ -117,7 +118,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_pub_end_date_without_pub_start_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 pub_end_date="2006-05-25T00:00:00.000",
                 results_per_page=1,
@@ -126,7 +127,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_pub_start_date_without_pub_end_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 pub_start_date="2006-05-15T00:00:00.000",
                 results_per_page=1,
@@ -135,7 +136,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_cvss_v2_and_v3_metrics(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
@@ -146,7 +147,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_cvss_v2_and_v3_severity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_severity="HIGH",
@@ -157,21 +158,188 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_use_keyword_exact_match_without_keyword_search(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
-                keyword_exact_match="",
+                keyword_exact_match=FLAG.TRUE,
                 results_per_page=1,
                 start_index=1
             )
             pprint(response)
 
     def test_use_is_vulnerable_without_cpe_name(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cve_id="CVE-2019-4227",
                 cwe_id="CWE-384",
-                is_vulnerable="",
+                is_vulnerable=FLAG.TRUE,
                 source_identifier="nvd@nist.gov"
+            )
+            pprint(response)
+
+    def test_valid_iso_datetime_format(self):
+        response = self.client.get_cves(
+            last_mod_start_date="2018/10/10T00:00:00.000",
+            last_mod_end_date="2018-10-20T00:00:00.000Z",
+            pub_start_date="2006-05-15T00:00:00.000+09:00",
+            pub_end_date="2006-05-25T00:00:00",
+            results_per_page=1,
+            start_index=1
+        )
+        pprint(response)
+        assert (len(response.vulnerabilities) > 0)
+
+    def test_invalid_cpe_name(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cves(
+                cpe_name="INVALID:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
+                is_vulnerable=FLAG.TRUE
+            )
+            pprint(response)
+
+    def test_invalid_cve_id(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
+                cve_id="INVALID-2019-4227",
+                cwe_id="CWE-384",
+                is_vulnerable=FLAG.TRUE,
+                source_identifier="nvd@nist.gov"
+            )
+            pprint(response)
+
+    def test_invalid_cvss_v2_metrics(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v2_metrics="INVALID:L/AC:L/Au:N/C:C/I:C/A:C",
+                cvss_v2_severity="HIGH",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_cvss_v2_severity(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
+                cvss_v2_severity="INVALID",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_cvss_v3_metrics(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v3_metrics="INVALID:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                cvss_v3_severity="HIGH",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_cvss_v3_severity(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v3_metrics="AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+                cvss_v3_severity="INVALID",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_cwe_id(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
+                cve_id="CVE-2019-4227",
+                cwe_id="INVALID-384",
+                is_vulnerable=FLAG.TRUE,
+                source_identifier="nvd@nist.gov"
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_start_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                last_mod_start_date="invalid datetime",
+                last_mod_end_date="2018-10-20T00:00:00.000",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_end_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                last_mod_start_date="2018-10-10T00:00:00.000",
+                last_mod_end_date="invalid datetime",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_pub_start_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                pub_start_date="invalid datetime",
+                pub_end_date="2006-05-25T00:00:00.000",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_pub_end_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                pub_start_date="2006-05-15T00:00:00.000",
+                pub_end_date="invalid datetime",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_virtual_match_string(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cves(
+                results_per_page=1,
+                start_index=1,
+                virtual_match_string="INVALID:2.3:*:*:*:*:*:*:de"
+            )
+            pprint(response)
+
+    def test_invalid_results_per_page(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
+                cvss_v2_severity="HIGH",
+                results_per_page=2001,
+                start_index=1
+            )
+            pprint(response)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
+                cvss_v2_severity="HIGH",
+                results_per_page=-1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_start_index(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+                cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
+                cvss_v2_severity="HIGH",
+                results_per_page=1,
+                start_index=-1
             )
             pprint(response)
 

@@ -13,6 +13,7 @@ import unittest
 from pprint import pprint
 
 from client import NvdApiClient
+from nvd_api.exceptions import ApiValueError
 
 
 class TestGetCveHistory(unittest.TestCase):
@@ -31,7 +32,7 @@ class TestGetCveHistory(unittest.TestCase):
             start_index=1
         )
         pprint(response)
-        assert(len(response.cve_changes) > 0)
+        assert (len(response.cve_changes) > 0)
 
     def test_get_by_cve(self):
         response = self.client.get_cve_history(
@@ -40,10 +41,10 @@ class TestGetCveHistory(unittest.TestCase):
             start_index=1
         )
         pprint(response)
-        assert(len(response.cve_changes) > 0)
+        assert (len(response.cve_changes) > 0)
 
     def test_use_change_start_date_without_change_end_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cve_history(
                 change_start_date="2021-08-04T00:00:00.000",
                 event_name="CVE Rejected",
@@ -53,12 +54,69 @@ class TestGetCveHistory(unittest.TestCase):
             pprint(response)
 
     def test_use_change_end_date_without_change_start_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cve_history(
                 change_end_date="2021-10-23T00:00:00.000",
                 event_name="CVE Rejected",
                 results_per_page=1,
                 start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_change_start_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                change_start_date="invalid datetime",
+                change_end_date="2021-10-23T00:00:00.000",
+                event_name="CVE Rejected",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_change_end_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                change_start_date="2021-08-04T00:00:00.000",
+                change_end_date="invalid datetime",
+                event_name="CVE Rejected",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_cve_id(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                cve_id="INVALID-2019-1010218",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_results_per_page(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                cve_id="CVE-2019-1010218",
+                results_per_page=5001,
+                start_index=1
+            )
+            pprint(response)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                cve_id="CVE-2019-1010218",
+                results_per_page=-1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_start_index(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                cve_id="CVE-2019-1010218",
+                results_per_page=1,
+                start_index=-1
             )
             pprint(response)
 
