@@ -62,6 +62,8 @@ addopts = [
   "--cov-report=xml",
   "--junitxml=report.xml",
   "--verbose",
+  "--html=report.html",
+  "--self-contained-html",
 ]
 testpaths = [
   "tests",
