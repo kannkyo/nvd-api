@@ -325,3 +325,4 @@ dist
 .pnp.*
 
 .tmp
+report.html
