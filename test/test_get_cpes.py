@@ -12,7 +12,8 @@
 import unittest
 from pprint import pprint
 
-from client import NvdApiClient
+from client import FLAG, NvdApiClient
+from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCpes(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestGetCpes(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.products) > 0)
+        assert (len(response.products) > 0)
 
     def test_get_by_cpe_match_string(self):
         response = self.client.get_cpes(
@@ -38,17 +39,17 @@ class TestGetCpes(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.products) > 0)
+        assert (len(response.products) > 0)
 
     def test_get_by_keywords(self):
         response = self.client.get_cpes(
-            keyword_exact_match="",
+            keyword_exact_match=FLAG.TRUE,
             keyword_search="Microsoft Windows",
             results_per_page=1,
             start_index=0
         )
         pprint(response)
-        assert(len(response.products) > 0)
+        assert (len(response.products) > 0)
 
     def test_get_by_date(self):
         response = self.client.get_cpes(
@@ -58,7 +59,7 @@ class TestGetCpes(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.products) > 0)
+        assert (len(response.products) > 0)
 
     def test_get_by_match_criteria_id(self):
         response = self.client.get_cpes(
@@ -67,26 +68,99 @@ class TestGetCpes(unittest.TestCase):
             start_index=0
         )
         pprint(response)
-        assert(len(response.products) > 0)
+        assert (len(response.products) > 0)
 
     def test_use_mod_end_date_without_mod_start_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cpes(
                 last_mod_end_date="2018-10-20T00:00:00.000"
             )
             pprint(response)
 
     def test_use_mod_start_date_without_mod_end_date(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cpes(
                 last_mod_start_date="2018-10-10T00:00:00.000"
             )
             pprint(response)
 
     def test_use_keyword_exact_match_without_keyword_search(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cpes(
-                keyword_exact_match=""
+                keyword_exact_match=FLAG.TRUE
+            )
+            pprint(response)
+
+    def test_invalid_cpe_name_id(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cpes(
+                cpe_name_id="INVALID-5F2C-4286-94FE-CC98B9EAEF53",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_cpe_match_string(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cpes(
+                cpe_match_string="INVALID:2.3:*:Microsoft",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_start_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                last_mod_start_date="invalid datetime",
+                last_mod_end_date="2018-10-20T00:00:00.000",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_last_mod_end_date(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                last_mod_start_date="2018-10-10T00:00:00.000",
+                last_mod_end_date="invalid datetime",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_match_criteria_id(self):
+        with self.assertRaises(NotFoundException):
+            response = self.client.get_cpes(
+                match_criteria_id="INVALID-8CEE-474C-8A04-5075AF53FAF4",
+                results_per_page=1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_results_per_page(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                cpe_name_id="87316812-5F2C-4286-94FE-CC98B9EAEF53",
+                results_per_page=10001,
+                start_index=0
+            )
+            pprint(response)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                cpe_name_id="87316812-5F2C-4286-94FE-CC98B9EAEF53",
+                results_per_page=-1,
+                start_index=0
+            )
+            pprint(response)
+
+    def test_invalid_start_index(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                cpe_name_id="87316812-5F2C-4286-94FE-CC98B9EAEF53",
+                results_per_page=1,
+                start_index=-1
             )
             pprint(response)
 
