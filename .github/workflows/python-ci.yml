@@ -13,7 +13,7 @@ permissions: read-all
 # Allow one concurrent test because of NVD API interval limitation
 concurrency:
   group: "ci"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
