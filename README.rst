@@ -30,6 +30,8 @@ Getting Start
 Products / CPE API
 ------------------
 
+This API's simple example is bellow.
+
 .. code-block:: python
 
     from client import NvdApiClient
@@ -44,8 +46,18 @@ Products / CPE API
     )
     pprint(response)
 
-Products / CPE Match API
+`get_cpes` method check API's all constraints and limitations.
+
+* cpeNameId and matchCriteriaId must be uuid format.
+* cpeMatchString must be CPEv2.3 format.
+* If filtering by keywordExactMatch, keywordSearch is REQUIRED.
+* If filtering by the last modified date, both lastModStartDate and lastModEndDate are REQUIRED.
+* resultsPerPage's maximum allowable limit is 10,000.
+
+Products / Match Criteria API
 ------------------------
+
+This API's simple example is bellow.
 
 .. code-block:: python
 
@@ -61,8 +73,17 @@ Products / CPE Match API
     )
     pprint(response)
 
+`get_cpe_match` method check API's all constraints and limitations.
+
+* cveId is must be CVE ID format.
+* If filtering by the last modified date, both lastModStartDate and lastModEndDate are REQUIRED.
+* matchCriteriaId must be uuid format.
+* resultsPerPage's maximum allowable limit is 5,000.
+
 Vulnerabilities / CVE API
 -------------------------
+
+This API's simple example is bellow.
 
 .. code-block:: python
 
@@ -80,8 +101,10 @@ Vulnerabilities / CVE API
     )
     pprint(response)
 
-Vulnerabilities / CVE History API
+Vulnerabilities / CVE Change History API
 ---------------------------------
+
+This API's simple example is bellow.
 
 .. code-block:: python
 
@@ -99,3 +122,8 @@ Vulnerabilities / CVE History API
     )
     pprint(response)
 
+`get_cve_history` method check API's all constraints and limitations.
+
+* If filtering by the change date, both changeStartDate and changeEndDate are REQUIRED.
+* cveId is must be CVE ID format.
+* resultsPerPage's maximum allowable limit is 5,000.
