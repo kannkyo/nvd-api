@@ -1,27 +1,10 @@
-## チケットへのリンク
+## Describe your changes
 
-* https://example.com
+## Issue ticket number and link
 
-## やったこと
+## Checklist before requesting a review
 
-* このプルリクで何をしたのか？
-
-## やらないこと
-
-* このプルリクでやらないことは何か？（あれば。無いなら「無し」でOK）（やらない場合は、いつやるのかを明記する。）
-
-## できるようになること（ユーザ目線）
-
-* 何ができるようになるのか？（あれば。無いなら「無し」でOK）
-
-## できなくなること（ユーザ目線）
-
-* 何ができなくなるのか？（あれば。無いなら「無し」でOK）
-
-## 動作確認
-
-* どのような動作確認を行ったのか？　結果はどうか？
-
-## その他
-
-* レビュワーへの参考情報（実装上の懸念点や注意点などあれば記載）
+- [ ] I have performed a self-review of my code
+- [ ] If it is a core feature, I have added thorough tests.
+- [ ] Do we need to implement analytics?
+- [ ] Will this be part of a product update? If yes, please write one phrase about this update.

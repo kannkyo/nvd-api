@@ -2,13 +2,9 @@ from enum import Enum
 import logging
 import time
 from datetime import datetime
-from nvd_api.model.cpe_match_oas import CpeMatchOas
-from nvd_api.model.cpe_oas import CpeOas
-from nvd_api.model.cve_history_oas import CveHistoryOas
-from nvd_api.model.cve_oas import CveOas
+from nvd_api.models import CpeMatchOas, CpeOas, CveHistoryOas, CveOas
 
-from nvd_api.api.products_api import ProductsApi  # noqa: E501
-from nvd_api.api.vulnerabilities_api import VulnerabilitiesApi
+from nvd_api.apis import VulnerabilitiesApi, ProductsApi  # noqa: E501
 from nvd_api.exceptions import ApiValueError  # noqa: E501
 
 logger = logging.getLogger()
@@ -313,24 +309,3 @@ class NvdApiClient(object):
             time.sleep(self.wait_time/1000)
         else:
             time.sleep(wait_time/1000)
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-
-    client = NvdApiClient()
-    response = client.get_cve_history(
-        change_start_date="2021-08-04T00:00:00.000",
-        change_end_date="2021-10-23T00:00:00.000",
-        event_name="CVE Rejected",
-        results_per_page=1,
-        start_index=1
-    )
-    response = client.get_cves(
-        last_mod_start_date="2018-10-10T00:00:00.000",
-        # last_mod_end_date="2018-10-20T00:00:00.000",
-        pub_start_date="2006-05-15T00:00:00.000",
-        pub_end_date="2006-05-25T00:00:00.000",
-        results_per_page=1,
-        start_index=1
-    )
