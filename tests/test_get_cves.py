@@ -32,6 +32,12 @@ class TestGetCves(unittest.TestCase):
             source_identifier="nvd@nist.gov"
         )
         pprint(response)
+        assert response.results_per_page == 1
+        assert response.start_index == 0
+        assert response.total_results == 1
+        assert response.format == 'NVD_CVE'
+        assert response.version == '2.0'
+        assert response.timestamp is not None
         assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_cvss_v2(self):

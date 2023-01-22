@@ -213,7 +213,7 @@ class CpeOas(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, results_per_page, start_index, total_results, format, version, timestamp, products, *args, **kwargs):  # noqa: E501
+    def __init__(self, results_per_page: int, start_index: int, total_results: int, format: str, version: str, timestamp: datetime, products, *args, **kwargs):  # noqa: E501
         """CpeOas - a model defined in OpenAPI
 
         Args:

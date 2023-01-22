@@ -28,6 +28,7 @@ from nvd_api.model_utils import (  # noqa: F401
     OpenApiModel
 )
 from nvd_api.exceptions import ApiAttributeError
+from nvd_api.model.cve_oas_vulnerabilities_inner_cve import CveOasVulnerabilitiesInnerCve  # noqa E501
 
 
 def lazy_import():
@@ -189,7 +190,7 @@ class CveOasVulnerabilitiesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cve, *args, **kwargs):  # noqa: E501
+    def __init__(self, cve: list[CveOasVulnerabilitiesInnerCve], *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInner - a model defined in OpenAPI
 
         Args:
