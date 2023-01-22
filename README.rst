@@ -28,7 +28,7 @@ Getting Start
 =============
 
 Products / CPE API
-------------------
+---------------------
 
 This API's simple example is bellow.
 
@@ -55,7 +55,7 @@ This API's simple example is bellow.
 * resultsPerPage's maximum allowable limit is 10,000.
 
 Products / Match Criteria API
-------------------------
+-----------------------------
 
 This API's simple example is bellow.
 
@@ -81,7 +81,7 @@ This API's simple example is bellow.
 * resultsPerPage's maximum allowable limit is 5,000.
 
 Vulnerabilities / CVE API
--------------------------
+---------------------------
 
 This API's simple example is bellow.
 
@@ -102,7 +102,7 @@ This API's simple example is bellow.
     pprint(response)
 
 Vulnerabilities / CVE Change History API
----------------------------------
+-------------------------------------------
 
 This API's simple example is bellow.
 
