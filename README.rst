@@ -61,7 +61,7 @@ This API's simple example is bellow.
 
 .. code-block:: python
 
-    from client import NvdApiClient
+    from nvd_api import NvdApiClient
     from pprint import pprint
 
     client = NvdApiClient()
@@ -87,7 +87,7 @@ This API's simple example is bellow.
 
 .. code-block:: python
 
-    from client import NvdApiClient
+    from nvd_api import NvdApiClient
     from pprint import pprint
 
     client = NvdApiClient()
@@ -108,7 +108,7 @@ This API's simple example is bellow.
 
 .. code-block:: python
 
-    from client import NvdApiClient
+    from nvd_api import NvdApiClient
     from pprint import pprint
 
     client = NvdApiClient()

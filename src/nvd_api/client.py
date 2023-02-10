@@ -84,6 +84,11 @@ class NvdApiClient(object):
             AsyncResult: API Result
         """
 
+        last_mod_start_date = self._convert_datetime(last_mod_start_date)
+        last_mod_end_date = self._convert_datetime(last_mod_end_date)
+        pub_start_date = self._convert_datetime(pub_start_date)
+        pub_end_date = self._convert_datetime(pub_end_date)
+
         self._verify_cvss_severity(cvss_v2_severity, cvss_v3_severity)
         self._verify_cvss_metrics(cvss_v2_metrics, cvss_v3_metrics)
         self._verify_last_mod_dates(last_mod_start_date, last_mod_end_date)
@@ -143,6 +148,9 @@ class NvdApiClient(object):
             CveHistoryOas: API Result
         """
 
+        change_start_date = self._convert_datetime(change_start_date)
+        change_end_date = self._convert_datetime(change_end_date)
+
         self._verify_change_dates(change_start_date, change_end_date)
         self._verify_event_name(event_name)
 
@@ -187,6 +195,10 @@ class NvdApiClient(object):
         Returns:
             CpeOas: API Result
         """
+
+        last_mod_start_date = self._convert_datetime(last_mod_start_date)
+        last_mod_end_date = self._convert_datetime(last_mod_end_date)
+
         self._verify_last_mod_dates(last_mod_start_date, last_mod_end_date)
         self._verify_keyword(keyword_exact_match, keyword_search)
 
@@ -228,6 +240,10 @@ class NvdApiClient(object):
         Returns:
             CpeMatchOas: API Result
         """
+
+        last_mod_start_date = self._convert_datetime(last_mod_start_date)
+        last_mod_end_date = self._convert_datetime(last_mod_end_date)
+
         self._verify_last_mod_dates(last_mod_start_date, last_mod_end_date)
 
         kwargs = dict(cve_id=cve_id,
@@ -245,6 +261,10 @@ class NvdApiClient(object):
 
         return ret
 
+    def _convert_datetime(self, d: datetime):
+        d = datetime.fromisoformat(d) if type(d) == str else d
+        return d
+
     def _verify_change_dates(self,
                              change_start_date: datetime,
                              change_end_date: datetime):
@@ -255,6 +275,12 @@ class NvdApiClient(object):
         if change_end_date is not None and change_start_date is None:
             raise ApiValueError(
                 "must use change_end_date with change_start_date")
+
+        if change_start_date is not None and change_end_date is not None:
+            days = (change_end_date - change_start_date).days
+            if days > 120:
+                raise ApiValueError(
+                    f"max date range is 120 days : start - end={days}")
 
     def _verify_last_mod_dates(self,
                                last_mod_start_date: datetime,
@@ -267,6 +293,12 @@ class NvdApiClient(object):
             raise ApiValueError(
                 "must use last_mod_end_date with last_mod_start_date")
 
+        if last_mod_start_date is not None and last_mod_end_date is not None:
+            days = (last_mod_end_date - last_mod_start_date).days
+            if days > 120:
+                raise ApiValueError(
+                    f"max date range is 120 days : start - end={days}")
+
     def _verify_pub_dates(self,
                           pub_start_date: datetime,
                           pub_end_date: datetime):
@@ -277,6 +309,12 @@ class NvdApiClient(object):
         if pub_end_date is not None and pub_start_date is None:
             raise ApiValueError(
                 "must use pub_end_date with pub_start_date")
+
+        if pub_start_date is not None and pub_end_date is not None:
+            days = (pub_end_date - pub_start_date).days
+            if days > 120:
+                raise ApiValueError(
+                    f"max date range is 120 days : start - end={days}")
 
     def _verify_cvss_metrics(self,
                              cvss_v2_metrics: str,

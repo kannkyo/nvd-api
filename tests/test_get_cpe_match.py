@@ -93,6 +93,16 @@ class TestGetCpeMatch(unittest.TestCase):
             )
             pprint(response)
 
+    def test_invalid_last_mod_date_range(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                last_mod_start_date="2018-12-01T00:00:00.000",
+                last_mod_end_date="2019-04-01T00:00:00.000",  # 121 days
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
     def test_invalid_match_criteria_id(self):
         with self.assertRaises(NotFoundException):
             response = self.client.get_cpe_match(
