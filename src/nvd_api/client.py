@@ -318,7 +318,7 @@ class NvdApiClient(object):
                             "CVE Rejected",
                             "CVE Unrejected")
 
-        if event_name not in VALID_EVENT_NAME:
+        if event_name is not None and event_name not in VALID_EVENT_NAME:
             raise ApiValueError("invalid event name")
 
     def _sleep(self, wait_time: int = None):
