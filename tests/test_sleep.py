@@ -11,7 +11,7 @@
 
 import unittest
 
-from client import NvdApiClient
+from nvd_api.client import NvdApiClient
 
 
 class TestGetCpes(unittest.TestCase):

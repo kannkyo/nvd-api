@@ -13,16 +13,5 @@
 
 __version__ = "1.0.0"
 
-# import ApiClient
-from nvd_api.api_client import ApiClient
-
-# import Configuration
-from nvd_api.configuration import Configuration
-
-# import exceptions
-from nvd_api.exceptions import OpenApiException
-from nvd_api.exceptions import ApiAttributeError
-from nvd_api.exceptions import ApiTypeError
-from nvd_api.exceptions import ApiValueError
-from nvd_api.exceptions import ApiKeyError
-from nvd_api.exceptions import ApiException
+# import NvdApiClient
+from nvd_api.client import NvdApiClient, FLAG
