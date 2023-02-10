@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions: # for EnricoMi/publish-unit-test-result-action
       checks: write
       pull-requests: write # for comment_mode
@@ -27,7 +27,6 @@ jobs:
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.2.2"]
-        os: [ubuntu-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
@@ -48,7 +47,6 @@ jobs:
 
       - name: Publish flake8 report to PR
         uses: EnricoMi/publish-unit-test-result-action@a3caf02865c0604ad3dc1ecfcc5cdec9c41b7936
-        if: ${{ runner.os == 'ubuntu-latest' }} # linux is only supported
         with:
           check_name: flake8 results
           files: report.xml
@@ -65,7 +63,6 @@ jobs:
 
       - name: Publish pytest report to PR
         uses: EnricoMi/publish-unit-test-result-action@a3caf02865c0604ad3dc1ecfcc5cdec9c41b7936
-        if: ${{ runner.os == 'ubuntu-latest' }} # linux is only supported
         with:
           check_name: pytest results
           files: report.xml
