@@ -12,7 +12,7 @@ keywords = ["NVD", "security", "vulnerability"]
 name = "nvd-api"
 readme = "README.rst"
 repository = "https://github.com/kannkyo/nvd-api"
-version = "0.4.3"
+version = "0.4.4"
 
 [tool.poetry.dependencies]
 certifi = "^2022.12.7"
