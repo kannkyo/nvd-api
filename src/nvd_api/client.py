@@ -246,8 +246,8 @@ class NvdApiClient(object):
         return ret
 
     def _verify_change_dates(self,
-                             change_start_date: datetime | None,
-                             change_end_date: datetime | None):
+                             change_start_date: datetime,
+                             change_end_date: datetime):
         if change_start_date is not None and change_end_date is None:
             raise ApiValueError(
                 "must use change_start_date with change_end_date")
@@ -257,8 +257,8 @@ class NvdApiClient(object):
                 "must use change_end_date with change_start_date")
 
     def _verify_last_mod_dates(self,
-                               last_mod_start_date: datetime | None,
-                               last_mod_end_date: datetime | None):
+                               last_mod_start_date: datetime,
+                               last_mod_end_date: datetime):
         if last_mod_start_date is not None and last_mod_end_date is None:
             raise ApiValueError(
                 "must use last_mod_start_date with last_mod_end_date")
@@ -268,8 +268,8 @@ class NvdApiClient(object):
                 "must use last_mod_end_date with last_mod_start_date")
 
     def _verify_pub_dates(self,
-                          pub_start_date: datetime | None,
-                          pub_end_date: datetime | None):
+                          pub_start_date: datetime,
+                          pub_end_date: datetime):
         if pub_start_date is not None and pub_end_date is None:
             raise ApiValueError(
                 "must use pub_start_date with pub_end_date")
@@ -279,28 +279,28 @@ class NvdApiClient(object):
                 "must use pub_end_date with pub_start_date")
 
     def _verify_cvss_metrics(self,
-                             cvss_v2_metrics: str | None,
-                             cvss_v3_metrics: str | None):
+                             cvss_v2_metrics: str,
+                             cvss_v3_metrics: str):
         if cvss_v2_metrics is not None and cvss_v3_metrics is not None:
             raise ApiValueError(
                 "can not use cvss_v2_metrics with cvss_v3_metrics")
 
     def _verify_cvss_severity(self,
-                              cvss_v2_severity: str | None,
-                              cvss_v3_severity: str | None):
+                              cvss_v2_severity: str,
+                              cvss_v3_severity: str):
         if cvss_v2_severity is not None and cvss_v3_severity is not None:
             raise ApiValueError(
                 "can not use cvss_v2_severity with cvss_v3_severity")
 
     def _verify_vulnerable(self,
                            is_vulnerable: FLAG,
-                           cpe_name: str | None,):
+                           cpe_name: str,):
         if is_vulnerable is FLAG.TRUE and cpe_name is None:
             raise ApiValueError("must use is_vulnerable with cpe_name")
 
     def _verify_keyword(self,
                         keyword_exact_match: FLAG,
-                        keyword_search: str | None,):
+                        keyword_search: str,):
         if keyword_exact_match is FLAG.TRUE and keyword_search is None:
             raise ApiValueError(
                 "must use keyword_exact_match with keyword_search")
@@ -318,7 +318,7 @@ class NvdApiClient(object):
                             "CVE Rejected",
                             "CVE Unrejected")
 
-        if event_name not in VALID_EVENT_NAME:
+        if event_name is not None and event_name not in VALID_EVENT_NAME:
             raise ApiValueError("invalid event name")
 
     def _sleep(self, wait_time: int = None):
