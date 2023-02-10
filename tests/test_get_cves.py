@@ -288,6 +288,16 @@ class TestGetCves(unittest.TestCase):
             )
             pprint(response)
 
+    def test_invalid_last_mod_date_range(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                last_mod_start_date="2018-12-01T00:00:00.000",
+                last_mod_end_date="2019-04-01T00:00:00.000",  # 121 days
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
     def test_invalid_pub_start_date(self):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
@@ -303,6 +313,16 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 pub_start_date="2006-05-15T00:00:00.000",
                 pub_end_date="invalid datetime",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
+    def test_invalid_pub_date_range(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                pub_start_date="2018-12-01T00:00:00.000",
+                pub_end_date="2019-04-01T00:00:00.000",  # 121 days
                 results_per_page=1,
                 start_index=1
             )
