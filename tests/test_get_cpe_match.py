@@ -12,7 +12,7 @@
 import unittest
 from pprint import pprint
 
-from client import NvdApiClient
+from nvd_api.client import NvdApiClient
 from nvd_api.exceptions import ApiValueError, NotFoundException
 
 

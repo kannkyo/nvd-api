@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../src/'))
 # -- Project information -----------------------------------------------------
 
 project = 'NVD API Client'
-copyright = '2022, kannkyo'
+copyright = '2023, kannkyo'
 author = 'kannkyo'
 
 
@@ -33,7 +33,8 @@ extensions = [
     'recommonmark',
     'sphinx_markdown_tables',
     'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
