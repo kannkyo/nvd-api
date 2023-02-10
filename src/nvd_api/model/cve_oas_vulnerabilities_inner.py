@@ -190,7 +190,7 @@ class CveOasVulnerabilitiesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cve: list[CveOasVulnerabilitiesInnerCve], *args, **kwargs):  # noqa: E501
+    def __init__(self, cve, *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInner - a model defined in OpenAPI
 
         Args:
