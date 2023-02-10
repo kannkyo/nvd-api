@@ -94,6 +94,17 @@ class TestGetCveHistory(unittest.TestCase):
             )
             pprint(response)
 
+    def test_invalid_event_name(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                change_start_date="2021-08-04T00:00:00.000",
+                change_end_date="2021-10-23T00:00:00.000",
+                event_name="INVALID",
+                results_per_page=1,
+                start_index=1
+            )
+            pprint(response)
+
     def test_invalid_results_per_page(self):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cve_history(

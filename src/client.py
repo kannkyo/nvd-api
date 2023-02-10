@@ -144,6 +144,7 @@ class NvdApiClient(object):
         """
 
         self._verify_change_dates(change_start_date, change_end_date)
+        self._verify_event_name(event_name)
 
         kwargs = dict(change_start_date=change_start_date,
                       change_end_date=change_end_date,
@@ -303,6 +304,22 @@ class NvdApiClient(object):
         if keyword_exact_match is FLAG.TRUE and keyword_search is None:
             raise ApiValueError(
                 "must use keyword_exact_match with keyword_search")
+
+    def _verify_event_name(self, event_name: str):
+        VALID_EVENT_NAME = ("Initial Analysis",
+                            "Reanalysis",
+                            "CVE Modified",
+                            "Modified Analysis",
+                            "CVE Translated",
+                            "Vendor Comment",
+                            "CVE Source Update",
+                            "CPE Deprecation Remap",
+                            "CWE Remap",
+                            "CVE Rejected",
+                            "CVE Unrejected")
+
+        if event_name not in VALID_EVENT_NAME:
+            raise ApiValueError("invalid event name")
 
     def _sleep(self, wait_time: int = None):
         if wait_time is None:
