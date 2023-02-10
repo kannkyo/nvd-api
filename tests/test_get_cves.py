@@ -184,8 +184,8 @@ class TestGetCves(unittest.TestCase):
 
     def test_valid_iso_datetime_format(self):
         response = self.client.get_cves(
-            last_mod_start_date="2018/10/10T00:00:00.000",
-            last_mod_end_date="2018-10-20T00:00:00.000Z",
+            last_mod_start_date="2018-10-10T00:00:00.000",
+            last_mod_end_date="2018-10-20T00:00:00.000",
             pub_start_date="2006-05-15T00:00:00.000+09:00",
             pub_end_date="2006-05-25T00:00:00",
             results_per_page=1,

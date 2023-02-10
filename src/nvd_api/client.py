@@ -261,9 +261,17 @@ class NvdApiClient(object):
 
         return ret
 
-    def _convert_datetime(self, d: datetime):
-        d = datetime.fromisoformat(d) if type(d) == str else d
-        return d
+    def _convert_datetime(self, dt) -> datetime:
+        if type(dt) == str:
+            try:
+                dt = datetime.fromisoformat(dt)
+            except ValueError as e:
+                raise ApiValueError(e)
+
+        if dt is not None:
+            dt = dt.replace(tzinfo=None)
+
+        return dt
 
     def _verify_change_dates(self,
                              change_start_date: datetime,
