@@ -38,7 +38,7 @@ jobs:
         run: poetry run sphinx
 
       - name: Setup Pages
-        uses: actions/configure-pages@5992ce8fd557229bb0e98f78a89136a149cc9758
+        uses: actions/configure-pages@37538b280cbfab35da9dcd936a2b95f1f522d927
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@253fd476ed429e83b7aae64a92a75b4ceb1a17cf
