@@ -40,7 +40,9 @@ class ProductsApi(object):
         self.get_cpe_match_endpoint = _Endpoint(
             settings={
                 'response_type': (CpeMatchOas,),
-                'auth': [],
+                'auth': [
+                    'ApiKeyAuth'
+                ],
                 'endpoint_path': '/cpematch/2.0/',
                 'operation_id': 'get_cpe_match',
                 'http_method': 'GET',
@@ -130,7 +132,9 @@ class ProductsApi(object):
         self.get_cpes_endpoint = _Endpoint(
             settings={
                 'response_type': (CpeOas,),
-                'auth': [],
+                'auth': [
+                    'ApiKeyAuth'
+                ],
                 'endpoint_path': '/cpes/2.0/',
                 'operation_id': 'get_cpes',
                 'http_method': 'GET',

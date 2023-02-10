@@ -23,6 +23,8 @@ paths:
       operationId: getCves
       summary: "CVE API"
       tags: ["Vulnerabilities"]
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: cpeName
           in: query
@@ -203,6 +205,8 @@ paths:
       operationId: getCveHistory
       summary: "CVE Change History API"
       tags: ["Vulnerabilities"]
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: changeStartDate
           in: query
@@ -259,6 +263,8 @@ paths:
       operationId: getCpes
       summary: "CPE API"
       tags: ["Products"]
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: cpeNameId
           in: query
@@ -337,6 +343,8 @@ paths:
       operationId: getCpeMatch
       summary: "Match Criteria API"
       tags: ["Products"]
+      security:
+        - ApiKeyAuth: []
       parameters:
         - name: cveId
           in: query
@@ -388,3 +396,12 @@ paths:
             application/json:
               schema:
                 $ref: "cpe.match.oas.yml"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: apiKey
+security:
+  - ApiKeyAuth: []

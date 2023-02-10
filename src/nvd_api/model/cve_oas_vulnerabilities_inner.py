@@ -28,7 +28,6 @@ from nvd_api.model_utils import (  # noqa: F401
     OpenApiModel
 )
 from nvd_api.exceptions import ApiAttributeError
-from nvd_api.model.cve_oas_vulnerabilities_inner_cve import CveOasVulnerabilitiesInnerCve  # noqa E501
 
 
 def lazy_import():
