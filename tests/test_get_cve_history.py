@@ -14,7 +14,7 @@ import unittest
 from pprint import pprint
 
 from nvd_api.client import EVENT_NAME, NvdApiClient
-from nvd_api.exceptions import ApiValueError, NotFoundException
+from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCveHistory(unittest.TestCase):
