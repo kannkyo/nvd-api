@@ -93,6 +93,7 @@ class CpeOasProductsInnerCpe(ModelNormal):
             'titles': ([CpeOasProductsInnerCpeTitlesInner],),  # noqa: E501
             'refs': ([CpeOasProductsInnerCpeRefsInner],),  # noqa: E501
             'deprecated_by': ([CpeOasProductsInnerCpeDeprecatedByInner],),  # noqa: E501
+            'deprecates': ([CpeOasProductsInnerCpeDeprecatedByInner],),  # noqa: E501
         }
 
     @cached_property
@@ -109,6 +110,7 @@ class CpeOasProductsInnerCpe(ModelNormal):
         'titles': 'titles',  # noqa: E501
         'refs': 'refs',  # noqa: E501
         'deprecated_by': 'deprecatedBy',  # noqa: E501
+        'deprecates': 'deprecates',  # noqa: E501
     }
 
     read_only_vars = {
@@ -162,6 +164,7 @@ class CpeOasProductsInnerCpe(ModelNormal):
             titles ([CpeOasProductsInnerCpeTitlesInner]): [optional]  # noqa: E501
             refs ([CpeOasProductsInnerCpeRefsInner]): [optional]  # noqa: E501
             deprecated_by ([CpeOasProductsInnerCpeDeprecatedByInner]): [optional]  # noqa: E501
+            deprecates ([CpeOasProductsInnerCpeDeprecatedByInner]): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -262,6 +265,7 @@ class CpeOasProductsInnerCpe(ModelNormal):
             titles ([CpeOasProductsInnerCpeTitlesInner]): [optional]  # noqa: E501
             refs ([CpeOasProductsInnerCpeRefsInner]): [optional]  # noqa: E501
             deprecated_by ([CpeOasProductsInnerCpeDeprecatedByInner]): [optional]  # noqa: E501
+            deprecates ([CpeOasProductsInnerCpeDeprecatedByInner]): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -13,7 +13,7 @@ import os
 import unittest
 from pprint import pprint
 
-from nvd_api.client import FLAG, NvdApiClient
+from nvd_api.client import FLAG, VERSION_TYPE, NvdApiClient
 from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
@@ -73,6 +73,7 @@ class TestGetCves(unittest.TestCase):
             has_cert_notes=FLAG.TRUE,
             has_kev=FLAG.TRUE,
             has_oval=FLAG.TRUE,
+            no_rejected=FLAG.TRUE,
             results_per_page=1,
             start_index=1
         )
@@ -106,6 +107,19 @@ class TestGetCves(unittest.TestCase):
             results_per_page=1,
             start_index=1,
             virtual_match_string="cpe:2.3:*:*:*:*:*:*:de"
+        )
+        pprint(response)
+        assert (len(response.vulnerabilities) > 0)
+
+    def test_get_by_version_range(self):
+        response = self.client.get_cves(
+            virtual_match_string='cpe:2.3:o:linux:linux_kernel',
+            version_start='2.2',
+            version_start_type=VERSION_TYPE.INCLUDING,
+            version_end='2.6',
+            version_end_type=VERSION_TYPE.EXCLUDING,
+            results_per_page=1,
+            start_index=0,
         )
         pprint(response)
         assert (len(response.vulnerabilities) > 0)
@@ -184,6 +198,54 @@ class TestGetCves(unittest.TestCase):
                 cwe_id="CWE-384",
                 is_vulnerable=FLAG.TRUE,
                 source_identifier="nvd@nist.gov"
+            )
+            pprint(response)
+
+    def test_use_version_start_without_version_start_type(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                virtual_match_string='cpe:2.3:o:linux:linux_kernel',
+                version_start='2.2',
+                version_end='2.6',
+                version_end_type=VERSION_TYPE.EXCLUDING,
+                results_per_page=1,
+                start_index=0,
+            )
+            pprint(response)
+
+    def test_use_version_start_type_without_version_start(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                virtual_match_string='cpe:2.3:o:linux:linux_kernel',
+                version_start_type=VERSION_TYPE.INCLUDING,
+                version_end='2.6',
+                version_end_type=VERSION_TYPE.EXCLUDING,
+                results_per_page=1,
+                start_index=0,
+            )
+            pprint(response)
+
+    def test_use_version_end_without_version_end_type(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                virtual_match_string='cpe:2.3:o:linux:linux_kernel',
+                version_start='2.2',
+                version_start_type=VERSION_TYPE.INCLUDING,
+                version_end='2.6',
+                results_per_page=1,
+                start_index=0,
+            )
+            pprint(response)
+
+    def test_use_version_end_type_without_version_end(self):
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                virtual_match_string='cpe:2.3:o:linux:linux_kernel',
+                version_start='2.2',
+                version_start_type=VERSION_TYPE.INCLUDING,
+                version_end_type=VERSION_TYPE.EXCLUDING,
+                results_per_page=1,
+                start_index=0,
             )
             pprint(response)
 
