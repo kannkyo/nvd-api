@@ -61,6 +61,7 @@ class VulnerabilitiesApi(object):
                 'nullable': [
                 ],
                 'enum': [
+                    'event_name',
                 ],
                 'validation': [
                     'cve_id',
@@ -87,6 +88,20 @@ class VulnerabilitiesApi(object):
                     },
                 },
                 'allowed_values': {
+                    ('event_name',): {
+
+                        "INITIAL_ANALYSIS": "Initial Analysis",
+                        "REANALYSIS": "Reanalysis",
+                        "CVE_MODIFIED": "CVE Modified",
+                        "MODIFIED_ANALYSIS": "Modified Analysis",
+                        "CVE_TRANSLATED": "CVE Translated",
+                        "VENDOR_COMMENT": "Vendor Comment",
+                        "CVE_SOURCE_UPDATE": "CVE Source Update",
+                        "CPE_DEPRECATION_REMAP": "CPE Deprecation Remap",
+                        "CWE_REMAP": "CWE Remap",
+                        "CVE_REJECTED": "CVE Rejected",
+                        "CVE_UNREJECTED": "CVE Unrejected"
+                    },
                 },
                 'openapi_types': {
                     'change_start_date':
@@ -158,11 +173,16 @@ class VulnerabilitiesApi(object):
                     'keyword_search',
                     'last_mod_start_date',
                     'last_mod_end_date',
+                    'no_rejected',
                     'pub_start_date',
                     'pub_end_date',
                     'results_per_page',
                     'start_index',
                     'source_identifier',
+                    'version_end',
+                    'version_end_type',
+                    'version_start',
+                    'version_start_type',
                     'virtual_match_string',
                 ],
                 'required': [],
@@ -171,6 +191,8 @@ class VulnerabilitiesApi(object):
                 'enum': [
                     'cvss_v2_severity',
                     'cvss_v3_severity',
+                    'version_end_type',
+                    'version_start_type',
                 ],
                 'validation': [
                     'cve_id',
@@ -217,6 +239,16 @@ class VulnerabilitiesApi(object):
                         "HIGH": "HIGH",
                         "CRITICAL": "CRITICAL"
                     },
+                    ('version_end_type',): {
+
+                        "INCLUDING": "including",
+                        "EXCLUDING": "excluding"
+                    },
+                    ('version_start_type',): {
+
+                        "INCLUDING": "including",
+                        "EXCLUDING": "excluding"
+                    },
                 },
                 'openapi_types': {
                     'cpe_name':
@@ -251,6 +283,8 @@ class VulnerabilitiesApi(object):
                         (datetime,),
                     'last_mod_end_date':
                         (datetime,),
+                    'no_rejected':
+                        (str,),
                     'pub_start_date':
                         (datetime,),
                     'pub_end_date':
@@ -260,6 +294,14 @@ class VulnerabilitiesApi(object):
                     'start_index':
                         (int,),
                     'source_identifier':
+                        (str,),
+                    'version_end':
+                        (str,),
+                    'version_end_type':
+                        (str,),
+                    'version_start':
+                        (str,),
+                    'version_start_type':
                         (str,),
                     'virtual_match_string':
                         (str,),
@@ -281,11 +323,16 @@ class VulnerabilitiesApi(object):
                     'keyword_search': 'keywordSearch',
                     'last_mod_start_date': 'lastModStartDate',
                     'last_mod_end_date': 'lastModEndDate',
+                    'no_rejected': 'noRejected',
                     'pub_start_date': 'pubStartDate',
                     'pub_end_date': 'pubEndDate',
                     'results_per_page': 'resultsPerPage',
                     'start_index': 'startIndex',
                     'source_identifier': 'sourceIdentifier',
+                    'version_end': 'versionEnd',
+                    'version_end_type': 'versionEndType',
+                    'version_start': 'versionStart',
+                    'version_start_type': 'versionStartType',
                     'virtual_match_string': 'virtualMatchString',
                 },
                 'location_map': {
@@ -305,11 +352,16 @@ class VulnerabilitiesApi(object):
                     'keyword_search': 'query',
                     'last_mod_start_date': 'query',
                     'last_mod_end_date': 'query',
+                    'no_rejected': 'query',
                     'pub_start_date': 'query',
                     'pub_end_date': 'query',
                     'results_per_page': 'query',
                     'start_index': 'query',
                     'source_identifier': 'query',
+                    'version_end': 'query',
+                    'version_end_type': 'query',
+                    'version_start': 'query',
+                    'version_start_type': 'query',
                     'virtual_match_string': 'query',
                 },
                 'collection_format_map': {
@@ -437,11 +489,16 @@ class VulnerabilitiesApi(object):
             keyword_search (str): a word or phrase is found in the current description. [optional]
             last_mod_start_date (datetime): search by modified date. [optional]
             last_mod_end_date (datetime): search by modified date. [optional]
+            no_rejected (str): return the CVE API includes CVE records with the REJECT or Rejected status. [optional] if omitted the server will use the default value of ""
             pub_start_date (datetime): search by published date. [optional]
             pub_end_date (datetime): search by published date. [optional]
             results_per_page (int): max number of records (default is 2000). [optional]
             start_index (int): the index of the first match string. [optional]
             source_identifier (str): returns CVE where the exact value of sourceIdentifier appears. [optional]
+            version_end (str): return only the CVEs associated with CPEs in specific version ranges. [optional]
+            version_end_type (str): return only the CVEs associated with CPEs in specific version ranges. [optional]
+            version_start (str): return only the CVEs associated with CPEs in specific version ranges. [optional]
+            version_start_type (str): return only the CVEs associated with CPEs in specific version ranges. [optional]
             virtual_match_string (str): CVE more broadly than cpeName. [optional]
             _return_http_data_only (bool): response data without head status
                 code and headers. Default is True.

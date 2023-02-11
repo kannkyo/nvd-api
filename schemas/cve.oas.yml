@@ -1176,6 +1176,9 @@ properties:
                   - lastModified
                 additionalProperties: false
           required:
+            - id
+            - published
+            - lastModified
             - references
             - descriptions
           additionalProperties: false

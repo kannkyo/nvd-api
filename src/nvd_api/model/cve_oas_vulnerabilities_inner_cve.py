@@ -73,17 +73,17 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
     }
 
     validations = {
+        ('id',): {
+            'regex': {
+                'pattern': r'^CVE-[0-9]{4}-[0-9]{4,}$',  # noqa: E501
+            },
+        },
         ('descriptions',): {
             'min_items': 1,
         },
         ('references',): {
             'max_items': 500,
             'min_items': 0,
-        },
-        ('id',): {
-            'regex': {
-                'pattern': r'^CVE-[0-9]{4}-[0-9]{4,}$',  # noqa: E501
-            },
         },
     }
 
@@ -103,13 +103,13 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
         """
         lazy_import()
         return {
-            'descriptions': ([CveOasVulnerabilitiesInnerCveDescriptionsInner],),  # noqa: E501
-            'references': ([CveOasVulnerabilitiesInnerCveReferencesInner],),  # noqa: E501
             'id': (str,),  # noqa: E501
-            'source_identifier': (str,),  # noqa: E501
-            'vuln_status': (str,),  # noqa: E501
             'published': (datetime,),  # noqa: E501
             'last_modified': (datetime,),  # noqa: E501
+            'descriptions': ([CveOasVulnerabilitiesInnerCveDescriptionsInner],),  # noqa: E501
+            'references': ([CveOasVulnerabilitiesInnerCveReferencesInner],),  # noqa: E501
+            'source_identifier': (str,),  # noqa: E501
+            'vuln_status': (str,),  # noqa: E501
             'evaluator_comment': (str,),  # noqa: E501
             'evaluator_solution': (str,),  # noqa: E501
             'evaluator_impact': (str,),  # noqa: E501
@@ -129,13 +129,13 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
 
 
     attribute_map = {
-        'descriptions': 'descriptions',  # noqa: E501
-        'references': 'references',  # noqa: E501
         'id': 'id',  # noqa: E501
-        'source_identifier': 'sourceIdentifier',  # noqa: E501
-        'vuln_status': 'vulnStatus',  # noqa: E501
         'published': 'published',  # noqa: E501
         'last_modified': 'lastModified',  # noqa: E501
+        'descriptions': 'descriptions',  # noqa: E501
+        'references': 'references',  # noqa: E501
+        'source_identifier': 'sourceIdentifier',  # noqa: E501
+        'vuln_status': 'vulnStatus',  # noqa: E501
         'evaluator_comment': 'evaluatorComment',  # noqa: E501
         'evaluator_solution': 'evaluatorSolution',  # noqa: E501
         'evaluator_impact': 'evaluatorImpact',  # noqa: E501
@@ -156,10 +156,13 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def _from_openapi_data(cls, descriptions, references, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, id, published, last_modified, descriptions, references, *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInnerCve - a model defined in OpenAPI
 
         Args:
+            id (str):
+            published (datetime):
+            last_modified (datetime):
             descriptions ([CveOasVulnerabilitiesInnerCveDescriptionsInner]):
             references ([CveOasVulnerabilitiesInnerCveReferencesInner]):
 
@@ -194,11 +197,8 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            id (str): [optional]  # noqa: E501
             source_identifier (str): [optional]  # noqa: E501
             vuln_status (str): [optional]  # noqa: E501
-            published (datetime): [optional]  # noqa: E501
-            last_modified (datetime): [optional]  # noqa: E501
             evaluator_comment (str): [optional]  # noqa: E501
             evaluator_solution (str): [optional]  # noqa: E501
             evaluator_impact (str): [optional]  # noqa: E501
@@ -241,6 +241,9 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
+        self.id = id
+        self.published = published
+        self.last_modified = last_modified
         self.descriptions = descriptions
         self.references = references
         for var_name, var_value in kwargs.items():
@@ -263,10 +266,13 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, descriptions, references, *args, **kwargs):  # noqa: E501
+    def __init__(self, id, published, last_modified, descriptions, references, *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInnerCve - a model defined in OpenAPI
 
         Args:
+            id (str):
+            published (datetime):
+            last_modified (datetime):
             descriptions ([CveOasVulnerabilitiesInnerCveDescriptionsInner]):
             references ([CveOasVulnerabilitiesInnerCveReferencesInner]):
 
@@ -301,11 +307,8 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            id (str): [optional]  # noqa: E501
             source_identifier (str): [optional]  # noqa: E501
             vuln_status (str): [optional]  # noqa: E501
-            published (datetime): [optional]  # noqa: E501
-            last_modified (datetime): [optional]  # noqa: E501
             evaluator_comment (str): [optional]  # noqa: E501
             evaluator_solution (str): [optional]  # noqa: E501
             evaluator_impact (str): [optional]  # noqa: E501
@@ -346,6 +349,9 @@ class CveOasVulnerabilitiesInnerCve(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
+        self.id = id
+        self.published = published
+        self.last_modified = last_modified
         self.descriptions = descriptions
         self.references = references
         for var_name, var_value in kwargs.items():

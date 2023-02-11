@@ -83,6 +83,16 @@ properties:
                   cpeNameId:
                     type: string
                     format: uuid
+            deprecates:
+              type: array
+              items:
+                type: object
+                properties:
+                  cpeName:
+                    type: string
+                  cpeNameId:
+                    type: string
+                    format: uuid
           required:
             - cpeName
             - cpeNameId

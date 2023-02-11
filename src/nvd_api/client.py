@@ -19,6 +19,11 @@ class FLAG(Enum):
     FALSE = None
 
 
+class VERSION_TYPE(Enum):
+    INCLUDING = "including"
+    EXCLUDING = "excluding"
+
+
 class NvdApiClient(object):
     """NVD API Client class
     """
@@ -55,11 +60,16 @@ class NvdApiClient(object):
                  keyword_search: str = None,
                  last_mod_start_date: datetime = None,
                  last_mod_end_date: datetime = None,
+                 no_rejected: FLAG = FLAG.FALSE,
                  pub_start_date: datetime = None,
                  pub_end_date: datetime = None,
                  results_per_page: int = 2000,
                  start_index: int = None,
                  source_identifier: str = None,
+                 version_end: str = None,
+                 version_end_type: VERSION_TYPE = None,
+                 version_start: str = None,
+                 version_start_type: VERSION_TYPE = None,
                  virtual_match_string: str = None) -> CveOas:
         """CVE API  # noqa: E501
 
@@ -80,11 +90,16 @@ class NvdApiClient(object):
             keyword_search (str, optional): a word or phrase is found in the current description. Defaults to None.
             last_mod_start_date (datetime, optional): search by modified date. Defaults to None.
             last_mod_end_date (datetime, optional): search by modified date. Defaults to None.
+            no_rejected (str, optional): return the CVE API includes CVE records with the REJECT or Rejected status. Defaults to None.
             pub_start_date (datetime, optional): search by published date. Defaults to None.
             pub_end_date (datetime, optional): search by published date. Defaults to None.
             results_per_page (int, optional): max number of records (default is 2000). Defaults to None.
             start_index (int, optional): the index of the first match string. Defaults to None.
             source_identifier (str, optional): returns CVE where the exact value of sourceIdentifier appears. Defaults to None.
+            version_end (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
+            version_end_type (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
+            version_start (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
+            version_start_type (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
             virtual_match_string (str, optional): CVE more broadly than cpeName. Defaults to None.
 
         Returns:
@@ -102,6 +117,14 @@ class NvdApiClient(object):
         self._verify_pub_dates(pub_start_date, pub_end_date)
         self._verify_vulnerable(is_vulnerable, cpe_name)
         self._verify_keyword(keyword_exact_match, keyword_search)
+        self._verify_version_start(version_start, version_start_type)
+        self._verify_version_end(version_end, version_end_type)
+
+        if version_start_type:
+            version_start_type = version_start_type.value
+
+        if version_end_type:
+            version_end_type = version_end_type.value
 
         kwargs = dict(cpe_name=cpe_name,
                       cve_id=cve_id,
@@ -119,11 +142,16 @@ class NvdApiClient(object):
                       keyword_search=keyword_search,
                       last_mod_start_date=last_mod_start_date,
                       last_mod_end_date=last_mod_end_date,
+                      no_rejected=no_rejected.value,
                       pub_start_date=pub_start_date,
                       pub_end_date=pub_end_date,
                       results_per_page=results_per_page,
                       start_index=start_index,
                       source_identifier=source_identifier,
+                      version_end=version_end,
+                      version_end_type=version_end_type,
+                      version_start=version_start,
+                      version_start_type=version_start_type,
                       virtual_match_string=virtual_match_string)
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
@@ -159,7 +187,6 @@ class NvdApiClient(object):
         change_end_date = self._convert_datetime(change_end_date)
 
         self._verify_change_dates(change_start_date, change_end_date)
-        self._verify_event_name(event_name)
 
         kwargs = dict(change_start_date=change_start_date,
                       change_end_date=change_end_date,
@@ -280,6 +307,28 @@ class NvdApiClient(object):
 
         return dt
 
+    def _verify_version_start(self,
+                              version_start: str,
+                              version_start_type: VERSION_TYPE):
+        if version_start is not None and version_start_type is None:
+            raise ApiValueError(
+                "must use version_start with version_start_type")
+
+        if version_start_type is not None and version_start is None:
+            raise ApiValueError(
+                "must use version_start_type with version_end")
+
+    def _verify_version_end(self,
+                            version_end: str,
+                            version_end_type: VERSION_TYPE):
+        if version_end is not None and version_end_type is None:
+            raise ApiValueError(
+                "must use version_end with version_end_type")
+
+        if version_end_type is not None and version_end is None:
+            raise ApiValueError(
+                "must use version_end_type with version_end")
+
     def _verify_change_dates(self,
                              change_start_date: datetime,
                              change_end_date: datetime):
@@ -357,22 +406,6 @@ class NvdApiClient(object):
         if keyword_exact_match is FLAG.TRUE and keyword_search is None:
             raise ApiValueError(
                 "must use keyword_exact_match with keyword_search")
-
-    def _verify_event_name(self, event_name: str):
-        VALID_EVENT_NAME = ("Initial Analysis",
-                            "Reanalysis",
-                            "CVE Modified",
-                            "Modified Analysis",
-                            "CVE Translated",
-                            "Vendor Comment",
-                            "CVE Source Update",
-                            "CPE Deprecation Remap",
-                            "CWE Remap",
-                            "CVE Rejected",
-                            "CVE Unrejected")
-
-        if event_name is not None and event_name not in VALID_EVENT_NAME:
-            raise ApiValueError("invalid event name")
 
     def _sleep(self, wait_time: int = None):
         if wait_time is None:

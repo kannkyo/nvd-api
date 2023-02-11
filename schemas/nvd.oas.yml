@@ -150,6 +150,14 @@ paths:
           schema:
             type: string
             format: date-time
+        - name: noRejected
+          in: query
+          description: return the CVE API includes CVE records with the REJECT or Rejected status
+          required: false
+          schema:
+            type: string
+            default: ""
+          allowEmptyValue: true
         - name: pubStartDate
           in: query
           description: search by published date
@@ -185,6 +193,36 @@ paths:
           required: false
           schema:
             type: string
+        - name: versionEnd
+          in: query
+          description: return only the CVEs associated with CPEs in specific version ranges
+          required: false
+          schema:
+            type: string
+        - name: versionEndType
+          in: query
+          description: return only the CVEs associated with CPEs in specific version ranges
+          required: false
+          schema:
+            type: string
+            enum:
+              - including
+              - excluding
+        - name: versionStart
+          in: query
+          description: return only the CVEs associated with CPEs in specific version ranges
+          required: false
+          schema:
+            type: string
+        - name: versionStartType
+          in: query
+          description: return only the CVEs associated with CPEs in specific version ranges
+          required: false
+          schema:
+            type: string
+            enum:
+              - including
+              - excluding
         - name: virtualMatchString
           in: query
           description: CVE more broadly than cpeName
@@ -235,6 +273,18 @@ paths:
           required: false
           schema:
             type: string
+            enum:
+              - "Initial Analysis"
+              - "Reanalysis"
+              - "CVE Modified"
+              - "Modified Analysis"
+              - "CVE Translated"
+              - "Vendor Comment"
+              - "CVE Source Update"
+              - "CPE Deprecation Remap"
+              - "CWE Remap"
+              - "CVE Rejected"
+              - "CVE Unrejected"
         - name: resultsPerPage
           in: query
           description: max number of records (default is 5000)

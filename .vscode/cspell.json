@@ -9,7 +9,8 @@
         "pypi",
         "pypirc",
         "pytest",
-        "setuptools"
+        "setuptools",
+        "Unrejected"
     ],
     "ignoreWords": [],
     "import": []
