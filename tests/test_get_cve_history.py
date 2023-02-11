@@ -13,7 +13,7 @@ import os
 import unittest
 from pprint import pprint
 
-from nvd_api.client import NvdApiClient
+from nvd_api.client import EVENT_NAME, NvdApiClient
 from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
@@ -32,7 +32,7 @@ class TestGetCveHistory(unittest.TestCase):
         response = self.client.get_cve_history(
             change_start_date="2021-08-04T00:00:00.000",
             change_end_date="2021-10-23T00:00:00.000",
-            event_name="CVE Rejected",
+            event_name=EVENT_NAME.CVE_REJECTED,
             results_per_page=1,
             start_index=1
         )
@@ -52,7 +52,7 @@ class TestGetCveHistory(unittest.TestCase):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cve_history(
                 change_start_date="2021-08-04T00:00:00.000",
-                event_name="CVE Rejected",
+                event_name=EVENT_NAME.CVE_REJECTED,
                 results_per_page=1,
                 start_index=1
             )
@@ -62,7 +62,7 @@ class TestGetCveHistory(unittest.TestCase):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cve_history(
                 change_end_date="2021-10-23T00:00:00.000",
-                event_name="CVE Rejected",
+                event_name=EVENT_NAME.CVE_REJECTED,
                 results_per_page=1,
                 start_index=1
             )
@@ -73,7 +73,7 @@ class TestGetCveHistory(unittest.TestCase):
             response = self.client.get_cve_history(
                 change_start_date="invalid datetime",
                 change_end_date="2021-10-23T00:00:00.000",
-                event_name="CVE Rejected",
+                event_name=EVENT_NAME.CVE_REJECTED,
                 results_per_page=1,
                 start_index=1
             )
@@ -84,7 +84,7 @@ class TestGetCveHistory(unittest.TestCase):
             response = self.client.get_cve_history(
                 change_start_date="2021-08-04T00:00:00.000",
                 change_end_date="invalid datetime",
-                event_name="CVE Rejected",
+                event_name=EVENT_NAME.CVE_REJECTED,
                 results_per_page=1,
                 start_index=1
             )
@@ -95,7 +95,7 @@ class TestGetCveHistory(unittest.TestCase):
             response = self.client.get_cve_history(
                 change_start_date="2018-12-01T00:00:00.000",
                 change_end_date="2019-04-01T00:00:00.000",  # 121 days
-                event_name="CVE Rejected",
+                event_name=EVENT_NAME.CVE_REJECTED,
                 results_per_page=1,
                 start_index=1
             )

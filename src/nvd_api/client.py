@@ -24,6 +24,33 @@ class VERSION_TYPE(Enum):
     EXCLUDING = "excluding"
 
 
+class CVSS_V2_SEVERITY(Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+
+
+class CVSS_V3_SEVERITY(Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+class EVENT_NAME(Enum):
+    INITIAL_ANALYSIS = "Initial Analysis"
+    REANALYSIS = "Reanalysis"
+    CVE_MODIFIED = "CVE Modified"
+    MODIFIED_ANALYSIS = "Modified Analysis"
+    CVE_TRANSLATED = "CVE Translated"
+    VENDOR_COMMENT = "Vendor Comment"
+    CVE_SOURCE_UPDATE = "CVE Source Update"
+    CPE_DEPRECATION_REMAP = "CPE Deprecation Remap"
+    CWE_REMAP = "CWE Remap"
+    CVE_REJECTED = "CVE Rejected"
+    CVE_UNREJECTED = "CVE Unrejected"
+
+
 class NvdApiClient(object):
     """NVD API Client class
     """
@@ -47,9 +74,9 @@ class NvdApiClient(object):
                  cpe_name: str = None,
                  cve_id: str = None,
                  cvss_v2_metrics: str = None,
-                 cvss_v2_severity: str = None,
+                 cvss_v2_severity: CVSS_V2_SEVERITY = None,
                  cvss_v3_metrics: str = None,
-                 cvss_v3_severity: str = None,
+                 cvss_v3_severity: CVSS_V3_SEVERITY = None,
                  cwe_id: str = None,
                  has_cert_alerts: FLAG = FLAG.FALSE,
                  has_cert_notes: FLAG = FLAG.FALSE,
@@ -77,9 +104,9 @@ class NvdApiClient(object):
             cpe_name (str, optional): CPE Name. Defaults to None.
             cve_id (str, optional): CVE ID. Defaults to None.
             cvss_v2_metrics (str, optional): CVSSv2 vector string. Defaults to None.
-            cvss_v2_severity (str, optional): CVSSv2 qualitative severity rating. Defaults to None.
+            cvss_v2_severity (CVSS_V2_SEVERITY, optional): CVSSv2 qualitative severity rating. Defaults to None.
             cvss_v3_metrics (str, optional): CVSSv3 vector string. Defaults to None.
-            cvss_v3_severity (str, optional): CVSSv3 qualitative severity rating. Defaults to None.
+            cvss_v3_severity (CVSS_V3_SEVERITY, optional): CVSSv3 qualitative severity rating. Defaults to None.
             cwe_id (str, optional): CWE ID. Defaults to None.
             has_cert_alerts (FLAG, optional): contain a Technical Alert from US-CERT. Defaults to None.
             has_cert_notes (FLAG, optional): contain a Vulnerability Note from CERT/CC. Defaults to None.
@@ -97,14 +124,26 @@ class NvdApiClient(object):
             start_index (int, optional): the index of the first match string. Defaults to None.
             source_identifier (str, optional): returns CVE where the exact value of sourceIdentifier appears. Defaults to None.
             version_end (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
-            version_end_type (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
+            version_end_type (VERSION_TYPE, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
             version_start (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
-            version_start_type (str, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
+            version_start_type (VERSION_TYPE, optional): return only the CVEs associated with CPEs in specific version ranges. Defaults to None.
             virtual_match_string (str, optional): CVE more broadly than cpeName. Defaults to None.
 
         Returns:
             AsyncResult: API Result
         """
+
+        if type(cvss_v2_severity) == CVSS_V2_SEVERITY:
+            cvss_v2_severity = cvss_v2_severity.value
+
+        if type(cvss_v3_severity) == CVSS_V3_SEVERITY:
+            cvss_v3_severity = cvss_v3_severity.value
+
+        if type(version_start_type) == VERSION_TYPE:
+            version_start_type = version_start_type.value
+
+        if type(version_end_type) == VERSION_TYPE:
+            version_end_type = version_end_type.value
 
         last_mod_start_date = self._convert_datetime(last_mod_start_date)
         last_mod_end_date = self._convert_datetime(last_mod_end_date)
@@ -119,12 +158,6 @@ class NvdApiClient(object):
         self._verify_keyword(keyword_exact_match, keyword_search)
         self._verify_version_start(version_start, version_start_type)
         self._verify_version_end(version_end, version_end_type)
-
-        if version_start_type:
-            version_start_type = version_start_type.value
-
-        if version_end_type:
-            version_end_type = version_end_type.value
 
         kwargs = dict(cpe_name=cpe_name,
                       cve_id=cve_id,
@@ -166,7 +199,7 @@ class NvdApiClient(object):
                         change_start_date: datetime = None,
                         change_end_date: datetime = None,
                         cve_id: str = None,
-                        event_name: str = None,
+                        event_name: EVENT_NAME = None,
                         results_per_page: int = None,
                         start_index: int = None) -> CveHistoryOas:
         """CVE Change History API  # noqa: E501
@@ -175,13 +208,16 @@ class NvdApiClient(object):
             change_start_date (datetime, optional): search by changed date. Defaults to None.
             change_end_date (datetime, optional): search by changed date. Defaults to None.
             cve_id (str, optional): CVE ID. Defaults to None.
-            event_name (str, optional): returns all CVE associated with a specific type of change event. Defaults to None.
+            event_name (EVENT_NAME, optional): returns all CVE associated with a specific type of change event. Defaults to None.
             results_per_page (int, optional): max number of records (default is 5000). Defaults to None.
             start_index (int, optional): the index of the first match string. Defaults to None.
 
         Returns:
             CveHistoryOas: API Result
         """
+
+        if type(event_name) == EVENT_NAME:
+            event_name = event_name.value
 
         change_start_date = self._convert_datetime(change_start_date)
         change_end_date = self._convert_datetime(change_end_date)

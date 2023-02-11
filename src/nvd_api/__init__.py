@@ -14,4 +14,9 @@
 __version__ = "1.0.0"
 
 # import NvdApiClient
-from nvd_api.client import NvdApiClient, FLAG
+from nvd_api.client import FLAG
+from nvd_api.client import VERSION_TYPE
+from nvd_api.client import CVSS_V2_SEVERITY
+from nvd_api.client import CVSS_V3_SEVERITY
+from nvd_api.client import EVENT_NAME
+from nvd_api.client import NvdApiClient

@@ -13,7 +13,8 @@ import os
 import unittest
 from pprint import pprint
 
-from nvd_api.client import FLAG, VERSION_TYPE, NvdApiClient
+from nvd_api.client import (CVSS_V2_SEVERITY, CVSS_V3_SEVERITY, FLAG,
+                            VERSION_TYPE, NvdApiClient)
 from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
@@ -49,7 +50,7 @@ class TestGetCves(unittest.TestCase):
         response = self.client.get_cves(
             cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
             cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
-            cvss_v2_severity="HIGH",
+            cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
             results_per_page=1,
             start_index=1
         )
@@ -60,7 +61,7 @@ class TestGetCves(unittest.TestCase):
         response = self.client.get_cves(
             cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
             cvss_v3_metrics="AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
-            cvss_v3_severity="HIGH",
+            cvss_v3_severity=CVSS_V3_SEVERITY.HIGH,
             results_per_page=1,
             start_index=0
         )
@@ -175,8 +176,8 @@ class TestGetCves(unittest.TestCase):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
-                cvss_v2_severity="HIGH",
-                cvss_v3_severity="HIGH",
+                cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
+                cvss_v3_severity=CVSS_V3_SEVERITY.HIGH,
                 results_per_page=1,
                 start_index=1
             )
@@ -285,7 +286,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="INVALID:L/AC:L/Au:N/C:C/I:C/A:C",
-                cvss_v2_severity="HIGH",
+                cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
                 results_per_page=1,
                 start_index=1
             )
@@ -307,7 +308,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v3_metrics="INVALID:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
-                cvss_v3_severity="HIGH",
+                cvss_v3_severity=CVSS_V3_SEVERITY.HIGH,
                 results_per_page=1,
                 start_index=0
             )
@@ -409,7 +410,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
-                cvss_v2_severity="HIGH",
+                cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
                 results_per_page=2001,
                 start_index=1
             )
@@ -419,7 +420,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
-                cvss_v2_severity="HIGH",
+                cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
                 results_per_page=-1,
                 start_index=1
             )
@@ -430,7 +431,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
-                cvss_v2_severity="HIGH",
+                cvss_v2_severity=CVSS_V2_SEVERITY.HIGH,
                 results_per_page=1,
                 start_index=-1
             )
