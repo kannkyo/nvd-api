@@ -4,6 +4,9 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "CISA",
+        "cpes",
+        "cves",
         "distutils",
         "openapi",
         "pypi",

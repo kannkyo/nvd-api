@@ -15,7 +15,7 @@ from pprint import pprint
 
 from nvd_api.client import (CVSS_V2_SEVERITY, CVSS_V3_SEVERITY, FLAG,
                             VERSION_TYPE, NvdApiClient)
-from nvd_api.exceptions import ApiValueError, NotFoundException
+from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCves(unittest.TestCase):

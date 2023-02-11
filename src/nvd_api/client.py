@@ -1,13 +1,13 @@
-from enum import Enum
 import logging
 import time
 from datetime import datetime
-from nvd_api.api_client import ApiClient
-from nvd_api.configuration import Configuration
-from nvd_api.models import CpeMatchOas, CpeOas, CveHistoryOas, CveOas
+from enum import Enum
 
-from nvd_api.apis import VulnerabilitiesApi, ProductsApi  # noqa: E501
-from nvd_api.exceptions import ApiValueError  # noqa: E501
+from nvd_api.low_api.api_client import ApiClient
+from nvd_api.low_api.apis import ProductsApi, VulnerabilitiesApi
+from nvd_api.low_api.configuration import Configuration
+from nvd_api.low_api.exceptions import ApiValueError
+from nvd_api.low_api.models import CpeMatchOas, CpeOas, CveHistoryOas, CveOas
 
 logger = logging.getLogger()
 
