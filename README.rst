@@ -53,6 +53,7 @@ This API's simple example is bellow.
 * If filtering by keywordExactMatch, keywordSearch is REQUIRED.
 * If filtering by the last modified date, both lastModStartDate and lastModEndDate are REQUIRED.
 * resultsPerPage's maximum allowable limit is 10,000.
+* The maximum allowable range when using any date range parameters is 120 consecutive days.
 
 Products / Match Criteria API
 -----------------------------
@@ -79,6 +80,8 @@ This API's simple example is bellow.
 * If filtering by the last modified date, both lastModStartDate and lastModEndDate are REQUIRED.
 * matchCriteriaId must be uuid format.
 * resultsPerPage's maximum allowable limit is 5,000.
+* The maximum allowable range when using any date range parameters is 120 consecutive days.
+* cpeName must be CPEv2.3 format.
 
 Vulnerabilities / CVE API
 ---------------------------
@@ -100,6 +103,21 @@ This API's simple example is bellow.
         start_index=1
     )
     pprint(response)
+
+* cpeName must be CPEv2.3 format.
+* cveId is must be CVE ID format.
+* cvssV2Severity, cvssV2Metrics is must be CVSS v2 format.
+* cvssV3Severity, cvssV3Metrics is must be CVSS v3 format.
+* cweId is must be CWE ID format.
+* resultsPerPage's maximum allowable limit is 2,000.
+* If filtering by keywordExactMatch, keywordSearch is REQUIRED.
+* If filtering by the last modified date, both lastModStartDate and lastModEndDate are REQUIRED.
+* If filtering by the last modified date, both pubStartDate and pubEndDate are REQUIRED.
+* The maximum allowable range when using any date range parameters is 120 consecutive days.
+* cvssV2Metrics cannot be used in requests that include cvssV3Metrics.
+* cvssV3Metrics cannot be used in requests that include cvssV2Metrics.
+* cvssV2Severity cannot be used in requests that include cvssV3Severity.
+* cvssV3Severity cannot be used in requests that include cvssV2Severity.
 
 Vulnerabilities / CVE Change History API
 -------------------------------------------
@@ -127,3 +145,28 @@ This API's simple example is bellow.
 * If filtering by the change date, both changeStartDate and changeEndDate are REQUIRED.
 * cveId is must be CVE ID format.
 * resultsPerPage's maximum allowable limit is 5,000.
+* The maximum allowable range when using any date range parameters is 120 consecutive days.
+
+With API Key
+---------------------
+
+If you have the nvd api key, you can set key to client.
+
+.. code-block:: python
+
+    from nvd_api import NvdApiClient
+    from pprint import pprint
+
+    client = NvdApiClient(wait_time=1 * 1000, api_key='THIS IS API KEY')
+
+    response = client.get_cves(
+        cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
+        cvss_v2_metrics="AV:L/AC:L/Au:N/C:C/I:C/A:C",
+        cvss_v2_severity="HIGH",
+        results_per_page=1,
+        start_index=1
+    )
+    pprint(response)
+
+* api_key : api key published by nvd.
+* wait_time : interval time to execute api (with api key is 50 requests in a rolling 30s window, without api key is 5 requests in a rolling 30s window)
