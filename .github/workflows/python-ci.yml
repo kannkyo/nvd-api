@@ -59,6 +59,8 @@ jobs:
 
       - name: Test python code by pytest
         continue-on-error: true
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
         run: poetry run pytest
 
       - name: Publish pytest report to PR

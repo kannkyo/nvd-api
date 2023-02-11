@@ -40,7 +40,9 @@ class VulnerabilitiesApi(object):
         self.get_cve_history_endpoint = _Endpoint(
             settings={
                 'response_type': (CveHistoryOas,),
-                'auth': [],
+                'auth': [
+                    'ApiKeyAuth'
+                ],
                 'endpoint_path': '/cvehistory/2.0/',
                 'operation_id': 'get_cve_history',
                 'http_method': 'GET',
@@ -130,7 +132,9 @@ class VulnerabilitiesApi(object):
         self.get_cves_endpoint = _Endpoint(
             settings={
                 'response_type': (CveOas,),
-                'auth': [],
+                'auth': [
+                    'ApiKeyAuth'
+                ],
                 'endpoint_path': '/cves/2.0/',
                 'operation_id': 'get_cves',
                 'http_method': 'GET',

@@ -9,16 +9,21 @@
 """
 
 
+import os
 import unittest
 from pprint import pprint
 
 from nvd_api.client import NvdApiClient
-from nvd_api.exceptions import ApiValueError
+from nvd_api.exceptions import ApiValueError, NotFoundException
 
 
 class TestGetCveHistory(unittest.TestCase):
     def setUp(self):
-        self.client = NvdApiClient(wait_time=15 * 1000)  # noqa: E501
+        api_key = os.getenv('NVD_API_KEY')
+        if api_key:
+            self.client = NvdApiClient(wait_time=1 * 1000, api_key=api_key)  # noqa: E501
+        else:
+            self.client = NvdApiClient(wait_time=10 * 1000)  # noqa: E501
 
     def tearDown(self):
         pass
@@ -139,6 +144,16 @@ class TestGetCveHistory(unittest.TestCase):
                 cve_id="CVE-2019-1010218",
                 results_per_page=1,
                 start_index=-1
+            )
+            pprint(response)
+
+    def test_invalid_api_key(self):
+        with self.assertRaises(NotFoundException):
+            client = NvdApiClient(wait_time=15 * 1000, api_key='invalid key')
+            response = client.get_cve_history(
+                cve_id="CVE-2019-1010218",
+                results_per_page=1,
+                start_index=1
             )
             pprint(response)
 

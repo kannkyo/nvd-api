@@ -2,6 +2,8 @@ from enum import Enum
 import logging
 import time
 from datetime import datetime
+from nvd_api.api_client import ApiClient
+from nvd_api.configuration import Configuration
 from nvd_api.models import CpeMatchOas, CpeOas, CveHistoryOas, CveOas
 
 from nvd_api.apis import VulnerabilitiesApi, ProductsApi  # noqa: E501
@@ -21,14 +23,19 @@ class NvdApiClient(object):
     """NVD API Client class
     """
 
-    def __init__(self, wait_time: int = 6000):
+    def __init__(self, wait_time: int = 6000, api_key=None):
         """Constructor  # noqa: E501
 
         Args:
             wait_time (int, optional): wait time (ms) after api execution. Defaults to 6000.
         """
-        self._vulnerabilities_api = VulnerabilitiesApi()
-        self._products_api = ProductsApi()
+        configuration = Configuration()
+        if api_key:
+            configuration.api_key['ApiKeyAuth'] = api_key
+        api_client = ApiClient(configuration)
+
+        self._vulnerabilities_api = VulnerabilitiesApi(api_client)
+        self._products_api = ProductsApi(api_client)
         self.wait_time = wait_time
 
     def get_cves(self,
