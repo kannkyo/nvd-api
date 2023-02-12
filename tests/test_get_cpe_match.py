@@ -11,10 +11,12 @@
 
 import os
 import unittest
+from datetime import datetime
 from pprint import pprint
 
 from nvd_api.client import NvdApiClient
 from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
+from nvd_api.low_api.models import CpeMatchOasMatchStringsInnerMatchString
 
 
 class TestGetCpeMatch(unittest.TestCase):
@@ -35,7 +37,30 @@ class TestGetCpeMatch(unittest.TestCase):
             start_index=0
         )
         pprint(response)
+
+        assert response.results_per_page == 1
+        assert response.start_index == 0
+        assert response.total_results == 6
+        assert response.format == 'NVD_CPEMatchString'
+        assert response.version == '2.0'
+        assert response.timestamp is not None
+
         assert (len(response.match_strings) > 0)
+
+        cpe_match: CpeMatchOasMatchStringsInnerMatchString = response.match_strings[0].match_string  # noqa
+
+        assert cpe_match.match_criteria_id == "A2572D17-1DE6-457B-99CC-64AFD54487EA"  # noqa
+        assert cpe_match.criteria == "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"  # noqa
+        assert cpe_match.last_modified == datetime(2022, 9, 26, 22, 47, 53, 533000)  # noqa
+        assert cpe_match.cpe_last_modified == datetime(2021, 3, 3, 22, 41, 34, 363000)  # noqa
+        assert cpe_match.created == datetime(2019, 6, 17, 9, 16, 33, 960000)  # noqa
+        assert cpe_match.status == "Active"
+        assert cpe_match.matches[0].cpe_name == "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:*:*"  # noqa
+        assert cpe_match.matches[0].cpe_name_id == "32D33F53-B7FC-4674-BD03-299D70A278F3"  # noqa
+        assert cpe_match.matches[1].cpe_name == "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:x64:*"  # noqa
+        assert cpe_match.matches[1].cpe_name_id == "2470AF67-0E77-4E85-92E8-79DE0D826055"  # noqa
+        assert cpe_match.matches[2].cpe_name == "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:x86:*"  # noqa
+        assert cpe_match.matches[2].cpe_name_id == "892CAEC7-9569-4385-8335-239B83D58837"  # noqa
 
     def test_get_by_date(self):
         response = self.client.get_cpe_match(
