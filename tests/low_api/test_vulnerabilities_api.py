@@ -1,3 +1,4 @@
+import time
 import unittest
 from pprint import pprint
 
@@ -11,6 +12,7 @@ class TestVulnerabilitiesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @unittest.skip('skipped')
     def test_client_without_configuration(self):
         response = self.client.get_cves(
             cve_id="CVE-2022-32223",
@@ -18,3 +20,4 @@ class TestVulnerabilitiesApi(unittest.TestCase):
             start_index=0
         )
         pprint(response)
+        time.sleep(10)

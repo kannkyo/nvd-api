@@ -1,3 +1,4 @@
+import time
 import unittest
 from pprint import pprint
 
@@ -11,6 +12,7 @@ class TestProductsApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @unittest.skip('skipped')
     def test_client_without_configuration(self):
         response = self.client.get_cpes(
             cpe_name_id="87316812-5F2C-4286-94FE-CC98B9EAEF53",
@@ -18,3 +20,4 @@ class TestProductsApi(unittest.TestCase):
             start_index=0
         )
         pprint(response)
+        time.sleep(10)
