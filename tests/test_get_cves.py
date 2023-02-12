@@ -13,8 +13,8 @@ import os
 import unittest
 from pprint import pprint
 
-from nvd_api.client import (CVSS_V2_SEVERITY, CVSS_V3_SEVERITY, FLAG,
-                            VERSION_TYPE, NvdApiClient)
+from nvd_api.client import (CVSS_V2_SEVERITY, CVSS_V3_SEVERITY, VERSION_TYPE,
+                            NvdApiClient)
 from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
 
 
@@ -34,7 +34,7 @@ class TestGetCves(unittest.TestCase):
             cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
             cve_id="CVE-2019-4227",
             cwe_id="CWE-384",
-            is_vulnerable=FLAG.TRUE,
+            is_vulnerable=True,
             source_identifier="nvd@nist.gov"
         )
         pprint(response)
@@ -70,11 +70,11 @@ class TestGetCves(unittest.TestCase):
 
     def test_get_by_has_flags(self):
         response = self.client.get_cves(
-            has_cert_alerts=FLAG.TRUE,
-            has_cert_notes=FLAG.TRUE,
-            has_kev=FLAG.TRUE,
-            has_oval=FLAG.TRUE,
-            no_rejected=FLAG.TRUE,
+            has_cert_alerts=True,
+            has_cert_notes=True,
+            has_kev=True,
+            has_oval=True,
+            no_rejected=True,
             results_per_page=1,
             start_index=1
         )
@@ -83,7 +83,7 @@ class TestGetCves(unittest.TestCase):
 
     def test_get_by_keywords(self):
         response = self.client.get_cves(
-            keyword_exact_match=FLAG.TRUE,
+            keyword_exact_match=True,
             keyword_search="CentOS",
             results_per_page=1,
             start_index=1
@@ -186,7 +186,7 @@ class TestGetCves(unittest.TestCase):
     def test_use_keyword_exact_match_without_keyword_search(self):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
-                keyword_exact_match=FLAG.TRUE,
+                keyword_exact_match=True,
                 results_per_page=1,
                 start_index=1
             )
@@ -197,7 +197,7 @@ class TestGetCves(unittest.TestCase):
             response = self.client.get_cves(
                 cve_id="CVE-2019-4227",
                 cwe_id="CWE-384",
-                is_vulnerable=FLAG.TRUE,
+                is_vulnerable=True,
                 source_identifier="nvd@nist.gov"
             )
             pprint(response)
@@ -266,7 +266,7 @@ class TestGetCves(unittest.TestCase):
         with self.assertRaises(NotFoundException):
             response = self.client.get_cves(
                 cpe_name="INVALID:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
-                is_vulnerable=FLAG.TRUE
+                is_vulnerable=True
             )
             pprint(response)
 
@@ -276,7 +276,7 @@ class TestGetCves(unittest.TestCase):
                 cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
                 cve_id="INVALID-2019-4227",
                 cwe_id="CWE-384",
-                is_vulnerable=FLAG.TRUE,
+                is_vulnerable=True,
                 source_identifier="nvd@nist.gov"
             )
             pprint(response)
@@ -331,7 +331,7 @@ class TestGetCves(unittest.TestCase):
                 cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
                 cve_id="CVE-2019-4227",
                 cwe_id="INVALID-384",
-                is_vulnerable=FLAG.TRUE,
+                is_vulnerable=True,
                 source_identifier="nvd@nist.gov"
             )
             pprint(response)
@@ -444,10 +444,19 @@ class TestGetCves(unittest.TestCase):
                 cpe_name="cpe:2.3:a:ibm:mq:9.0.0.0:*:*:*:lts:*:*:*",
                 cve_id="CVE-2019-4227",
                 cwe_id="CWE-384",
-                is_vulnerable=FLAG.TRUE,
+                is_vulnerable=True,
                 source_identifier="nvd@nist.gov"
             )
             pprint(response)
+
+    def test_max_page_limit(self):
+        max_limit = NvdApiClient.MAX_PAGE_LIMIT_CVE_API
+        response = self.client.get_cves(results_per_page=max_limit)
+        assert (len(response.vulnerabilities) > 0)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cves(
+                results_per_page=max_limit + 1)
 
 
 if __name__ == '__main__':

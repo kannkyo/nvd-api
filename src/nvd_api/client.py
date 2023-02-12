@@ -12,13 +12,6 @@ from nvd_api.low_api.models import CpeMatchOas, CpeOas, CveHistoryOas, CveOas
 logger = logging.getLogger()
 
 
-class FLAG(Enum):
-    """Flag class"""
-
-    TRUE = ""
-    FALSE = None
-
-
 class VERSION_TYPE(Enum):
     INCLUDING = "including"
     EXCLUDING = "excluding"
@@ -55,6 +48,11 @@ class NvdApiClient(object):
     """NVD API Client class
     """
 
+    MAX_PAGE_LIMIT_CVE_API = 2000
+    MAX_PAGE_LIMIT_CVE_HISTORY_API = 5000
+    MAX_PAGE_LIMIT_CPE_API = 10000
+    MAX_PAGE_LIMIT_CPE_MATCH_API = 5000
+
     def __init__(self, wait_time: int = 6000, api_key=None):
         """Constructor  # noqa: E501
 
@@ -78,16 +76,16 @@ class NvdApiClient(object):
                  cvss_v3_metrics: str = None,
                  cvss_v3_severity: CVSS_V3_SEVERITY = None,
                  cwe_id: str = None,
-                 has_cert_alerts: FLAG = FLAG.FALSE,
-                 has_cert_notes: FLAG = FLAG.FALSE,
-                 has_kev: FLAG = FLAG.FALSE,
-                 has_oval: FLAG = FLAG.FALSE,
-                 is_vulnerable: FLAG = FLAG.FALSE,
-                 keyword_exact_match: FLAG = FLAG.FALSE,
+                 has_cert_alerts: bool = False,
+                 has_cert_notes: bool = False,
+                 has_kev: bool = False,
+                 has_oval: bool = False,
+                 is_vulnerable: bool = False,
+                 keyword_exact_match: bool = False,
                  keyword_search: str = None,
                  last_mod_start_date: datetime = None,
                  last_mod_end_date: datetime = None,
-                 no_rejected: FLAG = FLAG.FALSE,
+                 no_rejected: bool = False,
                  pub_start_date: datetime = None,
                  pub_end_date: datetime = None,
                  results_per_page: int = 2000,
@@ -108,16 +106,16 @@ class NvdApiClient(object):
             cvss_v3_metrics (str, optional): CVSSv3 vector string. Defaults to None.
             cvss_v3_severity (CVSS_V3_SEVERITY, optional): CVSSv3 qualitative severity rating. Defaults to None.
             cwe_id (str, optional): CWE ID. Defaults to None.
-            has_cert_alerts (FLAG, optional): contain a Technical Alert from US-CERT. Defaults to None.
-            has_cert_notes (FLAG, optional): contain a Vulnerability Note from CERT/CC. Defaults to None.
-            has_kev (FLAG, optional): appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog. Defaults to None.
-            has_oval (FLAG, optional): contain information from MITRE's Open Vulnerability and Assessment Language (OVAL). Defaults to None.
-            is_vulnerable (FLAG, optional): returns only CVE associated with a specific CPE. Defaults to None.
-            keyword_exact_match (FLAG, optional): returns any CVE where a word or phrase. Defaults to None.
+            has_cert_alerts (bool, optional): contain a Technical Alert from US-CERT. Defaults to False.
+            has_cert_notes (bool, optional): contain a Vulnerability Note from CERT/CC. Defaults to False.
+            has_kev (bool, optional): appear in CISA's Known Exploited Vulnerabilities (KEV) Catalog. Defaults to False.
+            has_oval (bool, optional): contain information from MITRE's Open Vulnerability and Assessment Language (OVAL). Defaults to False.
+            is_vulnerable (bool, optional): returns only CVE associated with a specific CPE. Defaults to False.
+            keyword_exact_match (bool, optional): returns any CVE where a word or phrase. Defaults to False.
             keyword_search (str, optional): a word or phrase is found in the current description. Defaults to None.
             last_mod_start_date (datetime, optional): search by modified date. Defaults to None.
             last_mod_end_date (datetime, optional): search by modified date. Defaults to None.
-            no_rejected (str, optional): return the CVE API includes CVE records with the REJECT or Rejected status. Defaults to None.
+            no_rejected (bool, optional): return the CVE API includes CVE records with the REJECT or Rejected status. Defaults to False.
             pub_start_date (datetime, optional): search by published date. Defaults to None.
             pub_end_date (datetime, optional): search by published date. Defaults to None.
             results_per_page (int, optional): max number of records (default is 2000). Defaults to None.
@@ -159,6 +157,14 @@ class NvdApiClient(object):
         self._verify_version_start(version_start, version_start_type)
         self._verify_version_end(version_end, version_end_type)
 
+        has_cert_alerts = "" if has_cert_alerts else None
+        has_cert_notes = "" if has_cert_notes else None
+        has_kev = "" if has_kev else None
+        has_oval = "" if has_oval else None
+        is_vulnerable = "" if is_vulnerable else None
+        keyword_exact_match = "" if keyword_exact_match else None
+        no_rejected = "" if no_rejected else None
+
         kwargs = dict(cpe_name=cpe_name,
                       cve_id=cve_id,
                       cvss_v2_metrics=cvss_v2_metrics,
@@ -166,16 +172,16 @@ class NvdApiClient(object):
                       cvss_v3_metrics=cvss_v3_metrics,
                       cvss_v3_severity=cvss_v3_severity,
                       cwe_id=cwe_id,
-                      has_cert_alerts=has_cert_alerts.value,
-                      has_cert_notes=has_cert_notes.value,
-                      has_kev=has_kev.value,
-                      has_oval=has_oval.value,
-                      is_vulnerable=is_vulnerable.value,
-                      keyword_exact_match=keyword_exact_match.value,
+                      has_cert_alerts=has_cert_alerts,
+                      has_cert_notes=has_cert_notes,
+                      has_kev=has_kev,
+                      has_oval=has_oval,
+                      is_vulnerable=is_vulnerable,
+                      keyword_exact_match=keyword_exact_match,
                       keyword_search=keyword_search,
                       last_mod_start_date=last_mod_start_date,
                       last_mod_end_date=last_mod_end_date,
-                      no_rejected=no_rejected.value,
+                      no_rejected=no_rejected,
                       pub_start_date=pub_start_date,
                       pub_end_date=pub_end_date,
                       results_per_page=results_per_page,
@@ -242,7 +248,7 @@ class NvdApiClient(object):
     def get_cpes(self,
                  cpe_name_id: str = None,
                  cpe_match_string: str = None,
-                 keyword_exact_match: FLAG = FLAG.FALSE,
+                 keyword_exact_match: bool = False,
                  keyword_search: str = None,
                  last_mod_start_date: datetime = None,
                  last_mod_end_date: datetime = None,
@@ -254,7 +260,7 @@ class NvdApiClient(object):
         Args:
             cpe_name_id (str, optional): specific CPE record UUID. Defaults to None.
             cpe_match_string (str, optional): CPE Name. Defaults to None.
-            keyword_exact_match (FLAG, optional): if CPE exactly match or not. Defaults to None. Defaults to None.
+            keyword_exact_match (bool, optional): if CPE exactly match or not. Defaults to None. Defaults to False.
             keyword_search (str, optional): a word or phrase is found in the metadata title or reference links. Defaults to None.
             last_mod_start_date (datetime, optional): search CPE by modified date. Defaults to None.
             last_mod_end_date (datetime, optional): search CPE by modified date. Defaults to None.
@@ -272,9 +278,11 @@ class NvdApiClient(object):
         self._verify_last_mod_dates(last_mod_start_date, last_mod_end_date)
         self._verify_keyword(keyword_exact_match, keyword_search)
 
+        keyword_exact_match = "" if keyword_exact_match else None
+
         kwargs = dict(cpe_name_id=cpe_name_id,
                       cpe_match_string=cpe_match_string,
-                      keyword_exact_match=keyword_exact_match.value,
+                      keyword_exact_match=keyword_exact_match,
                       keyword_search=keyword_search,
                       last_mod_start_date=last_mod_start_date,
                       last_mod_end_date=last_mod_end_date,
@@ -431,15 +439,15 @@ class NvdApiClient(object):
                 "can not use cvss_v2_severity with cvss_v3_severity")
 
     def _verify_vulnerable(self,
-                           is_vulnerable: FLAG,
+                           is_vulnerable: bool,
                            cpe_name: str,):
-        if is_vulnerable is FLAG.TRUE and cpe_name is None:
+        if is_vulnerable is True and cpe_name is None:
             raise ApiValueError("must use is_vulnerable with cpe_name")
 
     def _verify_keyword(self,
-                        keyword_exact_match: FLAG,
+                        keyword_exact_match: bool,
                         keyword_search: str,):
-        if keyword_exact_match is FLAG.TRUE and keyword_search is None:
+        if keyword_exact_match is True and keyword_search is None:
             raise ApiValueError(
                 "must use keyword_exact_match with keyword_search")
 

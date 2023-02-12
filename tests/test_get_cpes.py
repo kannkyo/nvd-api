@@ -13,7 +13,7 @@ import os
 import unittest
 from pprint import pprint
 
-from nvd_api.client import FLAG, NvdApiClient
+from nvd_api.client import NvdApiClient
 from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
 
 
@@ -48,7 +48,7 @@ class TestGetCpes(unittest.TestCase):
 
     def test_get_by_keywords(self):
         response = self.client.get_cpes(
-            keyword_exact_match=FLAG.TRUE,
+            keyword_exact_match=True,
             keyword_search="Microsoft Windows",
             results_per_page=1,
             start_index=0
@@ -92,7 +92,7 @@ class TestGetCpes(unittest.TestCase):
     def test_use_keyword_exact_match_without_keyword_search(self):
         with self.assertRaises(ApiValueError):
             response = self.client.get_cpes(
-                keyword_exact_match=FLAG.TRUE
+                keyword_exact_match=True
             )
             pprint(response)
 
@@ -188,6 +188,15 @@ class TestGetCpes(unittest.TestCase):
                 start_index=0
             )
             pprint(response)
+
+    def test_max_page_limit(self):
+        max_limit = NvdApiClient.MAX_PAGE_LIMIT_CPE_API
+        response = self.client.get_cpes(results_per_page=max_limit)
+        assert (len(response.products) > 0)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpes(
+                results_per_page=max_limit + 1)
 
 
 if __name__ == '__main__':

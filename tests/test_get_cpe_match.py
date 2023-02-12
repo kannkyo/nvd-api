@@ -153,6 +153,15 @@ class TestGetCpeMatch(unittest.TestCase):
             )
             pprint(response)
 
+    def test_max_page_limit(self):
+        max_limit = NvdApiClient.MAX_PAGE_LIMIT_CPE_MATCH_API
+        response = self.client.get_cpe_match(results_per_page=max_limit)
+        assert (len(response.match_strings) > 0)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cpe_match(
+                results_per_page=max_limit + 1)
+
 
 if __name__ == '__main__':
     unittest.main()

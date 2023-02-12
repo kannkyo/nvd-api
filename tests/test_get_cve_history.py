@@ -157,6 +157,15 @@ class TestGetCveHistory(unittest.TestCase):
             )
             pprint(response)
 
+    def test_max_page_limit(self):
+        max_limit = NvdApiClient.MAX_PAGE_LIMIT_CVE_HISTORY_API
+        response = self.client.get_cve_history(results_per_page=max_limit)
+        assert (len(response.cve_changes) > 0)
+
+        with self.assertRaises(ApiValueError):
+            response = self.client.get_cve_history(
+                results_per_page=max_limit + 1)
+
 
 if __name__ == '__main__':
     unittest.main()
