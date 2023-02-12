@@ -39,11 +39,11 @@ jobs:
 
       - name: Lint python code by flake8
         continue-on-error: true
-        run: poetry run flake8 src/ tests/ --format junit-xml --output-file report.xml
+        run: poetry run flake8 src/ tests/ --exclude=src/nvd_api/low_api --format junit-xml --output-file report.xml
 
       - name: Lint python code by flake8
         continue-on-error: true
-        run: poetry run flake8 src/ tests/ --format html --htmldir=flake8
+        run: poetry run flake8 src/ tests/ --exclude=src/nvd_api/low_api --format html --htmldir=flake8
 
       - name: Publish flake8 report to PR
         uses: EnricoMi/publish-unit-test-result-action@a3caf02865c0604ad3dc1ecfcc5cdec9c41b7936
