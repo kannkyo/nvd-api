@@ -55,6 +55,11 @@ class NvdApiClient(object):
     """NVD API Client class
     """
 
+    MAX_PAGE_LIMIT_CVE_API = 2000
+    MAX_PAGE_LIMIT_CVE_HISTORY_API = 5000
+    MAX_PAGE_LIMIT_CPE_API = 10000
+    MAX_PAGE_LIMIT_CPE_MATCH_API = 5000
+
     def __init__(self, wait_time: int = 6000, api_key=None):
         """Constructor  # noqa: E501
 
