@@ -1,6 +1,5 @@
 import unittest
 from datetime import datetime
-from pprint import pprint
 
 from nvd_api.low_api.models import (
     CveOas, CveOasVulnerabilitiesInner, CveOasVulnerabilitiesInnerCve,
