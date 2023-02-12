@@ -11,10 +11,12 @@
 
 import os
 import unittest
+from datetime import datetime
 from pprint import pprint
 
 from nvd_api.client import NvdApiClient
 from nvd_api.low_api.exceptions import ApiValueError, NotFoundException
+from nvd_api.low_api.models import CpeOasProductsInnerCpe
 
 
 class TestGetCpes(unittest.TestCase):
@@ -35,7 +37,26 @@ class TestGetCpes(unittest.TestCase):
             start_index=0
         )
         pprint(response)
+
+        assert response.results_per_page == 1
+        assert response.start_index == 0
+        assert response.total_results == 1
+        assert response.format == 'NVD_CPE'
+        assert response.version == '2.0'
+        assert response.timestamp is not None
         assert (len(response.products) > 0)
+
+        cpe: CpeOasProductsInnerCpe = response.products[0].cpe
+
+        assert cpe.deprecated is False
+        assert cpe.cpe_name == "cpe:2.3:a:microsoft:access:-:*:*:*:*:*:*:*"
+        assert cpe.cpe_name_id == "87316812-5F2C-4286-94FE-CC98B9EAEF53"
+        assert cpe.last_modified == datetime(2011, 1, 12, 14, 35, 56, 427000)
+        assert cpe.created == datetime(2007, 8, 23, 21, 5, 57, 937000)
+        assert cpe.titles[0].title == "Microsoft Access"
+        assert cpe.titles[0].lang == "en"
+        assert cpe.titles[1].title == "マイクロソフト Access"
+        assert cpe.titles[1].lang == "ja"
 
     def test_get_by_cpe_match_string(self):
         response = self.client.get_cpes(
