@@ -46,7 +46,7 @@ jobs:
         run: poetry run flake8 src/ tests/ --exclude=src/nvd_api/low_api --format html --htmldir=flake8
 
       - name: Publish flake8 report to PR
-        uses: EnricoMi/publish-unit-test-result-action@a3caf02865c0604ad3dc1ecfcc5cdec9c41b7936
+        uses: EnricoMi/publish-unit-test-result-action@26dda2fabf18a9c6329223e653166444edbb7e78
         with:
           check_name: flake8 results
           junit_files: report.xml
@@ -64,7 +64,7 @@ jobs:
         run: poetry run pytest
 
       - name: Publish pytest report to PR
-        uses: EnricoMi/publish-unit-test-result-action@a3caf02865c0604ad3dc1ecfcc5cdec9c41b7936
+        uses: EnricoMi/publish-unit-test-result-action@26dda2fabf18a9c6329223e653166444edbb7e78
         with:
           check_name: pytest results
           junit_files: report.xml
