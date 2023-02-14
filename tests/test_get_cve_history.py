@@ -39,6 +39,14 @@ class TestGetCveHistory(unittest.TestCase):
         pprint(response)
         assert (len(response.cve_changes) > 0)
 
+    def test_get_all_cve_history(self):
+        response = self.client.get_all_cve_history(
+            change_start_date="2021-01-01T00:00:00.000",
+            change_end_date="2021-02-15T00:00:00.000",
+        )
+        pprint(response)
+        assert (len(response.cve_changes) > 5000)
+
     def test_get_by_cve(self):
         response = self.client.get_cve_history(
             cve_id="CVE-2019-1010218",
