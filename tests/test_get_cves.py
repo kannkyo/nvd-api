@@ -46,6 +46,14 @@ class TestGetCves(unittest.TestCase):
         assert response.timestamp is not None
         assert (len(response.vulnerabilities) > 0)
 
+    def test_get_all_cve(self):
+        response = self.client.get_all_cves(
+            pub_start_date="2021-01-01T00:00:00.000",
+            pub_end_date="2021-02-15T00:00:00.000",
+        )
+        pprint(response)
+        assert (len(response.vulnerabilities) > 2000)
+
     def test_get_by_cvss_v2(self):
         response = self.client.get_cves(
             cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",

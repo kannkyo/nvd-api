@@ -58,6 +58,13 @@ class TestGetCpes(unittest.TestCase):
         assert cpe.titles[1].title == "マイクロソフト Access"
         assert cpe.titles[1].lang == "ja"
 
+    def test_get_all_cpes(self):
+        response = self.client.get_all_cpes(
+            last_mod_start_date="2021-01-01T00:00:00.000",
+            last_mod_end_date="2021-03-01T00:00:00.000"
+        )
+        assert (len(response.products) > 10000)
+
     def test_get_by_cpe_match_string(self):
         response = self.client.get_cpes(
             cpe_match_string="cpe:2.3:*:Microsoft",
