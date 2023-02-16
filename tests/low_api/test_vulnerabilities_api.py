@@ -12,12 +12,13 @@ class TestVulnerabilitiesApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @unittest.skip('skipped')
     def test_client_without_configuration(self):
+        time.sleep(10)
         response = self.client.get_cves(
             cve_id="CVE-2022-32223",
             results_per_page=1,
             start_index=0
         )
         pprint(response)
+        assert (len(response.vulnerabilities) > 0)
         time.sleep(10)

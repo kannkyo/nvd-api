@@ -12,12 +12,13 @@ class TestProductsApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @unittest.skip('skipped')
     def test_client_without_configuration(self):
+        time.sleep(10)
         response = self.client.get_cpes(
             cpe_name_id="87316812-5F2C-4286-94FE-CC98B9EAEF53",
             results_per_page=1,
             start_index=0
         )
         pprint(response)
+        assert (len(response.products) > 0)
         time.sleep(10)
