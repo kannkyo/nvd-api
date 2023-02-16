@@ -28,8 +28,8 @@ class TestModel(unittest.TestCase):
             lang="en",
             value="hogehoge")]
         cve = CveOasVulnerabilitiesInnerCve(
-            published=datetime.now(),
             id="CVE-2022-1234",
+            published=datetime.now(),
             last_modified=datetime.now(),
             descriptions=descriptions,
             references=references)
@@ -41,6 +41,22 @@ class TestModel(unittest.TestCase):
                      version="b",
                      timestamp=datetime.now(),
                      vulnerabilities=vulnerabilities)
+        assert (cve is not None)
+
+    def test_cve_model_using_args(self):
+        references = [CveOasVulnerabilitiesInnerCveReferencesInner(
+            "http://hoge.com")]
+        descriptions = [CveOasVulnerabilitiesInnerCveDescriptionsInner(
+            "en",
+            "hogehoge")]
+        cve = CveOasVulnerabilitiesInnerCve(
+            "CVE-2022-1234",
+            datetime.now(),
+            datetime.now(),
+            descriptions,
+            references)
+        vulnerabilities = [CveOasVulnerabilitiesInner(cve=cve)]
+        cve = CveOas(1, 2, 3, "a", "b", datetime.now(), vulnerabilities)
         assert (cve is not None)
 
     def test_cve_history_model(self):
