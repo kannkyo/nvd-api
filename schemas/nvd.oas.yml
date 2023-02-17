@@ -42,14 +42,14 @@ paths:
             pattern: "^CVE-[0-9]{4}-[0-9]{4,}$"
         - name: cvssV2Metrics
           in: query
-          description: CVSSv2 vector string
+          description: CVSSv2 vector string (NEVER use with cvssV3Metrics)
           required: false
           schema:
             type: string
             # TODO: pattern
         - name: cvssV2Severity
           in: query
-          description: CVSSv2 qualitative severity rating
+          description: CVSSv2 qualitative severity rating (NEVER use with cvssV3Severity)
           required: false
           schema:
             type: string
@@ -59,14 +59,14 @@ paths:
               - HIGH
         - name: cvssV3Metrics
           in: query
-          description: CVSSv3 vector string
+          description: CVSSv3 vector string (NEVER use with cvssV2Metrics)
           required: false
           schema:
             type: string
             # TODO: pattern
         - name: cvssV3Severity
           in: query
-          description: CVSSv3 qualitative severity rating
+          description: CVSSv3 qualitative severity rating (NEVER use with cvssV2Severity)
           required: false
           schema:
             type: string
@@ -116,7 +116,7 @@ paths:
           allowEmptyValue: true
         - name: isVulnerable
           in: query
-          description: returns only CVE associated with a specific CPE
+          description: returns only CVE associated with a specific CPE (MUST use with cpeName)
           required: false
           schema:
             type: string
@@ -124,7 +124,7 @@ paths:
           allowEmptyValue: true
         - name: keywordExactMatch
           in: query
-          description: returns any CVE where a word or phrase
+          description: returns any CVE where a word or phrase (MUST use with keywordSearch)
           required: false
           schema:
             type: string
@@ -138,14 +138,14 @@ paths:
             type: string
         - name: lastModStartDate
           in: query
-          description: search by modified date
+          description: search by modified date (MUST use with lastModEndDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: lastModEndDate
           in: query
-          description: search by modified date
+          description: search by modified date (MUST use with lastModStartDate)
           required: false
           schema:
             type: string
@@ -160,21 +160,21 @@ paths:
           allowEmptyValue: true
         - name: pubStartDate
           in: query
-          description: search by published date
+          description: search by published date (MUST use with pubEndDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: pubEndDate
           in: query
-          description: search by published date
+          description: search by published date (MUST use with pubStartDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: resultsPerPage
           in: query
-          description: max number of records (default is 2000)
+          description: max number of records (default is 2000, min is 0, max is 2000)
           required: false
           schema:
             type: integer
@@ -182,7 +182,7 @@ paths:
             maximum: 2000
         - name: startIndex
           in: query
-          description: the index of the first match string
+          description: the index of the first match string ( >=0 )
           required: false
           schema:
             type: integer
@@ -195,13 +195,13 @@ paths:
             type: string
         - name: versionEnd
           in: query
-          description: return only the CVEs associated with CPEs in specific version ranges
+          description: return only the CVEs associated with CPEs in specific version ranges (MUST use with versionEndType)
           required: false
           schema:
             type: string
         - name: versionEndType
           in: query
-          description: return only the CVEs associated with CPEs in specific version ranges
+          description: return only the CVEs associated with CPEs in specific version ranges (MUST use with versionEnd)
           required: false
           schema:
             type: string
@@ -210,13 +210,13 @@ paths:
               - excluding
         - name: versionStart
           in: query
-          description: return only the CVEs associated with CPEs in specific version ranges
+          description: return only the CVEs associated with CPEs in specific version ranges (MUST use with versionStartType)
           required: false
           schema:
             type: string
         - name: versionStartType
           in: query
-          description: return only the CVEs associated with CPEs in specific version ranges
+          description: return only the CVEs associated with CPEs in specific version ranges (MUST use with versionStart)
           required: false
           schema:
             type: string
@@ -237,6 +237,10 @@ paths:
             application/json:
               schema:
                 $ref: "cve.oas.yml"
+        "403":
+          description: Request forbidden by administrative rules.
+        "404":
+          description: Invalid apiKey, Invalid parameter.
 
   /cvehistory/2.0/:
     get:
@@ -248,14 +252,14 @@ paths:
       parameters:
         - name: changeStartDate
           in: query
-          description: search by changed date
+          description: search by changed date (MUST use with changeEndDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: changeEndDate
           in: query
-          description: search by changed date
+          description: search by changed date (MUST use with changeStartDate)
           required: false
           schema:
             type: string
@@ -287,7 +291,7 @@ paths:
               - "CVE Unrejected"
         - name: resultsPerPage
           in: query
-          description: max number of records (default is 5000)
+          description: max number of records (default is 5000, min is 0, max is 5000)
           required: false
           schema:
             type: integer
@@ -295,7 +299,7 @@ paths:
             maximum: 5000
         - name: startIndex
           in: query
-          description: the index of the first match string
+          description: the index of the first match string ( >=0 )
           required: false
           schema:
             type: integer
@@ -307,6 +311,10 @@ paths:
             application/json:
               schema:
                 $ref: "cve.history.oas.yml"
+        "403":
+          description: Request forbidden by administrative rules.
+        "404":
+          description: Invalid apiKey, Invalid parameter.
 
   /cpes/2.0/:
     get:
@@ -332,7 +340,7 @@ paths:
             # TODO: pattern
         - name: keywordExactMatch
           in: query
-          description: if CPE exactly match or not
+          description: if CPE exactly match or not (MUST use with keywordSearch)
           required: false
           schema:
             type: string
@@ -346,14 +354,14 @@ paths:
             type: string
         - name: lastModStartDate
           in: query
-          description: search CPE by modified date
+          description: search CPE by modified date (MUST use with lastModEndDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: lastModEndDate
           in: query
-          description: search CPE by modified date
+          description: search CPE by modified date (MUST use with lastModStartDate)
           required: false
           schema:
             type: string
@@ -367,7 +375,7 @@ paths:
             format: uuid
         - name: resultsPerPage
           in: query
-          description: max number of CPE records (default is 10000)
+          description: max number of CPE records (default is 10000, min is 0, max is 10000)
           required: false
           schema:
             type: integer
@@ -375,7 +383,7 @@ paths:
             maximum: 10000
         - name: startIndex
           in: query
-          description: the index of the first match string
+          description: the index of the first match string ( >=0 )
           required: false
           schema:
             type: integer
@@ -387,6 +395,10 @@ paths:
             application/json:
               schema:
                 $ref: "cpe.oas.yml"
+        "403":
+          description: Request forbidden by administrative rules.
+        "404":
+          description: Invalid apiKey, Invalid parameter.
 
   /cpematch/2.0/:
     get:
@@ -405,14 +417,14 @@ paths:
             pattern: "^CVE-[0-9]{4}-[0-9]{4,}$"
         - name: lastModStartDate
           in: query
-          description: search by modified date
+          description: search by modified date (MUST use with lastModEndDate)
           required: false
           schema:
             type: string
             format: date-time
         - name: lastModEndDate
           in: query
-          description: search by modified date
+          description: search by modified date (MUST use with lastModStartDate)
           required: false
           schema:
             type: string
@@ -426,7 +438,7 @@ paths:
             format: uuid
         - name: resultsPerPage
           in: query
-          description: max number of records (default is 5000)
+          description: max number of records (default is 5000, min is 0, max is 5000)
           required: false
           schema:
             type: integer
@@ -434,7 +446,7 @@ paths:
             maximum: 5000
         - name: startIndex
           in: query
-          description: the index of the first match string
+          description: the index of the first match string ( >=0 )
           required: false
           schema:
             type: integer
@@ -446,6 +458,10 @@ paths:
             application/json:
               schema:
                 $ref: "cpe.match.oas.yml"
+        "403":
+          description: Request forbidden by administrative rules.
+        "404":
+          description: Invalid apiKey, Invalid parameter.
 
 components:
   securitySchemes:
