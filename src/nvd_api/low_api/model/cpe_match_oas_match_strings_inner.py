@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -28,6 +29,7 @@ from nvd_api.low_api.model_utils import (  # noqa: F401
     OpenApiModel
 )
 from nvd_api.low_api.exceptions import ApiAttributeError
+from nvd_api.low_api.model.cpe_match_oas_match_strings_inner_match_string import CpeMatchOasMatchStringsInnerMatchString
 
 
 def lazy_import():
@@ -189,7 +191,7 @@ class CpeMatchOasMatchStringsInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, match_string, *args, **kwargs):  # noqa: E501
+    def __init__(self, match_string: CpeMatchOasMatchStringsInnerMatchString, *args, **kwargs):  # noqa: E501
         """CpeMatchOasMatchStringsInner - a model defined in OpenAPI
 
         Args:

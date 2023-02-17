@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -28,7 +29,7 @@ from nvd_api.low_api.model_utils import (  # noqa: F401
     OpenApiModel
 )
 from nvd_api.low_api.exceptions import ApiAttributeError
-
+from nvd_api.low_api.model.cpe_oas_products_inner import CpeOasProductsInner
 
 def lazy_import():
     from nvd_api.low_api.model.cpe_oas_products_inner import CpeOasProductsInner
@@ -213,7 +214,7 @@ class CpeOas(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, results_per_page: int, start_index: int, total_results: int, format: str, version: str, timestamp: datetime, products, *args, **kwargs):  # noqa: E501
+    def __init__(self, results_per_page: int, start_index: int, total_results: int, format: str, version: str, timestamp: datetime, products: list[CpeOasProductsInner], *args, **kwargs):  # noqa: E501
         """CpeOas - a model defined in OpenAPI
 
         Args:

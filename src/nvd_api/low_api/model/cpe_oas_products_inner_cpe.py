@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -221,7 +222,7 @@ class CpeOasProductsInnerCpe(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, deprecated, cpe_name, cpe_name_id, created, last_modified, *args, **kwargs):  # noqa: E501
+    def __init__(self, deprecated: bool, cpe_name: str, cpe_name_id: str, created: datetime, last_modified: datetime, *args, **kwargs):  # noqa: E501
         """CpeOasProductsInnerCpe - a model defined in OpenAPI
 
         Args:

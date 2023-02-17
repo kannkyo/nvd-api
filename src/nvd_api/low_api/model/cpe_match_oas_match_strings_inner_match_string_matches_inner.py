@@ -188,7 +188,7 @@ class CpeMatchOasMatchStringsInnerMatchStringMatchesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cpe_name, cpe_name_id, *args, **kwargs):  # noqa: E501
+    def __init__(self, cpe_name: str, cpe_name_id: str, *args, **kwargs):  # noqa: E501
         """CpeMatchOasMatchStringsInnerMatchStringMatchesInner - a model defined in OpenAPI
 
         Args:

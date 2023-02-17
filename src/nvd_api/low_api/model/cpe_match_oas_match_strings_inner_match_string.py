@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -223,7 +224,7 @@ class CpeMatchOasMatchStringsInnerMatchString(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, criteria, match_criteria_id, created, last_modified, status, *args, **kwargs):  # noqa: E501
+    def __init__(self, criteria: str, match_criteria_id: str, created: datetime, last_modified: datetime, status: str, *args, **kwargs):  # noqa: E501
         """CpeMatchOasMatchStringsInnerMatchString - a model defined in OpenAPI
 
         Args:

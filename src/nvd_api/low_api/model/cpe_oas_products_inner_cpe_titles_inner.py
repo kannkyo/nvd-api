@@ -188,7 +188,7 @@ class CpeOasProductsInnerCpeTitlesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, title, lang, *args, **kwargs):  # noqa: E501
+    def __init__(self, title: str, lang: str, *args, **kwargs):  # noqa: E501
         """CpeOasProductsInnerCpeTitlesInner - a model defined in OpenAPI
 
         Args:
