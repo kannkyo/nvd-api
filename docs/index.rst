@@ -1,6 +1,6 @@
-==========
+=====================
 NVD API Client
-==========
+=====================
 
 This is the documentation of community driven **NVD API Client**.
 
