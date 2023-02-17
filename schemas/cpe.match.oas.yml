@@ -1,78 +1,80 @@
+---
 title: CPE Match API Response
 description: JSON Schema for NVD CVE Applicability Statement CPE Match API version 2.0
 type: object
+additionalProperties: false
 properties:
-  resultsPerPage:
-    type: integer
-  startIndex:
-    type: integer
-  totalResults:
-    type: integer
   format:
     type: string
-  version:
-    type: string
-  timestamp:
-    type: string
-    format: date-time
   matchStrings:
     description: Array of CPE match strings
     type: array
     items:
+      additionalProperties: false
       type: object
       properties:
         matchString:
           description: CPE match string or range
-          type: object
+          additionalProperties: false
           properties:
-            criteria:
-              type: string
-            matchCriteriaId:
-              type: string
-              format: uuid
-            versionStartExcluding:
-              type: string
-            versionStartIncluding:
-              type: string
-            versionEndExcluding:
-              type: string
-            versionEndIncluding:
+            cpeLastModified:
+              format: date-time
               type: string
             created:
-              type: string
               format: date-time
+              type: string
+            criteria:
+              type: string
             lastModified:
-              type: string
               format: date-time
-            cpeLastModified:
               type: string
-              format: date-time
-            status:
+            matchCriteriaId:
+              format: uuid
               type: string
             matches:
               type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   cpeName:
                     type: string
                   cpeNameId:
-                    type: string
                     format: uuid
+                    type: string
                 required:
                   - cpeName
                   - cpeNameId
-                additionalProperties: false
+            status:
+              type: string
+            versionEndExcluding:
+              type: string
+            versionEndIncluding:
+              type: string
+            versionStartExcluding:
+              type: string
+            versionStartIncluding:
+              type: string
           required:
             - criteria
             - matchCriteriaId
             - lastModified
             - created
             - status
-          additionalProperties: false
+          type: object
       required:
         - matchString
-      additionalProperties: false
+  resultsPerPage:
+    type: integer
+  startIndex:
+    type: integer
+  timestamp:
+    format: date-time
+    type: string
+  totalResults:
+    type: integer
+  version:
+    type: string
 required:
   - resultsPerPage
   - startIndex
@@ -81,4 +83,3 @@ required:
   - version
   - timestamp
   - matchStrings
-additionalProperties: false

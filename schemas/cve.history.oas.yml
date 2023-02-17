@@ -1,64 +1,65 @@
+---
 title: CVE History API response
 description: JSON Schema for NVD CVE History API version 2.0
 type: object
 properties:
-  resultsPerPage:
-    type: integer
-  startIndex:
-    type: integer
-  totalResults:
-    type: integer
-  format:
-    type: string
-  version:
-    type: string
-  timestamp:
-    type: string
-    format: date-time
   cveChanges:
     description: Array of CVE Changes
     type: array
     items:
+      additionalProperties: false
       properties:
         change:
+          additionalProperties: false
           properties:
-            cveId:
-              type: string
-              pattern: ^CVE-[0-9]{4}-[0-9]{4,}$
-            eventName:
+            created:
+              format: date-time
               type: string
             cveChangeId:
-              type: string
               format: uuid
-            sourceIdentifier:
               type: string
-            created:
+            cveId:
+              pattern: ^CVE-[0-9]{4}-[0-9]{4,}$
               type: string
-              format: date-time
             details:
               type: array
               items:
+                additionalProperties: false
                 properties:
                   action:
                     type: string
-                  type:
+                  newValue:
                     type: string
                   oldValue:
                     type: string
-                  newValue:
+                  type:
                     type: string
                 required:
                   - type
-                additionalProperties: false
+            eventName:
+              type: string
+            sourceIdentifier:
+              type: string
           required:
             - cveId
             - eventName
             - cveChangeId
             - sourceIdentifier
-          additionalProperties: false
       required:
         - change
-      additionalProperties: false
+  format:
+    type: string
+  resultsPerPage:
+    type: integer
+  startIndex:
+    type: integer
+  timestamp:
+    format: date-time
+    type: string
+  totalResults:
+    type: integer
+  version:
+    type: string
 required:
   - resultsPerPage
   - startIndex
