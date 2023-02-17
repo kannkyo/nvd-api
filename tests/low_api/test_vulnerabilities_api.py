@@ -13,7 +13,7 @@ class TestVulnerabilitiesApi(unittest.TestCase):
         pass
 
     def test_client_without_configuration(self):
-        time.sleep(10)
+        time.sleep(15)
         response = self.client.get_cves(
             cve_id="CVE-2022-32223",
             results_per_page=1,
@@ -21,4 +21,4 @@ class TestVulnerabilitiesApi(unittest.TestCase):
         )
         pprint(response)
         assert (len(response.vulnerabilities) > 0)
-        time.sleep(10)
+        time.sleep(15)
