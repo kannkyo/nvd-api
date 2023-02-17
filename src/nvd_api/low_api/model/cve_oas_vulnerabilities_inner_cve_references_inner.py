@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -196,7 +197,7 @@ class CveOasVulnerabilitiesInnerCveReferencesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, url, *args, **kwargs):  # noqa: E501
+    def __init__(self, url: str, *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInnerCveReferencesInner - a model defined in OpenAPI
 
         Args:

@@ -41,3 +41,11 @@ Indices and tables
 .. _Google style: https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings
 .. _NumPy style: https://numpydoc.readthedocs.io/en/latest/format.html
 .. _classical style: http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists
+
+.. _NIST IR 7695 CPE 2.3 Naming: https://csrc.nist.gov/publications/detail/nistir/7695/final
+.. _NIST IR 7696 CPE 2.3 Name Matching: https://csrc.nist.gov/publications/detail/nistir/7696/final
+.. _NIST IR 7697 CPE 2.3 Dictionary: https://csrc.nist.gov/publications/detail/nistir/7697/final
+.. _NIST IR 7698 CPE 2.3 Applicability Language: https://csrc.nist.gov/publications/detail/nistir/7698/final
+.. _FIRST CVSS 2.0: https://www.first.org/cvss/v2/guide
+.. _FIRST CVSS 3.0: https://www.first.org/cvss/v3.0/specification-document
+.. _FIRST CVSS 3.1: https://www.first.org/cvss/v3.1/specification-document

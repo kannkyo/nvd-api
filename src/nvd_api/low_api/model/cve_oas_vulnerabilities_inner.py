@@ -9,6 +9,7 @@
 """
 
 
+from __future__ import annotations
 import re  # noqa: F401
 import sys  # noqa: F401
 
@@ -28,6 +29,7 @@ from nvd_api.low_api.model_utils import (  # noqa: F401
     OpenApiModel
 )
 from nvd_api.low_api.exceptions import ApiAttributeError
+from nvd_api.low_api.model.cve_oas_vulnerabilities_inner_cve import CveOasVulnerabilitiesInnerCve
 
 
 def lazy_import():
@@ -189,7 +191,7 @@ class CveOasVulnerabilitiesInner(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, cve, *args, **kwargs):  # noqa: E501
+    def __init__(self, cve: CveOasVulnerabilitiesInnerCve, *args, **kwargs):  # noqa: E501
         """CveOasVulnerabilitiesInner - a model defined in OpenAPI
 
         Args:
