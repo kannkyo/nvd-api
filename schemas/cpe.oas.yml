@@ -1,66 +1,66 @@
+---
 title: CPE API Response
 description: JSON Schema for NVD Common Product Enumeration (CPE) API version 2.0
 type: object
+additionalProperties: false
 properties:
-  resultsPerPage:
-    type: integer
-  startIndex:
-    type: integer
-  totalResults:
-    type: integer
   format:
     type: string
-  version:
-    type: string
-  timestamp:
-    type: string
-    format: date-time
   products:
     description: NVD feed array of CPE
     type: array
     items:
       type: object
+      additionalProperties: false
       properties:
         cpe:
           type: object
+          additionalProperties: false
           properties:
-            deprecated:
-              type: boolean
             cpeName:
               type: string
             cpeNameId:
-              type: string
               format: uuid
+              type: string
             created:
-              type: string
               format: date-time
-            lastModified:
               type: string
-              format: date-time
-            titles:
+            deprecated:
+              type: boolean
+            deprecatedBy:
               type: array
               items:
-                description: Human readable title for CPE
                 type: object
                 properties:
-                  title:
+                  cpeName:
                     type: string
-                  lang:
+                  cpeNameId:
+                    format: uuid
                     type: string
-                required:
-                  - title
-                  - lang
-                additionalProperties: false
+            deprecates:
+              type: array
+              items:
+                type: object
+                properties:
+                  cpeName:
+                    type: string
+                  cpeNameId:
+                    format: uuid
+                    type: string
+            lastModified:
+              format: date-time
+              type: string
             refs:
               type: array
               items:
                 description: Internet resource for CPE
                 type: object
+                additionalProperties: false
                 properties:
                   ref:
                     type: string
                     pattern: >-
-                      ^([A-Za-z][A-Za-z0-9+.-]+):(\/\/([^@]+@)?([A-Za-z0-9.\-_~]+)(:\d+)?)?((?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@])+(?:\/(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@])*)*|(?:\/(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'()*+,;=:@])+)*)?(\?(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@]|[/?])*)?(\#(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@]|[/?])*)?$
+                      ^([A-Za-z][A-Za-z0-9+.-]+):(\/\/([^@]+@)?([A-Za-z0-9.\-_~]+)(:\d+)?)?((?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@])+(?:\/(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@])*)*|(?:\/(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!vscode-yaml-sort.array.12'()*+,;=:@])+)*)?(\?(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@]|[/?])*)?(\#(?:[A-Za-z0-9-._~]|%[A-Fa-f0-9]|[!$&'\[\]()*+,;=:@]|[/?])*)?$
                   type:
                     type: string
                     enum:
@@ -72,37 +72,39 @@ properties:
                       - Version
                 required:
                   - ref
+            titles:
+              type: array
+              items:
+                description: Human readable title for CPE
+                type: object
                 additionalProperties: false
-            deprecatedBy:
-              type: array
-              items:
-                type: object
                 properties:
-                  cpeName:
+                  lang:
                     type: string
-                  cpeNameId:
+                  title:
                     type: string
-                    format: uuid
-            deprecates:
-              type: array
-              items:
-                type: object
-                properties:
-                  cpeName:
-                    type: string
-                  cpeNameId:
-                    type: string
-                    format: uuid
+                required:
+                  - title
+                  - lang
           required:
             - cpeName
             - cpeNameId
             - deprecated
             - lastModified
             - created
-          additionalProperties: false
       required:
         - cpe
-      additionalProperties: false
+  resultsPerPage:
+    type: integer
+  startIndex:
+    type: integer
+  timestamp:
+    format: date-time
+    type: string
+  totalResults:
+    type: integer
+  version:
+    type: string
 required:
   - resultsPerPage
   - startIndex
@@ -111,4 +113,3 @@ required:
   - version
   - timestamp
   - products
-additionalProperties: false

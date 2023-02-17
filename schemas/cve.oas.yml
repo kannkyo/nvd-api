@@ -1,422 +1,1068 @@
-title: Vulnerability Data API response
+---
+additionalProperties: false
 description: JSON Schema for NVD Vulnerability Data API version 2.0
-type: object
 properties:
+  format:
+    type: string
   resultsPerPage:
     type: integer
   startIndex:
     type: integer
+  timestamp:
+    format: date-time
+    type: string
   totalResults:
     type: integer
-  format:
-    type: string
   version:
     type: string
-  timestamp:
-    type: string
-    format: date-time
   vulnerabilities:
     description: NVD feed array of CVE
-    type: array
     items:
+      additionalProperties: false
       properties:
         cve:
-          type: object
+          additionalProperties: false
           properties:
-            id:
-              type: string
-              pattern: ^CVE-[0-9]{4}-[0-9]{4,}$
-            sourceIdentifier:
-              type: string
-            vulnStatus:
-              type: string
-            published:
-              type: string
-              format: date-time
-            lastModified:
-              type: string
-              format: date-time
-            evaluatorComment:
-              type: string
-            evaluatorSolution:
-              type: string
-            evaluatorImpact:
+            cisaActionDue:
+              format: date
               type: string
             cisaExploitAdd:
-              type: string
               format: date
-            cisaActionDue:
               type: string
-              format: date
             cisaRequiredAction:
               type: string
             cisaVulnerabilityName:
               type: string
-            descriptions:
-              type: array
-              minItems: 1
+            configurations:
               items:
-                type: object
+                additionalProperties: false
+                properties:
+                  negate:
+                    type: boolean
+                  nodes:
+                    items:
+                      additionalProperties: false
+                      description: Defines a configuration node in an NVD applicability statement.
+                      properties:
+                        cpeMatch:
+                          items:
+                            additionalProperties: false
+                            description: CPE match string or range
+                            properties:
+                              criteria:
+                                type: string
+                              matchCriteriaId:
+                                format: uuid
+                                type: string
+                              versionEndExcluding:
+                                type: string
+                              versionEndIncluding:
+                                type: string
+                              versionStartExcluding:
+                                type: string
+                              versionStartIncluding:
+                                type: string
+                              vulnerable:
+                                type: boolean
+                            required:
+                              - vulnerable
+                              - criteria
+                              - matchCriteriaId
+                            type: object
+                          type: array
+                        negate:
+                          type: boolean
+                        operator:
+                          enum:
+                            - AND
+                            - OR
+                          type: string
+                      required:
+                        - operator
+                        - cpeMatch
+                    type: array
+                  operator:
+                    enum:
+                      - AND
+                      - OR
+                    type: string
+                required:
+                  - nodes
+              type: array
+            descriptions:
+              items:
+                additionalProperties: false
                 properties:
                   lang:
                     type: string
                   value:
-                    type: string
                     maxLength: 4096
+                    type: string
                 required:
                   - lang
                   - value
-                additionalProperties: false
-            references:
-              type: array
-              items:
                 type: object
-                properties:
-                  url:
-                    maxLength: 500
-                    type: string
-                    pattern: ^(ftp|http)s?://\S+$
-                  source:
-                    type: string
-                  tags:
-                    type: array
-                    items:
-                      type: string
-                required:
-                  - url
-                additionalProperties: false
-              maxItems: 500
-              minItems: 0
+              minItems: 1
+              type: array
+            evaluatorComment:
+              type: string
+            evaluatorImpact:
+              type: string
+            evaluatorSolution:
+              type: string
+            id:
+              pattern: ^CVE-[0-9]{4}-[0-9]{4,}$
+              type: string
+            lastModified:
+              format: date-time
+              type: string
             metrics:
+              additionalProperties: false
               description: Metric scores for a vulnerability as found on NVD.
-              type: object
               properties:
-                cvssMetricV31:
-                  description: CVSS V3.1 score.
-                  type: array
+                cvssMetricV2:
+                  description: CVSS V2.0 score.
                   items:
+                    additionalProperties: false
                     properties:
+                      acInsufInfo:
+                        type: boolean
+                      baseSeverity:
+                        type: string
+                      cvssData:
+                        definitions:
+                          accessComplexityType:
+                            enum:
+                              - HIGH
+                              - MEDIUM
+                              - LOW
+                            type: string
+                          accessVectorType:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                            type: string
+                          authenticationType:
+                            enum:
+                              - MULTIPLE
+                              - SINGLE
+                              - NONE
+                            type: string
+                          ciaRequirementType:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          ciaType:
+                            enum:
+                              - NONE
+                              - PARTIAL
+                              - COMPLETE
+                            type: string
+                          collateralDamagePotentialType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - LOW_MEDIUM
+                              - MEDIUM_HIGH
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          exploitabilityType:
+                            enum:
+                              - UNPROVEN
+                              - PROOF_OF_CONCEPT
+                              - FUNCTIONAL
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          remediationLevelType:
+                            enum:
+                              - OFFICIAL_FIX
+                              - TEMPORARY_FIX
+                              - WORKAROUND
+                              - UNAVAILABLE
+                              - NOT_DEFINED
+                            type: string
+                          reportConfidenceType:
+                            enum:
+                              - UNCONFIRMED
+                              - UNCORROBORATED
+                              - CONFIRMED
+                              - NOT_DEFINED
+                            type: string
+                          scoreType:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          targetDistributionType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                        properties:
+                          accessComplexity:
+                            enum:
+                              - HIGH
+                              - MEDIUM
+                              - LOW
+                            type: string
+                          accessVector:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                            type: string
+                          authentication:
+                            enum:
+                              - MULTIPLE
+                              - SINGLE
+                              - NONE
+                            type: string
+                          availabilityImpact:
+                            enum:
+                              - NONE
+                              - PARTIAL
+                              - COMPLETE
+                            type: string
+                          availabilityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          baseScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          collateralDamagePotential:
+                            enum:
+                              - NONE
+                              - LOW
+                              - LOW_MEDIUM
+                              - MEDIUM_HIGH
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          confidentialityImpact:
+                            enum:
+                              - NONE
+                              - PARTIAL
+                              - COMPLETE
+                            type: string
+                          confidentialityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          environmentalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          exploitability:
+                            enum:
+                              - UNPROVEN
+                              - PROOF_OF_CONCEPT
+                              - FUNCTIONAL
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          integrityImpact:
+                            enum:
+                              - NONE
+                              - PARTIAL
+                              - COMPLETE
+                            type: string
+                          integrityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          remediationLevel:
+                            enum:
+                              - OFFICIAL_FIX
+                              - TEMPORARY_FIX
+                              - WORKAROUND
+                              - UNAVAILABLE
+                              - NOT_DEFINED
+                            type: string
+                          reportConfidence:
+                            enum:
+                              - UNCONFIRMED
+                              - UNCORROBORATED
+                              - CONFIRMED
+                              - NOT_DEFINED
+                            type: string
+                          targetDistribution:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          temporalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          vectorString:
+                            pattern: >-
+                              ^((AV:[CIA]0|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))/)*(AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NLH]0|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))$
+                            type: string
+                          version:
+                            description: CVSS Version
+                            enum:
+                              - "2.0"
+                            type: string
+                        required:
+                          - version
+                          - vectorString
+                          - baseScore
+                        title: JSON Schema for Common Vulnerability Scoring System version 2.0
+                        type: object
+                        x-license:
+                          - Copyright (c) 2017, FIRST.ORG, INC.
+                          - All rights reserved.
+                          - ""
+                          - "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the "
+                          - "following conditions are met:"
+                          - "1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following "
+                          - "   disclaimer."
+                          - "2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the "
+                          - "   following disclaimer in the documentation and/or other materials provided with the distribution."
+                          - "3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote "
+                          - "   products derived from this software without specific prior written permission."
+                          - ""
+                          - "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, "
+                          - "INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE "
+                          - "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, "
+                          - "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR "
+                          - "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, "
+                          - "WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE "
+                          - OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+                      exploitabilityScore:
+                        description: CVSS subscore.
+                        maximum: 10
+                        minimum: 0
+                        type: number
+                      impactScore:
+                        description: CVSS subscore.
+                        maximum: 10
+                        minimum: 0
+                        type: number
+                      obtainAllPrivilege:
+                        type: boolean
+                      obtainOtherPrivilege:
+                        type: boolean
+                      obtainUserPrivilege:
+                        type: boolean
                       source:
                         type: string
                       type:
-                        type: string
                         enum:
                           - Primary
                           - Secondary
+                        type: string
+                      userInteractionRequired:
+                        type: boolean
+                    required:
+                      - source
+                      - type
+                      - cvssData
+                  type: array
+                cvssMetricV30:
+                  description: CVSS V3.0 score.
+                  items:
+                    additionalProperties: false
+                    properties:
                       cvssData:
-                        title: JSON Schema for Common Vulnerability Scoring System version 3.1
-                        type: object
                         definitions:
-                          attackVectorType:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                          modifiedAttackVectorType:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                              - NOT_DEFINED
                           attackComplexityType:
-                            type: string
                             enum:
                               - HIGH
                               - LOW
-                          modifiedAttackComplexityType:
                             type: string
+                          attackVectorType:
                             enum:
-                              - HIGH
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                            type: string
+                          ciaRequirementType:
+                            enum:
                               - LOW
-                              - NOT_DEFINED
-                          privilegesRequiredType:
-                            type: string
-                            enum:
+                              - MEDIUM
                               - HIGH
-                              - LOW
-                              - NONE
-                          modifiedPrivilegesRequiredType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
                               - NOT_DEFINED
-                          userInteractionType:
                             type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                          modifiedUserInteractionType:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                              - NOT_DEFINED
-                          scopeType:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                          modifiedScopeType:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                              - NOT_DEFINED
                           ciaType:
-                            type: string
                             enum:
                               - NONE
                               - LOW
                               - HIGH
-                          modifiedCiaType:
                             type: string
+                          confidenceType:
                             enum:
-                              - NONE
-                              - LOW
-                              - HIGH
+                              - UNKNOWN
+                              - REASONABLE
+                              - CONFIRMED
                               - NOT_DEFINED
-                          exploitCodeMaturityType:
                             type: string
+                          exploitCodeMaturityType:
                             enum:
                               - UNPROVEN
                               - PROOF_OF_CONCEPT
                               - FUNCTIONAL
                               - HIGH
                               - NOT_DEFINED
-                          remediationLevelType:
                             type: string
+                          modifiedAttackComplexityType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackVectorType:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                              - NOT_DEFINED
+                            type: string
+                          modifiedCiaType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedPrivilegesRequiredType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                              - NOT_DEFINED
+                            type: string
+                          modifiedScopeType:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                              - NOT_DEFINED
+                            type: string
+                          modifiedUserInteractionType:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                              - NOT_DEFINED
+                            type: string
+                          privilegesRequiredType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                            type: string
+                          remediationLevelType:
                             enum:
                               - OFFICIAL_FIX
                               - TEMPORARY_FIX
                               - WORKAROUND
                               - UNAVAILABLE
                               - NOT_DEFINED
-                          confidenceType:
                             type: string
+                          scopeType:
                             enum:
-                              - UNKNOWN
-                              - REASONABLE
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          ciaRequirementType:
+                              - UNCHANGED
+                              - CHANGED
                             type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
                           scoreType:
-                            type: number
-                            minimum: 0
                             maximum: 10
+                            minimum: 0
+                            type: number
                           severityType:
-                            type: string
                             enum:
                               - NONE
                               - LOW
                               - MEDIUM
                               - HIGH
                               - CRITICAL
+                            type: string
+                          userInteractionType:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                            type: string
                         properties:
+                          attackComplexity:
+                            enum:
+                              - HIGH
+                              - LOW
+                            type: string
+                          attackVector:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                            type: string
+                          availabilityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          availabilityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          baseScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          baseSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          confidentialityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          confidentialityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          environmentalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          environmentalSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          exploitCodeMaturity:
+                            enum:
+                              - UNPROVEN
+                              - PROOF_OF_CONCEPT
+                              - FUNCTIONAL
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          integrityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          integrityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackComplexity:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackVector:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAvailabilityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedConfidentialityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedIntegrityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedPrivilegesRequired:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                              - NOT_DEFINED
+                            type: string
+                          modifiedScope:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                              - NOT_DEFINED
+                            type: string
+                          modifiedUserInteraction:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                              - NOT_DEFINED
+                            type: string
+                          privilegesRequired:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                            type: string
+                          remediationLevel:
+                            enum:
+                              - OFFICIAL_FIX
+                              - TEMPORARY_FIX
+                              - WORKAROUND
+                              - UNAVAILABLE
+                              - NOT_DEFINED
+                            type: string
+                          reportConfidence:
+                            enum:
+                              - UNKNOWN
+                              - REASONABLE
+                              - CONFIRMED
+                              - NOT_DEFINED
+                            type: string
+                          scope:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                            type: string
+                          temporalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          temporalSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          userInteraction:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                            type: string
+                          vectorString:
+                            pattern: >-
+                              ^CVSS:3[LH]10/((AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[NLH]0|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[NR]0)/)*(AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[UC]0|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$
+                            type: string
                           version:
                             description: CVSS Version
-                            type: string
                             enum:
-                              - "3.1"
-                          vectorString:
+                              - "3.0"
                             type: string
-                            pattern: ^CVSS:3[.]1/((AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$
-                          attackVector:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                          attackComplexity:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                          privilegesRequired:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                          userInteraction:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                          scope:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                          confidentialityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          integrityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          availabilityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          baseScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          baseSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                          exploitCodeMaturity:
-                            type: string
-                            enum:
-                              - UNPROVEN
-                              - PROOF_OF_CONCEPT
-                              - FUNCTIONAL
-                              - HIGH
-                              - NOT_DEFINED
-                          remediationLevel:
-                            type: string
-                            enum:
-                              - OFFICIAL_FIX
-                              - TEMPORARY_FIX
-                              - WORKAROUND
-                              - UNAVAILABLE
-                              - NOT_DEFINED
-                          reportConfidence:
-                            type: string
-                            enum:
-                              - UNKNOWN
-                              - REASONABLE
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          temporalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          temporalSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                          confidentialityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          integrityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          availabilityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedAttackVector:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                              - NOT_DEFINED
-                          modifiedAttackComplexity:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NOT_DEFINED
-                          modifiedPrivilegesRequired:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                              - NOT_DEFINED
-                          modifiedUserInteraction:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                              - NOT_DEFINED
-                          modifiedScope:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                              - NOT_DEFINED
-                          modifiedConfidentialityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedIntegrityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedAvailabilityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          environmentalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          environmentalSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
                         required:
                           - version
                           - vectorString
                           - baseScore
                           - baseSeverity
+                        title: JSON Schema for Common Vulnerability Scoring System version 3.0
+                        type: object
+                        x-license:
+                          - Copyright (c) 2017, FIRST.ORG, INC.
+                          - All rights reserved.
+                          - ""
+                          - "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the "
+                          - "following conditions are met:"
+                          - "1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following "
+                          - "   disclaimer."
+                          - "2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the "
+                          - "   following disclaimer in the documentation and/or other materials provided with the distribution."
+                          - "3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote "
+                          - "   products derived from this software without specific prior written permission."
+                          - ""
+                          - "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, "
+                          - "INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE "
+                          - "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, "
+                          - "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR "
+                          - "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, "
+                          - "WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE "
+                          - OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+                      exploitabilityScore:
+                        description: CVSS subscore.
+                        maximum: 10
+                        minimum: 0
+                        type: number
+                      impactScore:
+                        description: CVSS subscore.
+                        maximum: 10
+                        minimum: 0
+                        type: number
+                      source:
+                        type: string
+                      type:
+                        enum:
+                          - Primary
+                          - Secondary
+                        type: string
+                    required:
+                      - source
+                      - type
+                      - cvssData
+                  type: array
+                cvssMetricV31:
+                  description: CVSS V3.1 score.
+                  items:
+                    additionalProperties: false
+                    properties:
+                      cvssData:
+                        definitions:
+                          attackComplexityType:
+                            enum:
+                              - HIGH
+                              - LOW
+                            type: string
+                          attackVectorType:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                            type: string
+                          ciaRequirementType:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          ciaType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          confidenceType:
+                            enum:
+                              - UNKNOWN
+                              - REASONABLE
+                              - CONFIRMED
+                              - NOT_DEFINED
+                            type: string
+                          exploitCodeMaturityType:
+                            enum:
+                              - UNPROVEN
+                              - PROOF_OF_CONCEPT
+                              - FUNCTIONAL
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackComplexityType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackVectorType:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                              - NOT_DEFINED
+                            type: string
+                          modifiedCiaType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedPrivilegesRequiredType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                              - NOT_DEFINED
+                            type: string
+                          modifiedScopeType:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                              - NOT_DEFINED
+                            type: string
+                          modifiedUserInteractionType:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                              - NOT_DEFINED
+                            type: string
+                          privilegesRequiredType:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                            type: string
+                          remediationLevelType:
+                            enum:
+                              - OFFICIAL_FIX
+                              - TEMPORARY_FIX
+                              - WORKAROUND
+                              - UNAVAILABLE
+                              - NOT_DEFINED
+                            type: string
+                          scopeType:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                            type: string
+                          scoreType:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          severityType:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          userInteractionType:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                            type: string
+                        properties:
+                          attackComplexity:
+                            enum:
+                              - HIGH
+                              - LOW
+                            type: string
+                          attackVector:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                            type: string
+                          availabilityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          availabilityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          baseScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          baseSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          confidentialityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          confidentialityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          environmentalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          environmentalSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          exploitCodeMaturity:
+                            enum:
+                              - UNPROVEN
+                              - PROOF_OF_CONCEPT
+                              - FUNCTIONAL
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          integrityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                            type: string
+                          integrityRequirement:
+                            enum:
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackComplexity:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAttackVector:
+                            enum:
+                              - NETWORK
+                              - ADJACENT_NETWORK
+                              - LOCAL
+                              - PHYSICAL
+                              - NOT_DEFINED
+                            type: string
+                          modifiedAvailabilityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedConfidentialityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedIntegrityImpact:
+                            enum:
+                              - NONE
+                              - LOW
+                              - HIGH
+                              - NOT_DEFINED
+                            type: string
+                          modifiedPrivilegesRequired:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                              - NOT_DEFINED
+                            type: string
+                          modifiedScope:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                              - NOT_DEFINED
+                            type: string
+                          modifiedUserInteraction:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                              - NOT_DEFINED
+                            type: string
+                          privilegesRequired:
+                            enum:
+                              - HIGH
+                              - LOW
+                              - NONE
+                            type: string
+                          remediationLevel:
+                            enum:
+                              - OFFICIAL_FIX
+                              - TEMPORARY_FIX
+                              - WORKAROUND
+                              - UNAVAILABLE
+                              - NOT_DEFINED
+                            type: string
+                          reportConfidence:
+                            enum:
+                              - UNKNOWN
+                              - REASONABLE
+                              - CONFIRMED
+                              - NOT_DEFINED
+                            type: string
+                          scope:
+                            enum:
+                              - UNCHANGED
+                              - CHANGED
+                            type: string
+                          temporalScore:
+                            maximum: 10
+                            minimum: 0
+                            type: number
+                          temporalSeverity:
+                            enum:
+                              - NONE
+                              - LOW
+                              - MEDIUM
+                              - HIGH
+                              - CRITICAL
+                            type: string
+                          userInteraction:
+                            enum:
+                              - NONE
+                              - REQUIRED
+                            type: string
+                          vectorString:
+                            pattern: >-
+                              ^CVSS:3[.]1/((AV:[NALP]|AC:vscode-yaml-sort.array.4|PR:vscode-yaml-sort.array.5|UI:vscode-yaml-sort.array.6|S:vscode-yaml-sort.array.7|vscode-yaml-sort.array.8:vscode-yaml-sort.array.9|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$
+                            type: string
+                          version:
+                            description: CVSS Version
+                            enum:
+                              - "3.1"
+                            type: string
+                        required:
+                          - version
+                          - vectorString
+                          - baseScore
+                          - baseSeverity
+                        title: JSON Schema for Common Vulnerability Scoring System version 3.1
+                        type: object
                         x-license:
                           - Copyright (c) 2021, FIRST.ORG, INC.
                           - All rights reserved.
@@ -439,752 +1085,109 @@ properties:
                           - OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                       exploitabilityScore:
                         description: CVSS subscore.
-                        type: number
-                        minimum: 0
                         maximum: 10
+                        minimum: 0
+                        type: number
                       impactScore:
                         description: CVSS subscore.
-                        type: number
-                        minimum: 0
                         maximum: 10
-                    required:
-                      - source
-                      - type
-                      - cvssData
-                    additionalProperties: false
-                cvssMetricV30:
-                  description: CVSS V3.0 score.
-                  type: array
-                  items:
-                    properties:
+                        minimum: 0
+                        type: number
                       source:
                         type: string
                       type:
-                        type: string
                         enum:
                           - Primary
                           - Secondary
-                      cvssData:
-                        title: JSON Schema for Common Vulnerability Scoring System version 3.0
-                        type: object
-                        definitions:
-                          attackVectorType:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                          modifiedAttackVectorType:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                              - NOT_DEFINED
-                          attackComplexityType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                          modifiedAttackComplexityType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NOT_DEFINED
-                          privilegesRequiredType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                          modifiedPrivilegesRequiredType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                              - NOT_DEFINED
-                          userInteractionType:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                          modifiedUserInteractionType:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                              - NOT_DEFINED
-                          scopeType:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                          modifiedScopeType:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                              - NOT_DEFINED
-                          ciaType:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          modifiedCiaType:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          exploitCodeMaturityType:
-                            type: string
-                            enum:
-                              - UNPROVEN
-                              - PROOF_OF_CONCEPT
-                              - FUNCTIONAL
-                              - HIGH
-                              - NOT_DEFINED
-                          remediationLevelType:
-                            type: string
-                            enum:
-                              - OFFICIAL_FIX
-                              - TEMPORARY_FIX
-                              - WORKAROUND
-                              - UNAVAILABLE
-                              - NOT_DEFINED
-                          confidenceType:
-                            type: string
-                            enum:
-                              - UNKNOWN
-                              - REASONABLE
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          ciaRequirementType:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          scoreType:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          severityType:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                        properties:
-                          version:
-                            description: CVSS Version
-                            type: string
-                            enum:
-                              - "3.0"
-                          vectorString:
-                            type: string
-                            pattern: ^CVSS:3[.]0/((AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$
-                          attackVector:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                          attackComplexity:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                          privilegesRequired:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                          userInteraction:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                          scope:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                          confidentialityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          integrityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          availabilityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                          baseScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          baseSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                          exploitCodeMaturity:
-                            type: string
-                            enum:
-                              - UNPROVEN
-                              - PROOF_OF_CONCEPT
-                              - FUNCTIONAL
-                              - HIGH
-                              - NOT_DEFINED
-                          remediationLevel:
-                            type: string
-                            enum:
-                              - OFFICIAL_FIX
-                              - TEMPORARY_FIX
-                              - WORKAROUND
-                              - UNAVAILABLE
-                              - NOT_DEFINED
-                          reportConfidence:
-                            type: string
-                            enum:
-                              - UNKNOWN
-                              - REASONABLE
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          temporalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          temporalSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                          confidentialityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          integrityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          availabilityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedAttackVector:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                              - PHYSICAL
-                              - NOT_DEFINED
-                          modifiedAttackComplexity:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NOT_DEFINED
-                          modifiedPrivilegesRequired:
-                            type: string
-                            enum:
-                              - HIGH
-                              - LOW
-                              - NONE
-                              - NOT_DEFINED
-                          modifiedUserInteraction:
-                            type: string
-                            enum:
-                              - NONE
-                              - REQUIRED
-                              - NOT_DEFINED
-                          modifiedScope:
-                            type: string
-                            enum:
-                              - UNCHANGED
-                              - CHANGED
-                              - NOT_DEFINED
-                          modifiedConfidentialityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedIntegrityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          modifiedAvailabilityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - HIGH
-                              - NOT_DEFINED
-                          environmentalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          environmentalSeverity:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - CRITICAL
-                        required:
-                          - version
-                          - vectorString
-                          - baseScore
-                          - baseSeverity
-                        x-license:
-                          - Copyright (c) 2017, FIRST.ORG, INC.
-                          - All rights reserved.
-                          - ""
-                          - "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the "
-                          - "following conditions are met:"
-                          - "1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following "
-                          - "   disclaimer."
-                          - "2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the "
-                          - "   following disclaimer in the documentation and/or other materials provided with the distribution."
-                          - "3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote "
-                          - "   products derived from this software without specific prior written permission."
-                          - ""
-                          - "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, "
-                          - "INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE "
-                          - "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, "
-                          - "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR "
-                          - "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, "
-                          - "WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE "
-                          - OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-                      exploitabilityScore:
-                        description: CVSS subscore.
-                        type: number
-                        minimum: 0
-                        maximum: 10
-                      impactScore:
-                        description: CVSS subscore.
-                        type: number
-                        minimum: 0
-                        maximum: 10
+                        type: string
                     required:
                       - source
                       - type
                       - cvssData
-                    additionalProperties: false
-                cvssMetricV2:
-                  description: CVSS V2.0 score.
                   type: array
-                  items:
-                    properties:
-                      source:
-                        type: string
-                      type:
-                        type: string
-                        enum:
-                          - Primary
-                          - Secondary
-                      cvssData:
-                        title: JSON Schema for Common Vulnerability Scoring System version 2.0
-                        type: object
-                        definitions:
-                          accessVectorType:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                          accessComplexityType:
-                            type: string
-                            enum:
-                              - HIGH
-                              - MEDIUM
-                              - LOW
-                          authenticationType:
-                            type: string
-                            enum:
-                              - MULTIPLE
-                              - SINGLE
-                              - NONE
-                          ciaType:
-                            type: string
-                            enum:
-                              - NONE
-                              - PARTIAL
-                              - COMPLETE
-                          exploitabilityType:
-                            type: string
-                            enum:
-                              - UNPROVEN
-                              - PROOF_OF_CONCEPT
-                              - FUNCTIONAL
-                              - HIGH
-                              - NOT_DEFINED
-                          remediationLevelType:
-                            type: string
-                            enum:
-                              - OFFICIAL_FIX
-                              - TEMPORARY_FIX
-                              - WORKAROUND
-                              - UNAVAILABLE
-                              - NOT_DEFINED
-                          reportConfidenceType:
-                            type: string
-                            enum:
-                              - UNCONFIRMED
-                              - UNCORROBORATED
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          collateralDamagePotentialType:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - LOW_MEDIUM
-                              - MEDIUM_HIGH
-                              - HIGH
-                              - NOT_DEFINED
-                          targetDistributionType:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          ciaRequirementType:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          scoreType:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                        properties:
-                          version:
-                            description: CVSS Version
-                            type: string
-                            enum:
-                              - "2.0"
-                          vectorString:
-                            type: string
-                            pattern: ^((AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))/)*(AV:[NAL]|AC:[LMH]|Au:[MSN]|[CIA]:[NPC]|E:(U|POC|F|H|ND)|RL:(OF|TF|W|U|ND)|RC:(UC|UR|C|ND)|CDP:(N|L|LM|MH|H|ND)|TD:(N|L|M|H|ND)|[CIA]R:(L|M|H|ND))$
-                          accessVector:
-                            type: string
-                            enum:
-                              - NETWORK
-                              - ADJACENT_NETWORK
-                              - LOCAL
-                          accessComplexity:
-                            type: string
-                            enum:
-                              - HIGH
-                              - MEDIUM
-                              - LOW
-                          authentication:
-                            type: string
-                            enum:
-                              - MULTIPLE
-                              - SINGLE
-                              - NONE
-                          confidentialityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - PARTIAL
-                              - COMPLETE
-                          integrityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - PARTIAL
-                              - COMPLETE
-                          availabilityImpact:
-                            type: string
-                            enum:
-                              - NONE
-                              - PARTIAL
-                              - COMPLETE
-                          baseScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          exploitability:
-                            type: string
-                            enum:
-                              - UNPROVEN
-                              - PROOF_OF_CONCEPT
-                              - FUNCTIONAL
-                              - HIGH
-                              - NOT_DEFINED
-                          remediationLevel:
-                            type: string
-                            enum:
-                              - OFFICIAL_FIX
-                              - TEMPORARY_FIX
-                              - WORKAROUND
-                              - UNAVAILABLE
-                              - NOT_DEFINED
-                          reportConfidence:
-                            type: string
-                            enum:
-                              - UNCONFIRMED
-                              - UNCORROBORATED
-                              - CONFIRMED
-                              - NOT_DEFINED
-                          temporalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                          collateralDamagePotential:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - LOW_MEDIUM
-                              - MEDIUM_HIGH
-                              - HIGH
-                              - NOT_DEFINED
-                          targetDistribution:
-                            type: string
-                            enum:
-                              - NONE
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          confidentialityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          integrityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          availabilityRequirement:
-                            type: string
-                            enum:
-                              - LOW
-                              - MEDIUM
-                              - HIGH
-                              - NOT_DEFINED
-                          environmentalScore:
-                            type: number
-                            minimum: 0
-                            maximum: 10
-                        required:
-                          - version
-                          - vectorString
-                          - baseScore
-                        x-license:
-                          - Copyright (c) 2017, FIRST.ORG, INC.
-                          - All rights reserved.
-                          - ""
-                          - "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the "
-                          - "following conditions are met:"
-                          - "1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following "
-                          - "   disclaimer."
-                          - "2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the "
-                          - "   following disclaimer in the documentation and/or other materials provided with the distribution."
-                          - "3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote "
-                          - "   products derived from this software without specific prior written permission."
-                          - ""
-                          - "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, "
-                          - "INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE "
-                          - "DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, "
-                          - "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR "
-                          - "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, "
-                          - "WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE "
-                          - OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-                      baseSeverity:
-                        type: string
-                      exploitabilityScore:
-                        description: CVSS subscore.
-                        type: number
-                        minimum: 0
-                        maximum: 10
-                      impactScore:
-                        description: CVSS subscore.
-                        type: number
-                        minimum: 0
-                        maximum: 10
-                      acInsufInfo:
-                        type: boolean
-                      obtainAllPrivilege:
-                        type: boolean
-                      obtainUserPrivilege:
-                        type: boolean
-                      obtainOtherPrivilege:
-                        type: boolean
-                      userInteractionRequired:
-                        type: boolean
-                    required:
-                      - source
-                      - type
-                      - cvssData
-                    additionalProperties: false
-              additionalProperties: false
-            weaknesses:
-              type: array
+              type: object
+            published:
+              format: date-time
+              type: string
+            references:
               items:
+                additionalProperties: false
                 properties:
                   source:
                     type: string
-                  type:
-                    type: string
-                  description:
-                    type: array
-                    minItems: 0
+                  tags:
                     items:
-                      type: object
-                      properties:
-                        lang:
-                          type: string
-                        value:
-                          type: string
-                          maxLength: 4096
-                      required:
-                        - lang
-                        - value
-                      additionalProperties: false
-                required:
-                  - source
-                  - type
-                  - description
-                additionalProperties: false
-            configurations:
-              type: array
-              items:
-                properties:
-                  operator:
-                    type: string
-                    enum:
-                      - AND
-                      - OR
-                  negate:
-                    type: boolean
-                  nodes:
+                      type: string
                     type: array
-                    items:
-                      description: Defines a configuration node in an NVD applicability statement.
-                      properties:
-                        operator:
-                          type: string
-                          enum:
-                            - AND
-                            - OR
-                        negate:
-                          type: boolean
-                        cpeMatch:
-                          type: array
-                          items:
-                            description: CPE match string or range
-                            type: object
-                            properties:
-                              vulnerable:
-                                type: boolean
-                              criteria:
-                                type: string
-                              matchCriteriaId:
-                                type: string
-                                format: uuid
-                              versionStartExcluding:
-                                type: string
-                              versionStartIncluding:
-                                type: string
-                              versionEndExcluding:
-                                type: string
-                              versionEndIncluding:
-                                type: string
-                            required:
-                              - vulnerable
-                              - criteria
-                              - matchCriteriaId
-                            additionalProperties: false
-                      required:
-                        - operator
-                        - cpeMatch
-                      additionalProperties: false
+                  url:
+                    maxLength: 500
+                    pattern: ^(ftp|http)s?://\S+$
+                    type: string
                 required:
-                  - nodes
-                additionalProperties: false
-            vendorComments:
-              type: array
-              items:
+                  - url
                 type: object
+              maxItems: 500
+              minItems: 0
+              type: array
+            sourceIdentifier:
+              type: string
+            vendorComments:
+              items:
+                additionalProperties: false
                 properties:
-                  organization:
-                    type: string
                   comment:
                     type: string
                   lastModified:
-                    type: string
                     format: date-time
+                    type: string
+                  organization:
+                    type: string
                 required:
                   - organization
                   - comment
                   - lastModified
+                type: object
+              type: array
+            vulnStatus:
+              type: string
+            weaknesses:
+              items:
                 additionalProperties: false
+                properties:
+                  description:
+                    items:
+                      additionalProperties: false
+                      properties:
+                        lang:
+                          type: string
+                        value:
+                          maxLength: 4096
+                          type: string
+                      required:
+                        - lang
+                        - value
+                      type: object
+                    minItems: 0
+                    type: array
+                  source:
+                    type: string
+                  type:
+                    type: string
+                required:
+                  - source
+                  - type
+                  - description
+              type: array
           required:
             - id
             - published
             - lastModified
             - references
             - descriptions
-          additionalProperties: false
+          type: object
       required:
         - cve
-      additionalProperties: false
+    type: array
 required:
   - resultsPerPage
   - startIndex
@@ -1193,4 +1196,5 @@ required:
   - version
   - timestamp
   - vulnerabilities
-additionalProperties: false
+title: Vulnerability Data API response
+type: object
