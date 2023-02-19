@@ -13,17 +13,26 @@ logger = logging.getLogger()
 
 
 class VERSION_TYPE(Enum):
+    """CPEs specific version range type
+    """
+
     INCLUDING = "including"
     EXCLUDING = "excluding"
 
 
 class CVSS_V2_SEVERITY(Enum):
+    """CVSS v2 severity level
+    """
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
 
 
 class CVSS_V3_SEVERITY(Enum):
+    """CVSS v3 severity level
+    """
+
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
@@ -31,6 +40,9 @@ class CVSS_V3_SEVERITY(Enum):
 
 
 class EVENT_NAME(Enum):
+    """"CVE associated with a specific type of change event name
+    """
+
     INITIAL_ANALYSIS = "Initial Analysis"
     REANALYSIS = "Reanalysis"
     CVE_MODIFIED = "CVE Modified"
@@ -53,11 +65,12 @@ class NvdApiClient(object):
     MAX_PAGE_LIMIT_CPE_API = 10000
     MAX_PAGE_LIMIT_CPE_MATCH_API = 5000
 
-    def __init__(self, wait_time: int = 6000, api_key=None):
+    def __init__(self, wait_time: int = 6000, api_key: str = None):
         """Constructor  # noqa: E501
 
         Args:
             wait_time (int, optional): wait time (ms) after api execution. Defaults to 6000.
+            api_key (str, optional): NVD API 2.0 key
         """
         configuration = Configuration()
         if api_key:
