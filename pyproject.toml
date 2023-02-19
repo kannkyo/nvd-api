@@ -16,6 +16,8 @@ version = "0.7.0"
 
 [tool.poetry.dependencies]
 certifi = "^2022.12.7"
+cpe = "^1.2.1"
+cvss = "^2.6"
 frozendict = "^2.3.4"
 python = "^3.8"
 python-dateutil = "^2.8.2"

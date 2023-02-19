@@ -339,6 +339,17 @@ tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.1
 toml = ["tomli"]
 
 [[package]]
+name = "cpe"
+version = "1.2.1"
+description = "CPE: Common Platform Enumeration for Python"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "cpe-1.2.1.tar.gz", hash = "sha256:e742635e13cc0f6e02cb62a367dc789fb0e7dba1317822a8760c8de312e36ec9"},
+]
+
+[[package]]
 name = "cryptography"
 version = "39.0.1"
 description = "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
@@ -383,6 +394,18 @@ ssh = ["bcrypt (>=3.1.5)"]
 test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-shard (>=0.1.2)", "pytest-subtests", "pytest-xdist", "pytz"]
 test-randomorder = ["pytest-randomly"]
 tox = ["tox"]
+
+[[package]]
+name = "cvss"
+version = "2.6"
+description = "CVSS2/3 library with interactive calculator for Python 2 and Python 3"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "cvss-2.6-py2.py3-none-any.whl", hash = "sha256:7006a025e1587f94fc7ce6bd2f3fa10b27a85d2f843d72d4346122779919c63b"},
+    {file = "cvss-2.6.tar.gz", hash = "sha256:1e8f0c7ac1c1d7f4fb6d901950aa216358809de25ee7c41bc138615a23936c80"},
+]
 
 [[package]]
 name = "cyclonedx-bom"
@@ -2136,4 +2159,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "37888ae8455c27eaf0fe90492fee89b957ed683178109f6797ca5d4e8c0ca273"
+content-hash = "4a421af0b3b82f592bd8eb95e34905203b03eabbd2a09bf5f8f8f30ee8c34b48"

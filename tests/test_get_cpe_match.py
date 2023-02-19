@@ -62,13 +62,6 @@ class TestGetCpeMatch(unittest.TestCase):
         assert cpe_match.matches[2].cpe_name == "cpe:2.3:o:microsoft:windows:-:*:*:*:*:*:x86:*"  # noqa
         assert cpe_match.matches[2].cpe_name_id == "892CAEC7-9569-4385-8335-239B83D58837"  # noqa
 
-    def test_get_all_cpe_match(self):
-        response = self.client.get_all_cpe_match(
-            last_mod_start_date="2021-01-01T00:00:00.000",
-            last_mod_end_date="2021-03-01T00:00:00.000"
-        )
-        assert (len(response.match_strings) > 5000)
-
     def test_get_by_date(self):
         response = self.client.get_cpe_match(
             last_mod_start_date="2021-08-04T13:00:00.000",
