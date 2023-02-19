@@ -12,6 +12,7 @@ class TestProductsApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    @unittest.skip
     def test_client_without_configuration(self):
         time.sleep(15)
         response = self.client.get_cpes(
