@@ -65,21 +65,30 @@ class NvdApiClient(object):
     MAX_PAGE_LIMIT_CPE_API = 10000
     MAX_PAGE_LIMIT_CPE_MATCH_API = 5000
 
-    def __init__(self, wait_time: int = 6000, api_key: str = None):
+    def __init__(self,
+                 wait_time: int = 6000,
+                 request_timeout: int = 20000,
+                 max_retries: int = 3,
+                 api_key: str = None):
         """Constructor  # noqa: E501
 
         Args:
-            wait_time (int, optional): wait time (ms) after api execution. Defaults to 6000.
+            wait_time (int, optional): wait time (ms) after api execution. Defaults to 6,000.
+            request_timeout (int, optional): API request time (ms). Defaults to 20,000.
+            max_retries (int, optional): max API retry count. Defaults to 3.
             api_key (str, optional): NVD API 2.0 key
         """
         configuration = Configuration()
         if api_key:
             configuration.api_key['ApiKeyAuth'] = api_key
+        configuration.retries = max_retries
+
         api_client = ApiClient(configuration)
 
         self._vulnerabilities_api = VulnerabilitiesApi(api_client)
         self._products_api = ProductsApi(api_client)
         self.wait_time = wait_time
+        self.request_timeout = request_timeout
 
     def get_cves(self,
                  cpe_name: str = None,
@@ -204,7 +213,8 @@ class NvdApiClient(object):
                       version_end_type=version_end_type,
                       version_start=version_start,
                       version_start_type=version_start_type,
-                      virtual_match_string=virtual_match_string)
+                      virtual_match_string=virtual_match_string,
+                      _request_timeout=self.request_timeout)
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cves api : kwargs={kwargs}")
@@ -248,7 +258,8 @@ class NvdApiClient(object):
                       cve_id=cve_id,
                       event_name=event_name,
                       results_per_page=results_per_page,
-                      start_index=start_index)
+                      start_index=start_index,
+                      _request_timeout=self.request_timeout)
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cve history api : kwargs={kwargs}")
@@ -301,7 +312,8 @@ class NvdApiClient(object):
                       last_mod_end_date=last_mod_end_date,
                       match_criteria_id=match_criteria_id,
                       results_per_page=results_per_page,
-                      start_index=start_index)
+                      start_index=start_index,
+                      _request_timeout=self.request_timeout)
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cpes api : kwargs={kwargs}")
@@ -342,7 +354,8 @@ class NvdApiClient(object):
                       last_mod_end_date=last_mod_end_date,
                       match_criteria_id=match_criteria_id,
                       results_per_page=results_per_page,
-                      start_index=start_index)
+                      start_index=start_index,
+                      _request_timeout=self.request_timeout)
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cpe match api : kwargs={kwargs}")
