@@ -46,13 +46,23 @@ class TestGetCves(unittest.TestCase):
         assert response.timestamp is not None
         assert (len(response.vulnerabilities) > 0)
 
-    def test_get_all_cve(self):
-        response = self.client.get_all_cves(
-            pub_start_date="2021-01-01T00:00:00.000",
-            pub_end_date="2021-02-15T00:00:00.000",
+    def test_get_by_specific_cpe_name(self):
+        response = self.client.get_cves(
+            cpe_name="cpe:2.3:o:microsoft:windows_10:1607:*:*:*:*:*:*:*",
+            results_per_page=1,
+            start_index=0
         )
         pprint(response)
-        assert (len(response.vulnerabilities) > 2000)
+        assert (len(response.vulnerabilities) > 0)
+
+    def test_get_by_incomplete_cpe_name(self):
+        response = self.client.get_cves(
+            cpe_name="cpe:2.3:o:microsoft:windows_10:1607",
+            results_per_page=1,
+            start_index=0
+        )
+        pprint(response)
+        assert (len(response.vulnerabilities) > 0)
 
     def test_get_by_cvss_v2(self):
         response = self.client.get_cves(
@@ -290,7 +300,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_invalid_cvss_v2_metrics(self):
-        with self.assertRaises(NotFoundException):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v2_metrics="INVALID:L/AC:L/Au:N/C:C/I:C/A:C",
@@ -312,7 +322,7 @@ class TestGetCves(unittest.TestCase):
             pprint(response)
 
     def test_invalid_cvss_v3_metrics(self):
-        with self.assertRaises(NotFoundException):
+        with self.assertRaises(ApiValueError):
             response = self.client.get_cves(
                 cpe_name="cpe:2.3:o:debian:debian_linux:3.0:*:*:*:*:*:*:*",
                 cvss_v3_metrics="INVALID:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",

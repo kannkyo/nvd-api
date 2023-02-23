@@ -1,0 +1,67 @@
+@startuml
+
+hide empty members
+hide circle
+' skinparam ClassAttributeIconSize 0
+
+package cve {
+  class CVE {
+    + cve_id: str
+    + vuln_status: str
+  }
+
+  class CWE {
+    + cwe_id: str
+  }
+
+  abstract class CVSS {
+    + base_score: float
+    + vector_string: str
+  }
+
+  class CVSSV2
+  class CVSSV30
+  class CVSSV31
+
+  class Configuration {
+    + operator: OPERATOR
+    + negate: bool
+  }
+
+  class Node {
+    + operator: OPERATOR
+    + negate: bool
+  }
+
+  class CPEMatchCriteria {
+    + criteria: str
+    + match_criteria_id: uuid
+    + status: str
+  }
+
+  enum OPERATOR <<Enum>> {
+    + AND
+    + OR
+  }
+}
+
+package cpe {
+  class CPE {
+    + cpe_name: str
+    + cpe_name_id: uuid
+    + deprecated: bool
+  }
+}
+
+CVE o- CVSS : metrics
+CWE -o CVE : weaknesses
+CVE o-- Configuration : configurations
+Configuration o-- Node
+Node o-- CPEMatchCriteria
+CPEMatchCriteria o-- CPE : matches
+
+CVSS <|-right- CVSSV2
+CVSS <|-- CVSSV30
+CVSS <|-- CVSSV31
+
+@enduml

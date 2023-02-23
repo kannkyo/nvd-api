@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 import logging
 import time
 from datetime import datetime
 from enum import Enum
+
+from cvss import CVSS2, CVSS3
 
 from nvd_api.low_api.api_client import ApiClient
 from nvd_api.low_api.apis import ProductsApi, VulnerabilitiesApi
@@ -89,6 +93,86 @@ class NvdApiClient(object):
         self._products_api = ProductsApi(api_client)
         self.wait_time = wait_time
         self.request_timeout = request_timeout
+
+    def count_cpes(self,
+                   last_mod_start_date: datetime = None,
+                   last_mod_end_date: datetime = None) -> int:
+        """Count CPE # noqa
+
+        Args:
+            last_mod_start_date (datetime, optional): search by modified date. Defaults to None.
+            last_mod_end_date (datetime, optional): search by modified date. Defaults to None.
+
+        Returns:
+            int: count of CPE
+        """
+        if last_mod_start_date is not None and last_mod_end_date is None:
+            last_mod_end_date = datetime.now()
+        response = self.get_cpes(results_per_page=1,
+                                 last_mod_start_date=last_mod_start_date,
+                                 last_mod_end_date=last_mod_end_date)
+        return response.total_results
+
+    def count_cves(self,
+                   last_mod_start_date: datetime = None,
+                   last_mod_end_date: datetime = None) -> int:
+        """Count CVE # noqa
+
+        Args:
+            last_mod_start_date (datetime, optional): search by modified date. Defaults to None.
+            last_mod_end_date (datetime, optional): search by modified date. Defaults to None.
+
+        Returns:
+            int: count of CVE
+        """
+        if last_mod_start_date is not None and last_mod_end_date is None:
+            last_mod_end_date = datetime.now()
+        response = self.get_cves(results_per_page=1,
+                                 last_mod_start_date=last_mod_start_date,
+                                 last_mod_end_date=last_mod_end_date)
+        return response.total_results
+
+    def get_cpe_name_by_cve_id(self, cve_id: str) -> list[str]:
+        """Get CPE name by CVE ID
+
+        Args:
+            cve_id (str): CVE ID (CVE-yyyy-nnnnn)
+
+        Returns:
+            list[str]: CPE name List
+        """
+        result = self.get_all_cpe_match(cve_id=cve_id)
+        cpe_list = sorted(list({mm.cpe_name for m in result.match_strings
+                                for mm in m.match_string.matches}))
+        return cpe_list
+
+    def get_cve_id_by_cpe_name(self, cpe_name: str) -> list[str]:
+        """Get CVE ID by CPE name
+
+        Args:
+            cpe_name (str): CPE name (CPE-nnnn)
+
+        Returns:
+            list[str]: CVE ID List
+        """
+        result = self.get_all_cves(cpe_name=cpe_name)
+        cve_list = sorted(list({v.cve.id for v in result.vulnerabilities}))
+        return cve_list
+
+    def get_cwe_id_by_cve_id(self, cve_id: str) -> list[str]:
+        """Get CWE ID by CVE ID
+
+        Args:
+            cve_id (str): CVE ID (CVE-yyyy-nnnnn)
+
+        Returns:
+            list[str]: CWE ID List
+        """
+        result = self.get_cves(cve_id=cve_id)
+        cwe_list = sorted(list({d.value for v in result.vulnerabilities
+                                for w in v.cve.weaknesses
+                                for d in w.description}))
+        return cwe_list
 
     def get_cves(self,
                  cpe_name: str = None,
@@ -484,6 +568,7 @@ class NvdApiClient(object):
                     version_start_type=version_start_type,
                     virtual_match_string=virtual_match_string)
                 response.vulnerabilities.extend(r.vulnerabilities)
+                response.results_per_page += r.results_per_page
 
         return response
 
@@ -521,6 +606,7 @@ class NvdApiClient(object):
                                          cve_id=cve_id,
                                          event_name=event_name)
                 response.cve_changes.extend(r.cve_changes)
+                response.results_per_page += r.results_per_page
 
         return response
 
@@ -570,6 +656,7 @@ class NvdApiClient(object):
                                   last_mod_end_date=last_mod_end_date,
                                   match_criteria_id=match_criteria_id)
                 response.products.extend(r.products)
+                response.results_per_page += r.results_per_page
 
         return response
 
@@ -607,6 +694,7 @@ class NvdApiClient(object):
                                        last_mod_end_date=last_mod_end_date,
                                        match_criteria_id=match_criteria_id)
                 response.match_strings.extend(r.match_strings)
+                response.results_per_page += r.results_per_page
 
         return response
 
@@ -701,6 +789,20 @@ class NvdApiClient(object):
         if cvss_v2_metrics is not None and cvss_v3_metrics is not None:
             raise ApiValueError(
                 "can not use cvss_v2_metrics with cvss_v3_metrics")
+
+        if cvss_v2_metrics is not None:
+            try:
+                # verify cvss_v2_metrics
+                CVSS2(cvss_v2_metrics)
+            except Exception as e:
+                raise ApiValueError(e)
+
+        if cvss_v3_metrics is not None:
+            try:
+                # verify cvss_v3_metrics
+                CVSS3(f"CVSS:3.0/{cvss_v3_metrics}")
+            except Exception as e:
+                raise ApiValueError(e)
 
     def _verify_cvss_severity(self,
                               cvss_v2_severity: str,
