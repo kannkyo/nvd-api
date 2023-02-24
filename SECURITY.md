@@ -12,7 +12,7 @@ currently being supported with security updates.
 ## Reporting a Vulnerability
 
 
-Please report a vulunerability by [security advisories](https://github.com/kannkyo/nvd-api/security/advisories/new). Vulunerability reports should contain 4 elements.
+Please report a vulnerability by [security advisories](https://github.com/kannkyo/nvd-api/security/advisories/new). Vulunerability reports should contain 4 elements.
 
 * Impact : What kind of vulnerability is it? Who is impacted?
 * Patches : Has the problem been patched? What versions should users upgrade to?
