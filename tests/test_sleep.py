@@ -9,6 +9,7 @@
 """
 
 
+import time
 import unittest
 
 from nvd_api.client import NvdApiClient
@@ -16,13 +17,29 @@ from nvd_api.client import NvdApiClient
 
 class TestGetCpes(unittest.TestCase):
     def setUp(self):
-        self.client = NvdApiClient()  # noqa: E501
+        pass
 
     def tearDown(self):
         pass
 
-    def test_sleep(self):
-        self.client._sleep(10)
+    def test_sleep_with_wait_time(self):
+        client = NvdApiClient(wait_time=1000)
+        start = time.time()
+        client._sleep(1000)
+        end = time.time()
+
+        duration = end - start
+        assert duration >= 1
+
+    def test_sleep_without_wait_time(self):
+        client = NvdApiClient(wait_time=1000)
+        time.sleep(1.1)
+        start = time.time()
+        client._sleep()
+        end = time.time()
+
+        duration = end - start
+        assert duration <= 0.1
 
 
 if __name__ == '__main__':

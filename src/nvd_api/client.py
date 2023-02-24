@@ -73,7 +73,7 @@ class NvdApiClient(object):
         """Constructor  # noqa: E501
 
         Args:
-            wait_time (int, optional): wait time (ms) after api execution. Defaults to 6,000.
+            wait_time (int, optional): max wait time (ms) after api execution. Defaults to 6,000.
             request_timeout (int, optional): API request time (ms). Defaults to 20,000.
             max_retries (int, optional): max API retry count. Defaults to 3.
             api_key (str, optional): NVD API 2.0 key
@@ -89,6 +89,7 @@ class NvdApiClient(object):
         self._products_api = ProductsApi(api_client)
         self.wait_time = wait_time
         self.request_timeout = request_timeout
+        self._last_exec_datetime = datetime.now()
 
     def get_cves(self,
                  cpe_name: str = None,
@@ -218,9 +219,10 @@ class NvdApiClient(object):
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cves api : kwargs={kwargs}")
-        ret = self._vulnerabilities_api.get_cves(**kwargs)
-        logger.debug(f"execute cves api : response={ret}")
         self._sleep()
+        ret = self._vulnerabilities_api.get_cves(**kwargs)
+        self.update_last_exec_datetime()
+        logger.debug(f"execute cves api : response={ret}")
 
         return ret
 
@@ -263,9 +265,10 @@ class NvdApiClient(object):
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cve history api : kwargs={kwargs}")
-        ret = self._vulnerabilities_api.get_cve_history(**kwargs)
-        logger.debug(f"execute cve history api : response={ret}")
         self._sleep()
+        ret = self._vulnerabilities_api.get_cve_history(**kwargs)
+        self.update_last_exec_datetime()
+        logger.debug(f"execute cve history api : response={ret}")
 
         return ret
 
@@ -317,9 +320,10 @@ class NvdApiClient(object):
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cpes api : kwargs={kwargs}")
-        ret = self._products_api.get_cpes(**kwargs)
-        logger.debug(f"execute cpes api : response={ret}")
         self._sleep()
+        ret = self._products_api.get_cpes(**kwargs)
+        self.update_last_exec_datetime()
+        logger.debug(f"execute cpes api : response={ret}")
 
         return ret
 
@@ -359,9 +363,10 @@ class NvdApiClient(object):
         kwargs = {k: v for k, v in kwargs.items() if v is not None}  # Noneは削除
 
         logger.debug(f"execute cpe match api : kwargs={kwargs}")
-        ret = self._products_api.get_cpe_match(**kwargs)
-        logger.debug(f"execute cpe match api : response={ret}")
         self._sleep()
+        ret = self._products_api.get_cpe_match(**kwargs)
+        self.update_last_exec_datetime()
+        logger.debug(f"execute cpe match api : response={ret}")
 
         return ret
 
@@ -724,6 +729,9 @@ class NvdApiClient(object):
 
     def _sleep(self, wait_time: int = None):
         if wait_time is None:
-            time.sleep(self.wait_time/1000)
-        else:
-            time.sleep(wait_time/1000)
+            wait_time = self.wait_time
+        dt = datetime.now() - self._last_exec_datetime
+        time.sleep(max(0, wait_time/1000 - dt.total_seconds()))
+
+    def update_last_exec_datetime(self):
+        self._last_exec_datetime = datetime.now()
