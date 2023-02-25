@@ -12,6 +12,9 @@ This client support `Vulnerabilities`_ API and `Products`_ API.
 .. image:: https://badge.fury.io/py/nvd-api.svg
     :target: https://badge.fury.io/py/nvd-api
 
+.. image:: https://img.shields.io/pypi/dw/nvd-api?style=flat
+    :target: https://pypistats.org/packages/nvd-api
+
 .. image:: https://github.com/kannkyo/nvd-api/actions/workflows/python-ci.yml/badge.svg
     :target: https://github.com/kannkyo/nvd-api/actions/workflows/python-ci.yml
 
@@ -24,8 +27,6 @@ This client support `Vulnerabilities`_ API and `Products`_ API.
 .. image:: https://bestpractices.coreinfrastructure.org/projects/6889/badge
     :target: https://bestpractices.coreinfrastructure.org/projects/6889
 
-.. image:: https://img.shields.io/pypi/dw/nvd-api?style=plastic
-    :alt: PyPI - Downloads
 
 Getting Start
 =============
