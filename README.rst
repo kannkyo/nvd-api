@@ -24,6 +24,9 @@ This client support `Vulnerabilities`_ API and `Products`_ API.
 .. image:: https://bestpractices.coreinfrastructure.org/projects/6889/badge
     :target: https://bestpractices.coreinfrastructure.org/projects/6889
 
+.. image:: https://img.shields.io/pypi/dw/nvd-api?style=plastic
+    :alt: PyPI - Downloads
+
 Getting Start
 =============
 
