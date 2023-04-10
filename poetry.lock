@@ -580,7 +580,6 @@ files = [
     {file = "frozendict-2.3.6-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b722fca999b1d14e277e095214d2296e355f6f17d7727c17a4aa95882738184a"},
     {file = "frozendict-2.3.6-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:9c8314f5b8812cb7bc6001595e5cc521dffe220a8789d942a3f946660cc45672"},
     {file = "frozendict-2.3.6-cp39-cp39-win_amd64.whl", hash = "sha256:d1e36e820fd2cae4e26935a4b82ccaa2eef8d347709d1c27e3b7608744f72f83"},
-    {file = "frozendict-2.3.6.tar.gz", hash = "sha256:14e376fb0c8fe0b11b77872a84356dfa191b24a240be66bf5ec66d9b0d203bb8"},
 ]
 
 [[package]]
@@ -1343,18 +1342,17 @@ diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "pytest"
-version = "7.2.2"
+version = "7.3.0"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.2.2-py3-none-any.whl", hash = "sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e"},
-    {file = "pytest-7.2.2.tar.gz", hash = "sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"},
+    {file = "pytest-7.3.0-py3-none-any.whl", hash = "sha256:933051fa1bfbd38a21e73c3960cebdad4cf59483ddba7696c48509727e17f201"},
+    {file = "pytest-7.3.0.tar.gz", hash = "sha256:58ecc27ebf0ea643ebfdf7fb1249335da761a00c9f955bcd922349bcb68ee57d"},
 ]
 
 [package.dependencies]
-attrs = ">=19.2.0"
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
 exceptiongroup = {version = ">=1.0.0rc8", markers = "python_version < \"3.11\""}
 iniconfig = "*"
@@ -1363,7 +1361,7 @@ pluggy = ">=0.12,<2.0"
 tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
-testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
+testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
 
 [[package]]
 name = "pytest-cov"
@@ -2143,4 +2141,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "5b528011d26b4225acdb98cd6831151d1fab6af14dff43f1b18f49308d8e3637"
+content-hash = "7c6a773874b82d7be72659fc2763b3c6cf2eba2bda504cdad9796e01eb8727e0"
