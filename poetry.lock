@@ -663,14 +663,14 @@ testing = ["flake8 (<5)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-chec
 
 [[package]]
 name = "in-toto"
-version = "1.3.2"
+version = "1.4.0"
 description = "A framework to define and secure the integrity of software supply chains"
 category = "dev"
 optional = false
 python-versions = "~=3.7"
 files = [
-    {file = "in_toto-1.3.2-py3-none-any.whl", hash = "sha256:aa12e63298425cfc4773ed03febd68a384c63b2690959dd788f8c4511ea97bbe"},
-    {file = "in_toto-1.3.2.tar.gz", hash = "sha256:f6896c1cb5e0b311a8f888a90a854bb978fcf981d5f1c2b1d0828214a2e50be3"},
+    {file = "in_toto-1.4.0-py3-none-any.whl", hash = "sha256:29a86b8a287925cb13149888fb0a194fd6046b24e3e68afa22a7fd4b775851af"},
+    {file = "in_toto-1.4.0.tar.gz", hash = "sha256:d6b855bf2345f9e164702395e6b4bf034a96758e233262efca56f2681fea2954"},
 ]
 
 [package.dependencies]
@@ -678,7 +678,7 @@ attrs = "*"
 iso8601 = "*"
 pathspec = "*"
 python-dateutil = "*"
-securesystemslib = {version = ">=0.27.0", extras = ["crypto"]}
+securesystemslib = {version = ">=0.28.0", extras = ["crypto"]}
 
 [package.extras]
 pynacl = ["pynacl (>1.2.0)"]
@@ -1726,14 +1726,14 @@ jeepney = ">=0.6"
 
 [[package]]
 name = "securesystemslib"
-version = "0.27.0"
+version = "0.28.0"
 description = "A library that provides cryptographic and general-purpose routines for Secure Systems Lab projects at NYU"
 category = "dev"
 optional = false
 python-versions = "~=3.7"
 files = [
-    {file = "securesystemslib-0.27.0-py3-none-any.whl", hash = "sha256:7ba326a41f980b3897356663144f6091531bf3d4e8333b821164526ce8e9f48d"},
-    {file = "securesystemslib-0.27.0.tar.gz", hash = "sha256:27fab4aae9adaf82530dc58f8e85a546f637d5ec5c5ef00d261689985420a70b"},
+    {file = "securesystemslib-0.28.0-py3-none-any.whl", hash = "sha256:9e6b9abe36a511d4f52c759069db8f6f650362ba82d6efc7bc7466a458b3f499"},
+    {file = "securesystemslib-0.28.0.tar.gz", hash = "sha256:a27e519247576f2a77b97fb03267d8eeb88eba715d12da64109e845616f919c6"},
 ]
 
 [package.dependencies]
@@ -2157,4 +2157,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "9b29a670572a21bdb948f2c60bf5155f294d735d7e36c323935d0b7af0bb1aac"
+content-hash = "9b07cae2343edfe066c010a810a7e546ed09d316f909a29b6ecdbf948a9c9a75"
