@@ -21,7 +21,7 @@ python = "^3.8"
 python-dateutil = "^2.8.2"
 setuptools = "^67.2.0"
 typing-extensions = "^4.4.0"
-urllib3 = "^1.26.13"
+urllib3 = ">=1.26.13,<3.0.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
