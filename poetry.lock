@@ -633,13 +633,13 @@ testing = ["flake8 (<5)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-chec
 
 [[package]]
 name = "in-toto"
-version = "1.4.0"
+version = "2.1.1"
 description = "A framework to define and secure the integrity of software supply chains"
 optional = false
 python-versions = "~=3.7"
 files = [
-    {file = "in_toto-1.4.0-py3-none-any.whl", hash = "sha256:29a86b8a287925cb13149888fb0a194fd6046b24e3e68afa22a7fd4b775851af"},
-    {file = "in_toto-1.4.0.tar.gz", hash = "sha256:d6b855bf2345f9e164702395e6b4bf034a96758e233262efca56f2681fea2954"},
+    {file = "in_toto-2.1.1-py3-none-any.whl", hash = "sha256:495c35ab2b0f85318494bccf0c76b04e73ac75a1b25f321120cd9cf720bf205d"},
+    {file = "in_toto-2.1.1.tar.gz", hash = "sha256:b7cc83b44d33cf0aff01576d3dd59c81e942ff53abb0d0b998c6a3b3455e7691"},
 ]
 
 [package.dependencies]
@@ -2045,4 +2045,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "5d41a01ef5b070e123e3b3695215355b9fa4d5832eb1deabfb394a97a3519895"
+content-hash = "073bd7d04ad937512d76ca8bf07160f8c997b36f84d7d3b819f6fe3875f78cc2"
