@@ -25,6 +25,6 @@
   "homepage": "https://github.com/kannkyo/nvd-api#readme",
   "dependencies": {
     "@openapi-contrib/json-schema-to-openapi-schema": "^2.2.4",
-    "@openapitools/openapi-generator-cli": "^2.5.2"
+    "@openapitools/openapi-generator-cli": "^2.9.0"
   }
 }
