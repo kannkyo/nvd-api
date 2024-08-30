@@ -15,7 +15,7 @@ repository = "https://github.com/kannkyo/nvd-api"
 version = "0.9.1"
 
 [tool.poetry.dependencies]
-certifi = "^2022.12.7"
+certifi = ">=2022.12.7,<2025.0.0"
 frozendict = "^2.3.4"
 python = "^3.8"
 python-dateutil = "^2.8.2"
